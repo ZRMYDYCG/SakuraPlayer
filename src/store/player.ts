@@ -12,7 +12,7 @@ export interface playerState {
 	// truePlayList: Array<SongData>; // 真实的播放列表
 }
 export const usePlayerStore = defineStore('player', {  //导出 pinia仓库
-	state: (): playerState => ({
+	state: (): any => ({
 		showBigPlayer: false,
 		playList: [],
 		currentSong: {

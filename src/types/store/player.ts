@@ -1,3 +1,10 @@
+/*
+ * @Author: ZRMYDYCG
+ * @Date: 2024-07
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+ */
 export interface SongData{
 	url: string;
 	name: string;
@@ -7,10 +14,12 @@ export interface SongData{
 	dt: number;
 	type?: MusicType
 }
+
 export enum MusicType {
 	song = 1,
 	dj = 2
 }
+
 export interface alData{
 	id: number;
 	name: string;
