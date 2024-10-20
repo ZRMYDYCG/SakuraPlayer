@@ -17,13 +17,13 @@
 </template>
 <script setup lang="ts">
 import { onClickLeft } from '@/utils/back'
-import { reqPrivateHistory } from '@/api/msg'
+import { reqPrivateHistory } from '@/api/modules/msg'
 import { computed, nextTick, reactive, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import type { MsgData } from '@/types/public/msg'
 import MsgItem from '@/components/msg/msgItem.vue'
 import Scroll from '@/components/Scroll/index.vue'
-import { reqUserDetail } from '@/api/user'
+import { reqUserDetail } from '@/api/modules/user'
 import { MsgType } from '@/types/public/msg'
 import SendBox from '@/components/msg/sendBox.vue'
 import { ImagePreview } from 'vant'

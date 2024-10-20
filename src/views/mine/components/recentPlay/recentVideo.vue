@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentVideo } from '@/api/recent'
+    import { reqRecentVideo } from '@/api/modules/recent'
     import type { recentVideoInterface } from '@/types/public/video'
     import VideoItem from './videoItem.vue';
     import { ref } from 'vue'

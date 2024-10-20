@@ -19,7 +19,7 @@
 import { recentVideoInterface } from '@/types/public/video'
 import { dateFormat, formatMusicTime } from '@/utils'
 import { useRouter } from 'vue-router'
-import { reqMlogToVideo } from '@/api/video'
+import { reqMlogToVideo } from '@/api/modules/video'
 
 const router = useRouter()
 interface Props {

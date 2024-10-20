@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentDj } from '@/api/recent'
+    import { reqRecentDj } from '@/api/modules/recent'
     import DjItem from './djItem.vue'
     import { ref } from 'vue'
     import { Toast } from 'vant'

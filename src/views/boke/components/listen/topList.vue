@@ -8,7 +8,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { reqTopList } from '@/api/dj'
+import { reqTopList } from '@/api/modules/dj'
 import { ref } from 'vue'
 import DjItem from '@/components/DjItem/index.vue'
 import type { DjData } from '@/types/public/dj'

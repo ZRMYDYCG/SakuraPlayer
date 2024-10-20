@@ -20,7 +20,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { reqEvent } from '@/api/event'
+import { reqEvent } from '@/api/modules/event'
 import EventItem from '@/components/EventCom/eventItem.vue'
 import type { EventDataInterface } from '@/types/public/event'
 

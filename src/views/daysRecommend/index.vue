@@ -30,7 +30,7 @@
 	} from 'vue'
 	import {
 		reqDaysRecommend
-	} from '@/api/home'
+	} from '@/api/modules/home'
 	import {
 		useRouter
 	} from 'vue-router'

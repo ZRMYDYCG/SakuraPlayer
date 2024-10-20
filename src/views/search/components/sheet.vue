@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import SheetItem from '@/views/mine/components/sheetItem.vue'
 	import type { SheetListFace } from '@/types/public/sheet'
 	interface Props{

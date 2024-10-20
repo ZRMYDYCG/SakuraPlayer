@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { UserInterface } from '@/types/public/user'
-import { reqFollow } from '@/api/user';
+import { reqFollow } from '@/api/modules/user';
 import { Toast } from 'vant';
 import { useRouter } from 'vue-router'
 interface Props {

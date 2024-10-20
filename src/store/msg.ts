@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqMsgList } from '@/api/msg'
+import { reqMsgList } from '@/api/modules/msg'
 interface MsgState{
     newMsgCount: number
 }

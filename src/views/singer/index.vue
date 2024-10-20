@@ -20,7 +20,7 @@
 	import { onClickLeft } from '@/utils/back' 
 	import {
 		reqSingerList
-	} from '@/api/singer'
+	} from '@/api/modules/singer'
 	import {
 		ref
 	} from 'vue'

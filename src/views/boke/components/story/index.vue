@@ -12,7 +12,7 @@
 </template>
 <script lang="ts" setup>
     import { ref } from 'vue'
-    import { reqDjHotByType } from '@/api/dj'
+    import { reqDjHotByType } from '@/api/modules/dj'
     import DjItem from '@/components/DjItem/index.vue'
     import type { DjData } from '@/types/public/dj'
     import { BoxType } from '@/types/public'

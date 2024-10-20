@@ -33,7 +33,7 @@
 	import SongMenu from './songMenu.vue'
 	import { computed, toRaw, ref } from 'vue'
 	import { usePlayerStore } from '@/store'
-	import { reqSheetTracks } from '@/api/sheet'
+	import { reqSheetTracks } from '@/api/modules/sheet'
 	import { Toast } from 'vant'
 	import type { arData } from '@/types/store/player'
 	import type { SheetDataInterface } from '@/types/public/sheet'

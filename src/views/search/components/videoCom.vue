@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import VideoItem from './videoItem.vue'
 	import type { VideoInterface } from '@/types/public/video'
 	interface Props{

@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { reqUserDetail } from '@/api/user'
+	import { reqUserDetail } from '@/api/modules/user'
 	import { storeToRefs } from 'pinia'
 	import { ref, reactive, computed } from 'vue'
 	import { useUserStore, useSystemStore } from '@/store'

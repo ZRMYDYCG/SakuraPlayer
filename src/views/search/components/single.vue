@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import SongItem from '@/components/songItem/index.vue'
-	import { reqSongDetail } from '@/api/song'
+	import { reqSongDetail } from '@/api/modules/song'
 	import type { SongData } from '@/types/store/player'
 	interface Props{
 		keyword: string;

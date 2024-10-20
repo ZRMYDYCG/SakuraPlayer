@@ -11,7 +11,7 @@
 
 <script lang="ts" setup>
 import { formatSheet } from '@/utils/song'
-import { reqPersonalFm } from '@/api/user'
+import { reqPersonalFm } from '@/api/modules/user'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePlayerStore } from '@/store'

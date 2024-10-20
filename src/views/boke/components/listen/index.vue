@@ -43,7 +43,7 @@
     </van-tabs>
 </template>
 <script setup lang="ts">
-import { reqTodayPerfered } from '@/api/dj'
+import { reqTodayPerfered } from '@/api/modules/dj'
 import { ref } from 'vue'
 import TopList from './topList.vue'
 import DjListVue from '../djCategory/djList.vue'

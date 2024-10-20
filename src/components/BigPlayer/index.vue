@@ -129,7 +129,7 @@ import { PlayModeData, MusicType } from '@/types/store/player'
 import { formatMusicTime } from '@/utils'
 import Lyric from 'lyric-parser'
 import { ref, watch, nextTick, computed, toRaw } from 'vue'
-import { reqSongComment } from '@/api/comment'
+import { reqSongComment } from '@/api/modules/comment'
 import {
 	storeToRefs
 } from 'pinia'
@@ -138,7 +138,7 @@ import {
 	useUserStore
 } from '@/store'
 import Scroll from '@/components/Scroll/index.vue'
-import { reqGetLyric, reqLikeSong } from '@/api/song'
+import { reqGetLyric, reqLikeSong } from '@/api/modules/song'
 import { Toast } from 'vant'
 import { MsgType } from '@/types/public/msg'
 import ShareFriend from '@/components/ShareFriend/index.vue'

@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentVoice } from '@/api/recent'
+    import { reqRecentVoice } from '@/api/modules/recent'
     import { ref } from 'vue'
     import VoiceItem from './voiceItem.vue';
     import { RecentVoiceInterface } from '@/types/public/voice'

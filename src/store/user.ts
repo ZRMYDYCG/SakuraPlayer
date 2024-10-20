@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { reqLoginByPhone, reqGetUserInfo, reqLogout, reqLoginByEmail, reqLikeList } from '@/api/user' 
+import { reqLoginByPhone, reqGetUserInfo, reqLogout, reqLoginByEmail, reqLikeList } from '@/api/modules/user' 
 import { PhoneLoginParams, EmaiLoginParams } from '@/types/api/user'
 import { setToken, getToken, removeToken } from '@/utils/auth'
 import { useMsgStore } from './msg'

@@ -16,7 +16,7 @@
 	import { onClickLeft } from '@/utils/back'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref } from 'vue'
-	import { reqUpdateSheetName } from '@/api/sheet' 
+	import { reqUpdateSheetName } from '@/api/modules/sheet' 
 	const name = ref<string>('')
 	const route = useRoute()
 	const { id } = route.query

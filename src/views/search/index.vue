@@ -66,7 +66,7 @@
 		reqSearchDefault,
 		reqSearchSuggest,
 		reqHotSearch
-	} from '@/api/search'
+	} from '@/api/modules/search'
 	import SuggestResult from './components/suggestResult.vue'
 	import Cookies from 'js-cookie'
 

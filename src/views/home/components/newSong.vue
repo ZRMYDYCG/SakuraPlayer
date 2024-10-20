@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <!-- 推荐新歌 -->
 <template>
 	<div class="newSong" @touchmove="(e) => e.stopPropagation()">
@@ -20,12 +27,12 @@
 	import { usePlayerStore } from '@/store'
 	import {
 		reqRecommendNewSongs
-	} from '@/api/home'
+	} from '@/api/modules/home'
 	import {
 		ref, defineExpose, toRaw
 	} from 'vue'
-	import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js"
-	import "swiper/swiper.min.css";	
+	import { Swiper, SwiperSlide } from 'swiper/vue'
+	// import "swiper/swiper.min.css"
 	import NewSongItem from './newSongItem.vue'
 	import { songData } from '@/types/public'
 	const list = ref<Array<Array<songData>>>([])

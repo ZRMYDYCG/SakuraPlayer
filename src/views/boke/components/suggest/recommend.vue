@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { reqCategoryRecommend } from '@/api/dj'
+	import { reqCategoryRecommend } from '@/api/modules/dj'
 	import { BoxType } from '@/types/public'
 	import RecommendItem from './recommendItem.vue'
 	import type { DjCategoryRecommend } from '@/types/public/dj'

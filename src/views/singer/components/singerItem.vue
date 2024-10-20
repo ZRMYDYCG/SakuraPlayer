@@ -16,7 +16,7 @@
 <script setup lang="ts">
 	import { singerInterface } from '@/types/public/singer'
 	import { useRouter } from 'vue-router'
-	import { reqSubSinger } from '@/api/singer'
+	import { reqSubSinger } from '@/api/modules/singer'
 	import { ref, toRaw } from 'vue'
 	import { Toast } from 'vant'
 	const router = useRouter()

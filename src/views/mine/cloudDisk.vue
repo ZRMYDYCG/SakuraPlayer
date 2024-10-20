@@ -34,7 +34,7 @@
 <script lang="ts" setup>
 import { ref, toRaw } from "vue";
 import { onClickLeft } from "@/utils/back";
-import { reqCloudMusic } from "@/api/user";
+import { reqCloudMusic } from "@/api/modules/user";
 import type { CloudDiskItem } from "@/types/public/cloudDisk";
 import CloudItem from "./components/cloudDisk/cloudItem.vue";
 import { usePlayerStore } from "@/store";

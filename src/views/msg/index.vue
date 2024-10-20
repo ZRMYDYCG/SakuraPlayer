@@ -9,7 +9,7 @@
     </MiniPlayOut>  
 </template>
 <script setup lang="ts">
-import { reqMsgList } from '@/api/msg'
+import { reqMsgList } from '@/api/modules/msg'
 import { ref } from 'vue'
 import { onClickLeft } from '@/utils/back'
 import ConversationItem from '@/components/msg/conversationItem.vue'

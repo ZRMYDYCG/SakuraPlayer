@@ -16,7 +16,7 @@
 	import {
 		ref, Ref
 	} from 'vue'
-	import { reqTopList } from '@/api/toplist'
+	import { reqTopList } from '@/api/modules/toplist'
 	import TopItem from './components/topItem.vue'
 	import { onClickLeft } from '@/utils/back' 
 	const active: Ref<number> = ref(0)

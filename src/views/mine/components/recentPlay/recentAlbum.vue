@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentAlbum } from '@/api/recent'
+    import { reqRecentAlbum } from '@/api/modules/recent'
     import AlbumItem from './albumItem.vue'
     import { ref } from 'vue'
     import { Toast } from 'vant'

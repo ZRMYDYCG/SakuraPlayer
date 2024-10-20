@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 	import { Toast } from 'vant'
-	import { reqDelSheet } from '@/api/sheet'
+	import { reqDelSheet } from '@/api/modules/sheet'
 	import { ref } from 'vue'
 	import PopupMenu from './popupMenu.vue'
 	import { useRouter } from 'vue-router'

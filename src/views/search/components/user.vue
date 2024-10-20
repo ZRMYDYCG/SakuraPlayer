@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import UserItem from '@/components/UserItem/index.vue'
 	import type { UserInterface } from '@/types/public/user'
 	interface Props{

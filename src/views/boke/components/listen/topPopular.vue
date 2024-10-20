@@ -9,7 +9,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { reqTopPopular } from '@/api/dj'
+import { reqTopPopular } from '@/api/modules/dj'
 import popularItemVue from './popularItem.vue';
 import type { PopularData } from '@/types/public/dj'
 

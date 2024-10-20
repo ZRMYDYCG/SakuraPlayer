@@ -30,8 +30,8 @@
 	import { reactive } from 'vue'
 	import { onClickLeft } from '@/utils/back'
 	import { useRoute, useRouter } from 'vue-router'
-	import { reqSheetDetail } from '@/api/song'
-	import { reqUpdateCover } from '@/api/sheet' 
+	import { reqSheetDetail } from '@/api/modules/song'
+	import { reqUpdateCover } from '@/api/modules/sheet' 
 	const route = useRoute()
 	const router = useRouter()
 	const { id } = route.query

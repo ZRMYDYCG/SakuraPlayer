@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<MiniPlayOut>
 		<div class="daysRecommend">
@@ -22,7 +29,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { reqLikeList } from '@/api/user'
+	import { reqLikeList } from '@/api/modules/user'
 	import { onClickLeft } from '@/utils/back' 
 	import {
 		ref, toRaw, nextTick
@@ -32,7 +39,7 @@
 	import { Toast } from 'vant'
 	import { usePlayerStore, useUserStore } from '@/store'
 	import { storeToRefs } from 'pinia'
-	import { reqSongDetail } from '@/api/song'
+	import { reqSongDetail } from '@/api/modules/song'
 	import type { SongData } from '@/types/store/player'
 
 	const userStore = useUserStore()

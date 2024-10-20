@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="swiper">
 		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
@@ -9,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { reqDjBanner } from '@/api/dj'
+	import { reqDjBanner } from '@/api/modules/dj'
 	import { ref } from 'vue'
 	
 	interface ImgList{

@@ -17,8 +17,8 @@
     import { usePlayerStore } from '@/store'
     import { ref } from 'vue'
     import { useRoute } from 'vue-router'
-    import { reqAllVideo, reqVideoDetail, reqMvDetail } from '@/api/video'
-    import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue.js"
+    import { reqAllVideo, reqVideoDetail, reqMvDetail } from '@/api/modules/video'
+    import { Swiper, SwiperSlide } from 'swiper/vue'
     import PlayVideo from './components/playVideo.vue'
 	import "swiper/swiper.min.css";	
 

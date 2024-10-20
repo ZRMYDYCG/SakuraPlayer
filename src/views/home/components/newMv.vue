@@ -12,7 +12,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqNewMv } from '@/api/video'
+    import { reqNewMv } from '@/api/modules/video'
     import { ref } from 'vue'
     import MvItem from '@/components/MvItem/index.vue'
     import type { MvDataInterface } from '@/types/public/video'

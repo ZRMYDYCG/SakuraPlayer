@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
     import { ref, watch, nextTick } from 'vue'
-    import { reqVideoUrl, reqMvUrl } from '@/api/video'
+    import { reqVideoUrl, reqMvUrl } from '@/api/modules/video'
     const props = defineProps(['videoData', 'index', 'curIndex', 'type'])
     const videoRef = ref<HTMLVideoElement>()
     const url = ref<string>('')

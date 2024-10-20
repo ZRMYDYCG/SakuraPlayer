@@ -16,7 +16,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqAlbumList } from '@/api/album'
+	import { reqAlbumList } from '@/api/modules/album'
 	import { albumDataInterface } from '@/types/public/album'
 	import AlbumItem from './albumItem.vue'
 	const list = ref<Array<albumDataInterface>>([])

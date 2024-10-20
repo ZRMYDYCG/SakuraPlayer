@@ -29,7 +29,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { reqLikeList } from '@/api/user'
+import { reqLikeList } from '@/api/modules/user'
 import { watch, ref } from 'vue';
 interface Props{
     listenSongs: number

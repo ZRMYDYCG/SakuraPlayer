@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="digitAlbum">
 		<div class="top">
@@ -21,7 +28,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqDigitAlbum } from '@/api/album'
+	import { reqDigitAlbum } from '@/api/modules/album'
 	import { albumDataInterface } from '@/types/public/album'
 	import AlbumItem from './albumItem.vue'
 	const menuList = ref([

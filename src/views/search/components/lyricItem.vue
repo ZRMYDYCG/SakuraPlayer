@@ -28,7 +28,7 @@
 <script setup lang="ts">
 	import { computed, ref } from 'vue'
 	import { LyricInterface } from '@/types/public/comprehensive'
-	import { reqSongDetail } from '@/api/song'
+	import { reqSongDetail } from '@/api/modules/song'
 	import { usePlayerStore } from '@/store'
 	
 	const playerStore = usePlayerStore()

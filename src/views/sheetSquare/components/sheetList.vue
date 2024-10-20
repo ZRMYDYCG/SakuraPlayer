@@ -15,7 +15,7 @@
 	import type { SheetDataFace } from '@/types/public'
 	import {
 		reqSheetList
-	} from '@/api/song'
+	} from '@/api/modules/song'
 	import {
 		ref
 	} from 'vue'

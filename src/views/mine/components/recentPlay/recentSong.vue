@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentSong } from '@/api/recent'
+    import { reqRecentSong } from '@/api/modules/recent'
     import type { SongData } from '@/types/store/player'
     import SongItem from '@/components/songItem/index.vue'
     import { usePlayerStore } from '@/store'

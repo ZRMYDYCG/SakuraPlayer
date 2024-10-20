@@ -31,13 +31,13 @@
     </van-popup>
 </template>
 <script setup lang="ts">
-import { reqUserFollows } from '@/api/user'
+import { reqUserFollows } from '@/api/modules/user'
 import { MsgType } from '@/types/public/msg'
 import { computed, ref } from 'vue'
 import { useUserStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import type { UserInterface } from '@/types/public/user'
-import { reqSendSong, reqSendSheet } from '@/api/msg'
+import { reqSendSong, reqSendSheet } from '@/api/modules/msg'
 import { Toast } from 'vant'
 
 interface Props{

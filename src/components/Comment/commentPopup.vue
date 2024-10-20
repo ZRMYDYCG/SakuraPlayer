@@ -33,7 +33,7 @@
 <script setup lang="ts">
     import { computed } from 'vue'
     import { watch, ref } from 'vue'
-    import { reqCommnet } from '@/api/comment'
+    import { reqCommnet } from '@/api/modules/comment'
     import CommentItem from './commentItem.vue'
     import type { CommentDataNew } from '@/types/public/comment'
     import { CommentType } from '@/types/public/comment'

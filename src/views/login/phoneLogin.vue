@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="phone_login">
 		<van-nav-bar title="手机号登录" fixed placeholder left-arrow @click-left="onClickLeft" />
@@ -15,7 +22,7 @@
 <script setup lang="ts">
 	import { ref } from 'vue'
 	import { useRouter } from 'vue-router'
-	import { reqSendCode } from '@/api/user'
+	import { reqSendCode } from '@/api/modules/user'
 	import { Toast } from 'vant'
 	import { onClickLeft } from '@/utils/back' 
 	

@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="recomend">
 		<div class="recomend_top">
@@ -15,7 +22,7 @@
 </template>
 <!-- 推荐歌单列表 -->
 <script setup lang="ts">
-	import { reqRecommendList } from '@/api/home'
+	import { reqRecommendList } from '@/api/modules/home'
 	import SongListItem from '@/components/songListItem/index.vue'
 	import { ref, defineExpose } from 'vue'
 	import type { songListFace } from '@/types/public'

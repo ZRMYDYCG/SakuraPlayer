@@ -10,7 +10,7 @@
 </template>
 <script lang="ts" setup>
     import { onClickLeft } from '@/utils/back'
-    import { reqDjCatList, reqRecommendType } from '@/api/dj'
+    import { reqDjCatList, reqRecommendType } from '@/api/modules/dj'
     import { ref } from 'vue'
     import DjList from './components/djCategory/djList.vue'
     import type { CategoryInterface } from '@/types/public/dj'

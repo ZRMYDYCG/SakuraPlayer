@@ -5,7 +5,7 @@
     </div>
 </template>
 <script setup lang="ts">
-    import { reqRecentSheet } from '@/api/recent'
+    import { reqRecentSheet } from '@/api/modules/recent'
     import SheetItem from './sheetItem.vue'
     import type { RecentSheet } from '@/types/public/sheet'
     import { ref } from 'vue'

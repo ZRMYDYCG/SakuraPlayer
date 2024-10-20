@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="single_list box_white_container">
 		<MvItem v-for="item in list" :key="item.id" :mv-data="item"  />
@@ -6,7 +13,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import MvItem from './mvItem.vue'
 	import { MvInterface } from '@/types/public/mv'
 	interface Props{

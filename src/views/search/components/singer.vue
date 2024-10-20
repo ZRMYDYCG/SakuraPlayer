@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import SingerItem from '@/views/singer/components/singerItem.vue'
 	import type { singerInterface } from '@/types/public/singer'
 	interface Props{

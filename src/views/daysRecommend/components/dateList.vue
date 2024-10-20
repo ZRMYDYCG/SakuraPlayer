@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 	import { ref } from 'vue'
-	import { reqHistoryRecommend } from '@/api/home'
+	import { reqHistoryRecommend } from '@/api/modules/home'
 	import type { SongData } from '@/types/store/player'
 	import SongItem from '@/components/songItem/index.vue'
 	import { Toast } from 'vant'

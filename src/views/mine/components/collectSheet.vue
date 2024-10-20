@@ -16,7 +16,7 @@
 	import SheetItem  from './sheetItem.vue'
 	import { ref } from 'vue'
 	import { storeToRefs } from 'pinia'
-	import { reqUserPlayList, reqUserSubCount } from '@/api/user'
+	import { reqUserPlayList, reqUserSubCount } from '@/api/modules/user'
 	import { useUserStore } from '@/store'
 	import type { SheetDataInterface } from '@/types/public/sheet'
 	const userStore = useUserStore()

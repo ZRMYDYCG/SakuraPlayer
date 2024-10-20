@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div>
 		<div class="flex_box_center_column" v-if="loading">
@@ -86,7 +93,7 @@
 
 <script setup lang="ts">
 	import { reactive, ref, toRaw } from 'vue'
-	import { reqSearchByType } from '@/api/search'
+	import { reqSearchByType } from '@/api/modules/search'
 	import type { SongData } from '@/types/store/player'
 	import { singerInterface } from '@/types/public/singer'
 	import SongItem from '@/components/songItem/index.vue'

@@ -79,7 +79,7 @@
 	import { CommentType } from '@/types/public/comment'
 	import {
 		reqSheetDetail, reqSheetSongs
-	} from '@/api/song'
+	} from '@/api/modules/song'
 	import { onClickLeft } from '@/utils/back' 
 	import {
 		useRoute
@@ -93,7 +93,7 @@
 		ComputedRef
 	} from 'vue'
 	import { formatCountNumber } from '@/utils'
-	import { reqSubscribeSheet, reqSheetTracks } from '@/api/sheet'
+	import { reqSubscribeSheet, reqSheetTracks } from '@/api/modules/sheet'
 	import ShareFriend from '@/components/ShareFriend/index.vue'
 	import { MsgType } from '@/types/public/msg'
 

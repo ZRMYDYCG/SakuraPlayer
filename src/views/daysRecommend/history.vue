@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<MiniPlayOut>
 		<div class="history">
@@ -26,7 +33,7 @@
 	import { ref, nextTick, Ref } from 'vue'
 	import {
 		reqGetRecommendDate
-	} from '@/api/home'
+	} from '@/api/modules/home'
 	import DateList from './components/dateList.vue'
 	import { onClickLeft } from '@/utils/back' 
 	const scroll = ref<InstanceType<typeof ScrollBanner>>()

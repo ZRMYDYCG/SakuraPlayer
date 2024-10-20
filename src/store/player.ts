@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { SongData, arData, PlayModeData } from '@/types/store/player'
-import { reqGetSongUrl } from '@/api/song'
+import { reqGetSongUrl } from '@/api/modules/song'
 export interface playerState {
 	showBigPlayer: boolean;
 	currentSong: SongData;

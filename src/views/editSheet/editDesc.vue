@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<MiniPlayOut>
 		<div class="create_sheet">
@@ -16,8 +23,8 @@
 	import { onClickLeft } from '@/utils/back'
 	import { useRoute, useRouter } from 'vue-router'
 	import { ref } from 'vue'
-	import { reqUpdateSheetDesc } from '@/api/sheet' 
-	import { reqSheetDetail } from '@/api/song'
+	import { reqUpdateSheetDesc } from '@/api/modules/sheet' 
+	import { reqSheetDetail } from '@/api/modules/song'
 	const desc = ref<string>('')
 	const route = useRoute()
 	const { id } = route.query

@@ -11,7 +11,7 @@
 </template>
 <script setup lang="ts">
     import { Toast } from 'vant'
-    import { reqUpCloudMusic } from '@/api/user'
+    import { reqUpCloudMusic } from '@/api/modules/user'
     const emit = defineEmits<{
         (e: 'success'): void
     }>()

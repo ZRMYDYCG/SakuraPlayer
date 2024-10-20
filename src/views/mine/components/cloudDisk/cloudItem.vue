@@ -35,9 +35,9 @@
 <script setup lang="ts">
     import { toRaw, ref } from 'vue'
     import { usePlayerStore } from '@/store'
-	import { reqGetSongUrl } from '@/api/song'
+	import { reqGetSongUrl } from '@/api/modules/song'
     import type { SongData } from '@/types/store/player'
-    import { reqDelCloudMusic } from '@/api/user'
+    import { reqDelCloudMusic } from '@/api/modules/user'
     import { Toast } from 'vant'
 
     interface Props{

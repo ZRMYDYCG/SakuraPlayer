@@ -22,9 +22,9 @@
 
 <script setup lang="ts">
 import { useUserStore, usePlayerStore } from '@/store'
-import { reqLikeList } from '@/api/user'
+import { reqLikeList } from '@/api/modules/user'
 import { storeToRefs } from 'pinia'
-import { reqSongDetail, reqPlayModeList } from '@/api/song'
+import { reqSongDetail, reqPlayModeList } from '@/api/modules/song'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { SongData } from '@/types/store/player'

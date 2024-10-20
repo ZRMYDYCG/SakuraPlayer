@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="create_sheet box_white_container">
 		<div class="menu">
@@ -14,7 +21,7 @@
 	import SheetItem  from '@/views/mine/components/sheetItem.vue'
 	import { ref, watch } from 'vue'
 
-	import { reqUserPlayList } from '@/api/user'
+	import { reqUserPlayList } from '@/api/modules/user'
 
 	import type { SheetDataInterface } from '@/types/public/sheet'
     interface Props{

@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
     <div class="list box_white_container">
         <van-list :loading="loading" :finished="finished" @load="onLoad">
@@ -8,7 +15,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { reqUserFans } from '@/api/user'
+import { reqUserFans } from '@/api/modules/user'
 import type { UserInterface } from '@/types/public/user'
 import UserItem from '@/components/UserItem/index.vue'
 interface Props{

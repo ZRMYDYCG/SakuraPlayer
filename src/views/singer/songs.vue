@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 	import { onClickLeft } from '@/utils/back' 
 	import { useRoute } from 'vue-router'
-	import { reqSingerSongs } from '@/api/singer'
+	import { reqSingerSongs } from '@/api/modules/singer'
 	import { usePlayerStore } from '@/store'
 	import { ref, toRaw } from 'vue'
 	import SongItem from '@/components/songItem/index.vue'

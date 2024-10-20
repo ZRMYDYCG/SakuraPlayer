@@ -8,7 +8,7 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { reqUserFollows } from '@/api/user'
+import { reqUserFollows } from '@/api/modules/user'
 import type { UserInterface } from '@/types/public/user'
 import UserItem from '@/components/UserItem/index.vue'
 interface Props{

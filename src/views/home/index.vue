@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
 	<div class="home">
 		<van-pull-refresh v-model="loading" @refresh="onRefresh">
@@ -37,7 +44,7 @@
 	import RecommendSongList from './components/recommendSongList.vue'
 	import NewSong from './components/newSong.vue'
 	import NewMvVue from './components/newMv.vue'
-	import { reqSearchDefault } from '@/api/search'
+	import { reqSearchDefault } from '@/api/modules/search'
 	import { useRouter } from 'vue-router'
 	
 	const router = useRouter()

@@ -6,7 +6,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-    import { reqMvTop } from '@/api/video'
+    import { reqMvTop } from '@/api/modules/video'
     import { ref } from 'vue'
     import MvTopItem from './topMvItem.vue'
     import type { MvInterface } from '@/types/public/mv'

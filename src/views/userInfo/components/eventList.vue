@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import EventItem from '@/components/EventCom/eventItem.vue'
 import { ref, watch } from 'vue'
-import { reqUserEvent } from '@/api/event'
+import { reqUserEvent } from '@/api/modules/event'
 import type { EventDataInterface } from '@/types/public/event'
 
 interface Props{

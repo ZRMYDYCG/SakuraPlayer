@@ -24,7 +24,7 @@
 
 <script lang="ts" setup>
 	import { Toast } from 'vant'
-	import { reqCreateSheet } from '@/api/sheet'
+	import { reqCreateSheet } from '@/api/modules/sheet'
 	import {
 		computed, reactive
 	} from 'vue'

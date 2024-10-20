@@ -29,7 +29,7 @@
     import { useRouter } from 'vue-router'
     import { usePlayerStore } from '@/store'
     import type { CommentDataNew } from '@/types/public/comment'
-    import { reqLikeComment, reqCommnetFloor } from '@/api/comment'
+    import { reqLikeComment, reqCommnetFloor } from '@/api/modules/comment'
     import { CommentType } from '@/types/public/comment'
     interface Props{
         comment: CommentDataNew

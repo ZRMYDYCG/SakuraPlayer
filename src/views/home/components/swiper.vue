@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-	import { reqBanner } from '@/api/home'
+	import { reqBanner } from '@/api/modules/home'
 	import { ref, defineExpose } from 'vue'
 	interface ImgList{
 		typeTitle: string
