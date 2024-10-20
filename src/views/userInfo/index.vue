@@ -17,38 +17,58 @@
                 <div class="main_content">
                     <div class="box_white_container user_info">
                         <div class="user_img">
-                            <img v-if="userProfile.avatarUrl" :src="userProfile.avatarUrl + '?param=140y140'" alt="">
+                            <img v-if="userProfile.avatarUrl" :src="userProfile.avatarUrl + '?param=140y140'" alt="" />
                         </div>
                         <div class="user_name">{{ userProfile.nickname }}</div>
                         <div class="other_info">
-                            <div class="other_info_item" @click="toFollow"><span>{{ userProfile.follows }}</span>关注</div>
-                            <div class="other_info_item" @click="toFollow"><span>{{ userProfile.followeds }}</span>粉丝</div>
+                            <div class="other_info_item" @click="toFollow">
+                                <span>{{ userProfile.follows }}</span
+                                >关注
+                            </div>
+                            <div class="other_info_item" @click="toFollow">
+                                <span>{{ userProfile.followeds }}</span
+                                >粉丝
+                            </div>
                             <div class="other_info_item">Lv.{{ userProfile.level }}</div>
                         </div>
                         <div class="tags">
                             <div class="tag">{{ cityName }}</div>
-                            <div class="tag">
-                                村龄{{ userProfile.createDays }}年
-                            </div>
+                            <div class="tag">村龄{{ userProfile.createDays }}年</div>
                         </div>
                         <div class="follow_btn">
-                            <van-button v-if="userProfile.followed"  type="danger" :loading="followLoding" round size="small" @click="followUser(2)">
-                                取消关注</van-button>
-                            <van-button v-else type="danger" :loading="followLoding" round size="small" @click="followUser(1)">
-                                关注</van-button>    
+                            <van-button
+                                v-if="userProfile.followed"
+                                type="danger"
+                                :loading="followLoding"
+                                round
+                                size="small"
+                                @click="followUser(2)"
+                            >
+                                取消关注</van-button
+                            >
+                            <van-button
+                                v-else
+                                type="danger"
+                                :loading="followLoding"
+                                round
+                                size="small"
+                                @click="followUser(1)"
+                            >
+                                关注</van-button
+                            >
                             <van-button round size="small" class="msg_btn" @click="sendMsg">私信</van-button>
                         </div>
                     </div>
                     <van-tabs :lazy-render="false">
                         <van-tab title="主页">
-                            <MusicTaste :listenSongs="userProfile.listenSongs" :user-id="userId"/>
+                            <MusicTaste :listenSongs="userProfile.listenSongs" :user-id="userId" />
                             <CreateSheet :user-id="userId" />
                             <CollectSheet :user-id="userId" />
                         </van-tab>
                         <van-tab>
                             <template #title>
                                 <van-badge :content="userProfile.eventCount" :show-zero="false" :offset="[-10, 8]">
-                                    <div style="padding: 0 25px;">动态</div>
+                                    <div style="padding: 0 25px">动态</div>
                                 </van-badge>
                             </template>
                             <EventList :user-id="userId" />
@@ -103,34 +123,37 @@ const followLoding = ref<boolean>(false)
 const navStyle = reactive({
     background: 'transparent'
 })
-watch(() => route.query.id, (val) => {
-    if (val && route.path === '/userInfo') {
-        getUserInfo()
-    }
-}, { immediate: true })
+watch(
+    () => route.query.id,
+    (val) => {
+        if (val && route.path === '/userInfo') {
+            getUserInfo()
+        }
+    },
+    { immediate: true }
+)
 const userId: ComputedRef<number> = computed(() => {
     return Number(route.query.id)
 })
 function getUserInfo() {
-    reqUserDetail({ uid: Number(route.query.id) })
-        .then(res => {
-            userProfile.avatarUrl = res.data.profile.avatarUrl
-            userProfile.backgroundUrl = res.data.profile.backgroundUrl
-            userProfile.city = res.data.profile.city
-            userProfile.createTime = res.data.profile.createTime
-            userProfile.nickname = res.data.profile.nickname
-            userProfile.province = res.data.profile.province
-            userProfile.signature = res.data.profile.signature
-            userProfile.userId = res.data.profile.userId
-            userProfile.follows = res.data.profile.follows
-            userProfile.followeds = res.data.profile.followeds
-            userProfile.followed = res.data.profile.followed
-            userProfile.level = res.data.level
-            userProfile.listenSongs = res.data.listenSongs
-            userProfile.createDays = Math.round(res.data.createDays / 365)
-            userProfile.eventCount = res.data.profile.eventCount
-            cityName.value = getCityName(userProfile.province, userProfile.city)
-        })
+    reqUserDetail({ uid: Number(route.query.id) }).then((res) => {
+        userProfile.avatarUrl = res.data.profile.avatarUrl
+        userProfile.backgroundUrl = res.data.profile.backgroundUrl
+        userProfile.city = res.data.profile.city
+        userProfile.createTime = res.data.profile.createTime
+        userProfile.nickname = res.data.profile.nickname
+        userProfile.province = res.data.profile.province
+        userProfile.signature = res.data.profile.signature
+        userProfile.userId = res.data.profile.userId
+        userProfile.follows = res.data.profile.follows
+        userProfile.followeds = res.data.profile.followeds
+        userProfile.followed = res.data.profile.followed
+        userProfile.level = res.data.level
+        userProfile.listenSongs = res.data.listenSongs
+        userProfile.createDays = Math.round(res.data.createDays / 365)
+        userProfile.eventCount = res.data.profile.eventCount
+        cityName.value = getCityName(userProfile.province, userProfile.city)
+    })
 }
 function followUser(type: number) {
     followLoding.value = true
@@ -149,15 +172,15 @@ function followUser(type: number) {
 }
 function scroll() {
     const top = mine.value?.scrollTop || 0
-    if (top>50) {
+    if (top > 50) {
         navStyle.background = 'var(--my-back-color-white)'
     } else if (top == 0) {
         navStyle.background = 'transparent'
     } else {
-        if (mode.value == Mode.light) { 
-            navStyle.background = `rgba(255,255,255, ${ top*2/100 })`
+        if (mode.value == Mode.light) {
+            navStyle.background = `rgba(255,255,255, ${(top * 2) / 100})`
         } else {
-            navStyle.background = `rgba(0,0,0, ${ top*2/100 })`
+            navStyle.background = `rgba(0,0,0, ${(top * 2) / 100})`
         }
     }
 }
@@ -205,7 +228,7 @@ function toFollow() {
                 color: var(--van-nav-bar-icon-color);
             }
         }
-        .center{
+        .center {
             flex: 1;
             text-align: center;
             color: var(--my-text-color-black);
@@ -232,7 +255,7 @@ function toFollow() {
             margin-top: -50px;
             position: relative;
             z-index: 1;
-            :deep(.van-tabs__nav){
+            :deep(.van-tabs__nav) {
                 background-color: transparent;
             }
         }
@@ -282,7 +305,7 @@ function toFollow() {
                     }
 
                     &:after {
-                        content: "";
+                        content: '';
                         display: block;
                         height: 20px;
                         width: 2px;
@@ -317,14 +340,14 @@ function toFollow() {
             .follow_btn {
                 display: flex;
                 justify-content: center;
-                .msg_btn{
+                .msg_btn {
                     margin-left: 20px;
                 }
             }
         }
     }
 }
-.event_count{
+.event_count {
     font-size: 24px;
     display: inline-block;
     margin-left: 10px;

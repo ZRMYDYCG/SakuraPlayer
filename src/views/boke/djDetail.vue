@@ -10,7 +10,7 @@
                 <template #btn>
                     <div class="top_content">
                         <div class="bg">
-                            <img :src="details.coverImgUrl" alt="">
+                            <img :src="details.coverImgUrl" alt="" />
                         </div>
                         <div class="mask"></div>
                         <div class="main">
@@ -20,13 +20,13 @@
                                         <i class="iconfont icon-bofang"></i>
                                         <div>{{ formatCountNumber(details.playCount) }}</div>
                                     </div>
-                                    <img :src="details.coverImgUrl" alt="" v-if="details.coverImgUrl">
+                                    <img :src="details.coverImgUrl" alt="" v-if="details.coverImgUrl" />
                                 </div>
                                 <div class="right">
                                     <div class="sheetName text_over_two_lines">{{ details.name }}</div>
                                     <!-- 作者 -->
                                     <div class="creator" v-if="details.creator">
-                                        <img class="avatarUrl" :src="details.creator.avatarUrl" alt="">
+                                        <img class="avatarUrl" :src="details.creator.avatarUrl" alt="" />
                                         <div class="nickname">{{ details.creator.nickname }}</div>
                                     </div>
                                     <div class="description" @click="show = true">
@@ -37,8 +37,12 @@
                             </div>
                             <div class="btn_wrapper">
                                 <div class="btn_item" @click="subscribeSheet">
-                                    <div class="flex_box_center_column"><i class="iconfont icon-shoucangjia"
-                                            :class="{ 'iconfont_active': details.subscribed }"></i></div>
+                                    <div class="flex_box_center_column">
+                                        <i
+                                            class="iconfont icon-shoucangjia"
+                                            :class="{ iconfont_active: details.subscribed }"
+                                        ></i>
+                                    </div>
                                     <div class="text">{{ details.subscribedCount }}</div>
                                 </div>
                                 <div class="btn_item" @click="showComment = true">
@@ -57,8 +61,13 @@
                     </div>
                 </template>
                 <div class="list">
-                    <SongItem v-for="item in list" :key="item.id" :song-data="item" @del="del(item)"
-                        :showdel="showdel" />
+                    <SongItem
+                        v-for="item in list"
+                        :key="item.id"
+                        :song-data="item"
+                        @del="del(item)"
+                        :showdel="showdel"
+                    />
                 </div>
             </Scroll>
         </MiniPlayOut>
@@ -81,17 +90,8 @@ import { CommentType } from '@/types/public/comment'
 import { reqDjDetail, reqDjProgram } from '@/api/dj'
 import { onClickLeft } from '@/utils/back'
 import type { DjprogramData } from '@/types/public/dj'
-import {
-    useRoute
-} from 'vue-router'
-import {
-    ref,
-    reactive,
-    nextTick,
-    toRaw,
-    computed,
-    ComputedRef
-} from 'vue'
+import { useRoute } from 'vue-router'
+import { ref, reactive, nextTick, toRaw, computed, ComputedRef } from 'vue'
 import { formatCountNumber } from '@/utils'
 import { reqSubscribeSheet, reqSheetTracks } from '@/api/sheet'
 import { formatSheet } from '@/utils/song'
@@ -136,23 +136,22 @@ const showComment = ref<boolean>(false)
 function getDetail() {
     reqDjDetail({
         rid: Number(id)
+    }).then((res) => {
+        const data = res.data.data
+        details.avatarUrl = data.dj.avatarUrl
+        details.creator = data.dj
+        details.tags = data.category.split(',')
+        details.shareCount = data.shareCount
+        details.commentCount = data.commentCount
+        details.subscribedCount = data.subCount
+        details.description = data.rcmdText
+        details.nickname = data.nickname
+        details.avatarUrl = data.avatarUrl
+        details.coverImgUrl = data.picUrl
+        details.name = data.name
+        details.playCount = data.playCount
+        details.subscribed = data.subed
     })
-        .then(res => {
-            const data = res.data.data
-            details.avatarUrl = data.dj.avatarUrl
-            details.creator = data.dj
-            details.tags = data.category.split(',')
-            details.shareCount = data.shareCount
-            details.commentCount = data.commentCount
-            details.subscribedCount = data.subCount
-            details.description = data.rcmdText
-            details.nickname = data.nickname
-            details.avatarUrl = data.avatarUrl
-            details.coverImgUrl = data.picUrl
-            details.name = data.name
-            details.playCount = data.playCount
-            details.subscribed = data.subed
-        })
 }
 
 function getSheetSongs() {
@@ -162,7 +161,7 @@ function getSheetSongs() {
         overlay: true
     })
     reqDjProgram({ rid: Number(id), limit: 1000, offset: 0 })
-        .then(res => {
+        .then((res) => {
             list.value = res.data.programs.map((item: DjprogramData) => {
                 return formatSheet(item.mainSong, MusicType.dj)
             })
@@ -193,13 +192,12 @@ function subscribeSheet() {
     }
 
     reqSubscribeSheet({
-        t: details.subscribed ? 2 : 1,  // t : 类型,1:收藏,2:取消收藏 id : 歌单 id
+        t: details.subscribed ? 2 : 1, // t : 类型,1:收藏,2:取消收藏 id : 歌单 id
         id: Number(id)
+    }).then(() => {
+        details.subscribed = !details.subscribed
+        Toast.success(details.subscribed ? '取消成功' : '收藏成功')
     })
-        .then(() => {
-            details.subscribed = !details.subscribed
-            Toast.success(details.subscribed ? '取消成功' : '收藏成功')
-        })
 }
 // 删除
 function del(item: SongData) {
@@ -210,12 +208,12 @@ function del(item: SongData) {
     })
     const params = {
         op: 'del', // 从歌单增加单曲为 add, 删除为 del
-        pid: Number(id),  // 歌单 id
-        tracks: item.id //  tracks: 歌曲 id,可多个,用逗号隔开 
+        pid: Number(id), // 歌单 id
+        tracks: item.id //  tracks: 歌曲 id,可多个,用逗号隔开
     }
     reqSheetTracks(params)
         .then(() => {
-            const index = list.value.findIndex(track => track.id === item.id)
+            const index = list.value.findIndex((track) => track.id === item.id)
             list.value.splice(index, 1)
             Toast.success('删除成功')
         })
@@ -225,7 +223,6 @@ function del(item: SongData) {
 }
 getDetail()
 getSheetSongs()
-
 </script>
 
 <style scoped lang="less">
@@ -372,7 +369,7 @@ getSheetSongs()
                 border-radius: 40px;
                 min-width: 600px;
                 background-color: var(--my-back-color-white);
-                box-shadow: 0 0 20px 0 rgba(136, 137, 140, .33);
+                box-shadow: 0 0 20px 0 rgba(136, 137, 140, 0.33);
                 margin-top: 60px;
 
                 .btn_item {
@@ -383,7 +380,6 @@ getSheetSongs()
                     .iconfont {
                         color: var(--my-text-color-black);
                         font-size: 28px;
-
                     }
 
                     .iconfont_active {

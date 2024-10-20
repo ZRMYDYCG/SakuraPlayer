@@ -1,6 +1,6 @@
 <template>
     <div class="conversation" :style="style">
-        <van-nav-bar :title="userName" fixed left-arrow  @click="onClickLeft" />
+        <van-nav-bar :title="userName" fixed left-arrow @click="onClickLeft" />
         <div class="loaing" v-if="pullingDownLoading">
             <van-loading color="#e20001" />
         </div>
@@ -49,51 +49,52 @@ function getHistory(type = 'more') {
         before: before,
         timestamp: Date.now()
     })
-    .then(res => {
-        const msgs = res.data.msgs
-        list.value = list.value.concat(msgs)
-        .sort((a, b) => a.time - b.time)
-        .reduce((result: MsgData[], cur: MsgData) => {  // 添加中间时间类型为 MsgType.time 时间间隔大于30分钟就添加
-            if (result.length) {
-                const last = result[result.length - 1]
-                if (Math.abs(last.time - cur.time) > 1000 * 60 * 30 && !last.lock) {
-                    const msgJson = {
-                        type: MsgType.time,
-                        msg: cur.time
+        .then((res) => {
+            const msgs = res.data.msgs
+            list.value = list.value
+                .concat(msgs)
+                .sort((a, b) => a.time - b.time)
+                .reduce((result: MsgData[], cur: MsgData) => {
+                    // 添加中间时间类型为 MsgType.time 时间间隔大于30分钟就添加
+                    if (result.length) {
+                        const last = result[result.length - 1]
+                        if (Math.abs(last.time - cur.time) > 1000 * 60 * 30 && !last.lock) {
+                            const msgJson = {
+                                type: MsgType.time,
+                                msg: cur.time
+                            }
+                            result.push({
+                                ...cur,
+                                id: cur.id + MsgType.time,
+                                msg: JSON.stringify(msgJson),
+                                lock: true
+                            })
+                            last.lock = true
+                        }
                     }
-                    result.push({
-                        ...cur,
-                        id: cur.id + MsgType.time,
-                        msg: JSON.stringify(msgJson),
-                        lock: true
-                    })
-                    last.lock = true
+                    result.push(cur)
+                    return result
+                }, []) // 根据时间排序
+            before = list.value[0]?.time
+            hasMore.value = res.data.more
+            nextTick(() => {
+                srcollRef.value?.refresh()
+                if (type != 'more') {
+                    setTimeout(() => {
+                        srcollRef.value?.scrollToElemet(document.querySelector('.end_el') as HTMLElement, 100)
+                    }, 1000)
                 }
-            }
-            result.push(cur)
-            return result
-        }, []) // 根据时间排序
-        before = list.value[0]?.time
-        hasMore.value = res.data.more
-        nextTick(() => {
-            srcollRef.value?.refresh()
-            if (type != 'more') {
-                setTimeout(() => {
-                    srcollRef.value?.scrollToElemet(document.querySelector('.end_el') as HTMLElement, 100)
-                }, 1000)
-            }
+            })
         })
-    })
-    .finally(() => {
-        srcollRef.value?.finishPullDown()
-        pullingDownLoading.value = false
-    })
+        .finally(() => {
+            srcollRef.value?.finishPullDown()
+            pullingDownLoading.value = false
+        })
 }
 function getUserDetail() {
     reqUserDetail({
         uid: uid.value
-    })
-    .then(res => {
+    }).then((res) => {
         userName.value = res.data.profile.nickname
     })
 }
@@ -127,7 +128,7 @@ function sendSuccess(msgList: MsgData[]) {
 // 图片列表
 const ImgList = computed(() => {
     const imgs: string[] = []
-    list.value.forEach((item: MsgData)=> {
+    list.value.forEach((item: MsgData) => {
         const msgJson = JSON.parse(item.msg)
         if (msgJson.type === MsgType.img) {
             imgs.push(msgJson.picInfo.picUrl)
@@ -137,9 +138,9 @@ const ImgList = computed(() => {
 })
 // 预览图片
 function previewImg(imgUrl: string) {
-    const index = ImgList.value.findIndex(item => item === imgUrl)
+    const index = ImgList.value.findIndex((item) => item === imgUrl)
     ImagePreview({
-        images: ImgList.value, 
+        images: ImgList.value,
         startPosition: index
     })
 }
@@ -147,22 +148,22 @@ getUserDetail()
 getHistory('init')
 </script>
 <style scoped lang="less">
-.conversation{
+.conversation {
     height: 100vh;
     overflow: hidden;
     background-color: var(--my-back-color-gray);
     display: flex;
     flex-direction: column;
-    .list{
+    .list {
         box-sizing: border-box;
         padding: 30px;
     }
-    .scroll_wrapper{
+    .scroll_wrapper {
         padding-top: 100px;
         flex: 1;
         overflow: hidden;
     }
-    .loaing{
+    .loaing {
         position: fixed;
         top: 120px;
         display: flex;

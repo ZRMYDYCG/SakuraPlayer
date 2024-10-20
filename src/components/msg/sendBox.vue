@@ -11,7 +11,14 @@
                 <i class="iconfont icon-icon_tianjia"></i>
             </div>
             <div class="send_btn flex_box_center_column">
-                <van-button size="small" :type="text ? 'primary' : 'default'" round :loading="loading" @click="sendTextMsg">发送</van-button>
+                <van-button
+                    size="small"
+                    :type="text ? 'primary' : 'default'"
+                    round
+                    :loading="loading"
+                    @click="sendTextMsg"
+                    >发送</van-button
+                >
             </div>
         </div>
         <div class="tool_list" :style="{ height: showTools ? '250px' : '0px' }">
@@ -42,7 +49,7 @@ import { emojiMap, emojiName, emojiUrl } from '@/utils/emojiMap'
 import { reqSendText } from '@/api/msg'
 import { MsgData } from '@/types/public/msg'
 
-interface Props{
+interface Props {
     toUser: number
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -93,14 +100,14 @@ function sendTextMsg() {
         user_ids: props.toUser,
         msg: text.value
     })
-    .then(res => {
-        console.log(res)
-        text.value = ''
-        emit('sendSuccess', res.data.newMsgs)
-    })
-    .finally(() => {
-        loading.value = false
-    })
+        .then((res) => {
+            console.log(res)
+            text.value = ''
+            emit('sendSuccess', res.data.newMsgs)
+        })
+        .finally(() => {
+            loading.value = false
+        })
 }
 // 发送图片 暂无接口
 // eslint-disable-next-line
@@ -112,21 +119,21 @@ defineExpose({
 })
 </script>
 <style scoped lang="less">
-.send_box{
+.send_box {
     min-height: 80px;
     box-sizing: border-box;
     font-size: 24px;
     height: fit-content;
     transition: all 4s ease;
-    .tool_box{
+    .tool_box {
         display: flex;
         min-height: 80px;
         padding: 20px;
-        .textarea{
+        .textarea {
             flex: 1;
             font-size: 28px;
             height: 80px;
-            textarea{
+            textarea {
                 width: 100%;
                 height: 100%;
                 line-height: 80px;
@@ -137,48 +144,48 @@ defineExpose({
                 border: 1px solid var(--van-gray-3);
                 background-color: var(--my-back-color-white);
                 color: var(--my-text-color-black);
-                &::placeholder{
+                &::placeholder {
                     font-size: 28px;
                 }
             }
         }
-        .icon{
+        .icon {
             flex-shrink: 0;
             width: fit-content;
             color: var(--my-text-color-gray);
             margin-left: 20px;
-            .iconfont{
+            .iconfont {
                 font-size: 40px;
             }
         }
-        .send_btn{
+        .send_btn {
             margin-left: 20px;
         }
     }
-    .tool_list{
+    .tool_list {
         height: 0px;
         overflow: hidden;
         transition: all 0.5s ease;
-        .tool_wrapper{
+        .tool_wrapper {
             padding: 30px;
             box-sizing: border-box;
-            :deep(.van-uploader__upload){
+            :deep(.van-uploader__upload) {
                 background-color: var(--my-back-color-white);
             }
         }
     }
-    .emo_wrapper{
+    .emo_wrapper {
         height: 0px;
         overflow: hidden;
         transition: all 0.5s ease;
         box-sizing: border-box;
-        .emojis{
+        .emojis {
             height: 100%;
             width: fit-content;
             padding: 20px;
             box-sizing: border-box;
             overflow-y: auto;
-            .emoji_img{
+            .emoji_img {
                 width: 60px;
                 height: 60px;
                 margin-bottom: 10px;

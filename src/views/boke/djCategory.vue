@@ -9,21 +9,20 @@
     </MiniPlayOut>
 </template>
 <script lang="ts" setup>
-    import { onClickLeft } from '@/utils/back'
-    import { reqDjCatList, reqRecommendType } from '@/api/modules/dj'
-    import { ref } from 'vue'
-    import DjList from './components/djCategory/djList.vue'
-    import type { CategoryInterface } from '@/types/public/dj'
-    const categoryList = ref<CategoryInterface[]>([])
-    // 获取分类
-    function getCatList() {
-        reqDjCatList()
-        .then(res => {
-            categoryList.value = res.data.categories
-        })
-        reqRecommendType({ type: 2 })
-    }
+import { onClickLeft } from '@/utils/back'
+import { reqDjCatList, reqRecommendType } from '@/api/modules/dj'
+import { ref } from 'vue'
+import DjList from './components/djCategory/djList.vue'
+import type { CategoryInterface } from '@/types/public/dj'
+const categoryList = ref<CategoryInterface[]>([])
+// 获取分类
+function getCatList() {
+    reqDjCatList().then((res) => {
+        categoryList.value = res.data.categories
+    })
+    reqRecommendType({ type: 2 })
+}
 
-    getCatList()
+getCatList()
 </script>
 <style scoped lang="less"></style>

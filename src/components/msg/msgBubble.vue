@@ -29,7 +29,6 @@ const bubbleClass = computed(() => {
         return 'bubble_left'
     }
 })
-
 </script>
 <style scoped lang="less">
 .message_bubble {

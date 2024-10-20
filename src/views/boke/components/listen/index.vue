@@ -2,41 +2,31 @@
     <van-tabs v-model:active="active" swipeable sticky background="transparent" line-width="0">
         <van-tab title="热门">
             <template #title>
-                <div class="tab_title" :class="{ active_tab: active == 0 }">
-                    热门
-                </div>
+                <div class="tab_title" :class="{ active_tab: active == 0 }">热门</div>
             </template>
             <TopList />
         </van-tab>
         <van-tab title="音乐">
             <template #title>
-                <div class="tab_title" :class="{ active_tab: active == 1 }">
-                    音乐
-                </div>
+                <div class="tab_title" :class="{ active_tab: active == 1 }">音乐</div>
             </template>
             <DjListVue :cate-id="2" />
         </van-tab>
         <van-tab title="情感">
             <template #title>
-                <div class="tab_title" :class="{ active_tab: active == 2 }">
-                    情感
-                </div>
+                <div class="tab_title" :class="{ active_tab: active == 2 }">情感</div>
             </template>
             <DjListVue :cate-id="3" />
         </van-tab>
         <van-tab title="二次元">
             <template #title>
-                <div class="tab_title" :class="{ active_tab: active == 3 }">
-                    二次元
-                </div>
+                <div class="tab_title" :class="{ active_tab: active == 3 }">二次元</div>
             </template>
             <DjListVue :cate-id="3001" />
         </van-tab>
         <van-tab title="红人馆">
             <template #title>
-                <div class="tab_title" :class="{ active_tab: active == 4 }">
-                    红人馆
-                </div>
+                <div class="tab_title" :class="{ active_tab: active == 4 }">红人馆</div>
             </template>
             <topPopularVue />
         </van-tab>
@@ -56,12 +46,11 @@ function getList() {
 getList()
 </script>
 <style scoped lang="less">
-
-.tab_title{
+.tab_title {
     padding: 10px 20px;
     color: var(--my-texr-color-black);
 }
-.active_tab{
+.active_tab {
     background-color: var(--my-primary-color);
     color: var(--my-text-color-white);
     border-radius: 30px;

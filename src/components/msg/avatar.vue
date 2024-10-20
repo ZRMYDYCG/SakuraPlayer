@@ -1,20 +1,20 @@
 <!-- 头像 -->
 <template>
     <div class="avatar" @click="tapAvatar">
-        <img :src="avatarSrc" alt="">
+        <img :src="avatarSrc" alt="" />
     </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from 'vue'
 
-interface Props{
+interface Props {
     avatarUrl: string
 }
 const props = withDefaults(defineProps<Props>(), {
     avatarUrl: ''
 })
 const emit = defineEmits<{
-	(e: 'tapAvatar'): void
+    (e: 'tapAvatar'): void
 }>()
 const avatarSrc = computed(() => {
     if (/^(https:|http:|\/\/)/.test(props.avatarUrl)) {
@@ -26,14 +26,13 @@ const avatarSrc = computed(() => {
 function tapAvatar() {
     emit('tapAvatar')
 }
-
 </script>
 <style scoped lang="less">
-.avatar{
+.avatar {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    img{
+    img {
         width: 100%;
         height: 100%;
         border-radius: 50%;

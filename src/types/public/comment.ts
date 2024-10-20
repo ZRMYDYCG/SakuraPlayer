@@ -1,6 +1,6 @@
 // 评论
 import type { UserInterface } from '@/types/public/user'
-export interface CommentData{
+export interface CommentData {
     user: UserInterface
     timeStr: string
     commentId: number
@@ -9,7 +9,7 @@ export interface CommentData{
     liked: boolean
 }
 // 新版评论数据
-export interface CommentDataNew{
+export interface CommentDataNew {
     user: UserInterface
     content: string
     timeStr: string

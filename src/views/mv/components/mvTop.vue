@@ -6,40 +6,40 @@
     </div>
 </template>
 <script lang="ts" setup>
-    import { reqMvTop } from '@/api/modules/video'
-    import { ref } from 'vue'
-    import MvTopItem from './topMvItem.vue'
-    import type { MvInterface } from '@/types/public/mv'
-    interface Props{
-        title: string
+import { reqMvTop } from '@/api/modules/video'
+import { ref } from 'vue'
+import MvTopItem from './topMvItem.vue'
+import type { MvInterface } from '@/types/public/mv'
+interface Props {
+    title: string
+}
+const list = ref<MvInterface[]>([])
+const loading = ref<boolean>(true)
+const finished = ref<boolean>(false)
+const limit = 30
+let offset = -1
+const props = withDefaults(defineProps<Props>(), {
+    title: ''
+})
+function onLoad() {
+    getList()
+}
+function getList() {
+    offset++
+    const params = {
+        limit: limit,
+        offset: offset * limit,
+        area: props.title
     }
-    const list = ref<MvInterface[]>([])
-    const loading = ref<boolean>(true)
-    const finished = ref<boolean>(false)
-    const limit = 30
-    let offset = -1
-    const props = withDefaults(defineProps<Props>(), {
-        title: ''
-    })
-    function onLoad() {
-        getList()
-    }
-    function getList() {
-        offset++ 
-        const params = {
-            limit: limit,
-            offset: offset*limit,
-            area: props.title
-        }
-        loading.value = true
-        reqMvTop(params)
-        .then(res => {
+    loading.value = true
+    reqMvTop(params)
+        .then((res) => {
             list.value = list.value.concat(res.data.data)
             finished.value = !res.data.hasMore
         })
         .finally(() => {
             loading.value = false
         })
-    }
-    getList()
+}
+getList()
 </script>

@@ -1,10 +1,10 @@
 import { songInterface } from '@/types/public'
 // 最近播放-声音
-export interface RecentVoiceInterface{
+export interface RecentVoiceInterface {
     commentCount: number
     pubDJProgramData: RecentViiceData
 }
-export interface RecentViiceData{
+export interface RecentViiceData {
     coverUrl: string
     id: number
     name: string

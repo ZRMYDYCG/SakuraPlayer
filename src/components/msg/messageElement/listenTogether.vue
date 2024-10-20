@@ -3,7 +3,7 @@
     <div class="listen_together">
         <div>{{ msgText }}</div>
         <div class="general_msg">
-            <img class="cover_img" :src="msgJson.generalMsg.cover" alt="">
+            <img class="cover_img" :src="msgJson.generalMsg.cover" alt="" />
             <span>{{ msgJson.generalMsg.title }}</span>
         </div>
     </div>
@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
-interface Props{
+interface Props {
     msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -23,17 +23,17 @@ const msgText = computed(() => {
 const msgJson = computed(() => {
     return JSON.parse(props.msg)
 })
-</script> 
+</script>
 <style scoped lang="less">
-.listen_together{
-    .general_msg{
+.listen_together {
+    .general_msg {
         margin-top: 20px;
         display: flex;
         align-items: center;
         // background-color: var(--my-back-color-gray);
         padding: 20px;
     }
-    .cover_img{
+    .cover_img {
         width: 80px;
         height: 80px;
         border-radius: 10px;

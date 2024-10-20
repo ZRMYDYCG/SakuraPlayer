@@ -2,7 +2,7 @@
     <div class="user_item">
         <div class="left" @click="toUser">
             <div class="coverImg">
-                <img :src="userData.avatarUrl + '?param=140y140'" alt="">
+                <img :src="userData.avatarUrl + '?param=140y140'" alt="" />
             </div>
             <div class="singer_name">{{ userData.nickname }}</div>
         </div>
@@ -16,8 +16,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { UserInterface } from '@/types/public/user'
-import { reqFollow } from '@/api/modules/user';
-import { Toast } from 'vant';
+import { reqFollow } from '@/api/modules/user'
+import { Toast } from 'vant'
 import { useRouter } from 'vue-router'
 interface Props {
     userData: UserInterface
@@ -39,10 +39,9 @@ const followed = ref<boolean>(props.userData.followed)
 function followUser() {
     const t = followed.value ? 2 : 1
     reqFollow({
-        id: props.userData.userId,  // t: number //1为关注,其他为取消关注
+        id: props.userData.userId, // t: number //1为关注,其他为取消关注
         t: t
-    })
-    .then(() => {
+    }).then(() => {
         Toast.success(followed.value ? '取消成功' : '关注成功')
         followed.value = !followed.value
     })

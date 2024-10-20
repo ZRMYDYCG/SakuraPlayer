@@ -6,18 +6,18 @@
 import { computed } from 'vue'
 import { dateFormat } from '@/utils'
 
-interface Props{
+interface Props {
     msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
     msg: '{}'
 })
-const  msgText = computed(() => {
+const msgText = computed(() => {
     return dateFormat(JSON.parse(props.msg).msg, 'yyyy-MM-dd hh:mm:ss')
 })
-</script> 
+</script>
 <style scoped lang="less">
-.text_msg{
+.text_msg {
     color: var(--my-text-color-gray);
     font-size: 24px;
     font-weight: 400;

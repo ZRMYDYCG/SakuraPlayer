@@ -7,8 +7,8 @@
 <script setup lang="ts">
 import SongItem from '@/components/songItem/index.vue'
 import { formatSheet } from '@/utils/song'
-import { computed } from 'vue';
-interface Props{
+import { computed } from 'vue'
+interface Props {
     msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -23,7 +23,7 @@ const songData = computed(() => {
 })
 </script>
 <style scoped lang="less">
-.song_msg{
+.song_msg {
     width: 540px;
     overflow: hidden;
 }

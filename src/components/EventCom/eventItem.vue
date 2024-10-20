@@ -2,7 +2,7 @@
     <div class="event_item">
         <div class="top_info">
             <div class="left">
-                <img class="avatar" :src="eventData.user.avatarUrl" alt="">
+                <img class="avatar" :src="eventData.user.avatarUrl" alt="" />
             </div>
             <div class="center">
                 <div class="name">{{ eventData.user.nickname }}</div>
@@ -62,17 +62,16 @@ const props = withDefaults(defineProps<Props>(), {
                 nickname: '',
                 userId: 0,
                 avatarUrl: '',
-                followed: false,
+                followed: false
             },
             pics: [],
             ipLocation: {
                 ip: '',
-                location: '',
+                location: ''
             }
         }
     }
 })
-
 
 // 处理每一条动态
 const msg: ComputedRef<string> = computed(() => {
@@ -82,11 +81,11 @@ const msg: ComputedRef<string> = computed(() => {
 
 // 抽取 msg 中的话题关键词（# xxx #）
 const keywords: ComputedRef<string[]> = computed(() => {
-     const json = JSON.parse(props.eventData.json)
-     const msg = json.msg
-     const pattern = /#(\w+)#/g
-     const result = msg.match(pattern)
-     return result || []
+    const json = JSON.parse(props.eventData.json)
+    const msg = json.msg
+    const pattern = /#(\w+)#/g
+    const result = msg.match(pattern)
+    return result || []
 })
 
 console.log(keywords.value)

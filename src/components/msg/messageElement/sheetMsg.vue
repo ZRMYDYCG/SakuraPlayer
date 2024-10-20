@@ -5,7 +5,7 @@
 <script setup lang="ts">
 import Sheet from '@/components/songListItem/index.vue'
 import { computed } from 'vue'
-interface Props{
+interface Props {
     msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -20,7 +20,7 @@ const title = computed(() => {
 })
 </script>
 <style scoped lang="less">
-.title{
+.title {
     margin-bottom: 10px;
 }
 </style>

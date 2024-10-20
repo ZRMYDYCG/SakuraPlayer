@@ -10,20 +10,19 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { reqTopPopular } from '@/api/modules/dj'
-import popularItemVue from './popularItem.vue';
+import popularItemVue from './popularItem.vue'
 import type { PopularData } from '@/types/public/dj'
 
 const list = ref<PopularData[]>([])
 function getList() {
-    reqTopPopular({ limit: 30 })
-    .then(res => {
+    reqTopPopular({ limit: 30 }).then((res) => {
         list.value = res.data.data.list
     })
 }
 getList()
 </script>
 <style scoped lang="less">
-.list{
+.list {
     padding: 30px;
 }
 </style>

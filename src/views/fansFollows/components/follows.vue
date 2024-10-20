@@ -11,7 +11,7 @@ import { ref } from 'vue'
 import { reqUserFollows } from '@/api/modules/user'
 import type { UserInterface } from '@/types/public/user'
 import UserItem from '@/components/UserItem/index.vue'
-interface Props{
+interface Props {
     userId: number
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -29,17 +29,17 @@ function getList() {
         limit: 30,
         offset: offset * 30
     })
-    .then(res => {
-        console.log(res)
-        list.value = list.value.concat(res.data.follow)
-        finished.value = !res.data.more
-    })
-    .catch(() => {
-        finished.value = true
-    })
-    .finally(() => {
-        loading.value = false
-    })
+        .then((res) => {
+            console.log(res)
+            list.value = list.value.concat(res.data.follow)
+            finished.value = !res.data.more
+        })
+        .catch(() => {
+            finished.value = true
+        })
+        .finally(() => {
+            loading.value = false
+        })
 }
 function onLoad() {
     if (loading.value) return
@@ -49,7 +49,7 @@ function onLoad() {
 getList()
 </script>
 <style scoped lang="less">
-.list{
+.list {
     padding: 30px;
     box-sizing: border-box;
 }

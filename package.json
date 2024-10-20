@@ -1,39 +1,41 @@
 {
-  "name": "vite-vue-typescript-starter",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^1.7.7",
-    "better-scroll": "^2.5.1",
-    "js-cookie": "^3.0.5",
-    "less": "^4.2.0",
-    "less-loader": "^12.2.0",
-    "lyric-parser": "^1.0.1",
-    "mitt": "^3.0.1",
-    "pinia": "^2.2.4",
-    "postcss-pxtorem": "^6.1.0",
-    "swiper": "^11.1.14",
-    "vant": "^4.9.8",
-    "vue": "^3.5.12",
-    "vue-awesome-swiper": "^5.0.1",
-    "vue-router": "4"
-  },
-  "devDependencies": {
-    "@vant/auto-import-resolver": "^1.2.1",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14",
-    "typescript": "^5.6.2",
-    "unplugin-auto-import": "^0.18.3",
-    "unplugin-vue-components": "^0.27.4",
-    "vite": "^5.4.9",
-    "vue-tsc": "^2.1.6"
-  }
+    "name": "vite-vue-typescript-starter",
+    "private": true,
+    "version": "0.0.0",
+    "type": "commonjs",
+    "scripts": {
+        "dev": "vite",
+        "build": "vue-tsc -b && vite build",
+        "preview": "vite preview",
+        "format": "prettier --write ."
+    },
+    "dependencies": {
+        "axios": "^1.7.7",
+        "better-scroll": "^2.5.1",
+        "js-cookie": "^3.0.5",
+        "less": "^4.2.0",
+        "less-loader": "^12.2.0",
+        "lyric-parser": "^1.0.1",
+        "mitt": "^3.0.1",
+        "pinia": "^2.2.4",
+        "postcss-pxtorem": "^6.1.0",
+        "swiper": "^11.1.14",
+        "vant": "^4.9.8",
+        "vue": "^3.5.12",
+        "vue-awesome-swiper": "^5.0.1",
+        "vue-router": "4"
+    },
+    "devDependencies": {
+        "@vant/auto-import-resolver": "^1.2.1",
+        "@vitejs/plugin-vue": "^5.1.4",
+        "autoprefixer": "^10.4.20",
+        "postcss": "^8.4.47",
+        "prettier": "^3.3.3",
+        "tailwindcss": "^3.4.14",
+        "typescript": "^5.6.2",
+        "unplugin-auto-import": "^0.18.3",
+        "unplugin-vue-components": "^0.27.4",
+        "vite": "^5.4.9",
+        "vue-tsc": "^2.1.6"
+    }
 }

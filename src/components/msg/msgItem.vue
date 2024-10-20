@@ -10,10 +10,8 @@
             <ImgMsg v-else-if="msgType === MsgType.img" :msg="msgData.msg" @previewImg="previewImg" />
             <SongMsg v-else-if="msgType === MsgType.song" :msg="msgData.msg" />
             <SheetMsg v-else-if="msgType === MsgType.sheet" :msg="msgData.msg" />
-            <div v-else>
-                消息类型：{{ msgType }}
-            </div>
-        </MsgBubble>    
+            <div v-else>消息类型：{{ msgType }}</div>
+        </MsgBubble>
     </div>
 </template>
 <script setup lang="ts">
@@ -28,14 +26,14 @@ import TextMsg from './messageElement/textMsg.vue'
 import TimeMsg from './messageElement/timeMsg.vue'
 import { MsgType } from '@/types/public/msg'
 import listenTogetherVue from './messageElement/listenTogether.vue'
-import ImgMsg from './messageElement/imgMsg.vue' 
+import ImgMsg from './messageElement/imgMsg.vue'
 import SongMsg from './messageElement/songMsg.vue'
 import SheetMsg from './messageElement/sheetMsg.vue'
 
 const userStore = useUserStore()
 const router = useRouter()
 const { userInfo } = storeToRefs(userStore)
-interface Props{
+interface Props {
     msgData: MsgData
 }
 const emit = defineEmits<{
@@ -69,21 +67,24 @@ const props = withDefaults(defineProps<Props>(), {
 })
 // 是否是我发送出去的
 const isMine: ComputedRef<boolean> = computed(() => {
-return props.msgData.fromUser.userId === userInfo.value.userId
+    return props.msgData.fromUser.userId === userInfo.value.userId
 })
 const msgType = computed(() => {
     return JSON.parse(props.msgData.msg).type
 })
 //  消息位置
 const messagePosition: ComputedRef<string> = computed(() => {
-    if (msgType.value === MsgType.time) { // 中间
+    if (msgType.value === MsgType.time) {
+        // 中间
         return 'position_center'
-    } else if (isMine.value) { // 右边
+    } else if (isMine.value) {
+        // 右边
         return 'position_right'
-    } else { // 左边
+    } else {
+        // 左边
         return 'position_left'
     }
-}) 
+})
 
 function tapAvatar() {
     router.push({
@@ -96,23 +97,22 @@ function tapAvatar() {
 function previewImg(picUrl: string) {
     emit('previewImg', picUrl)
 }
-
 </script>
 <style scoped lang="less">
-.message_item{
+.message_item {
     margin: 20px 0;
     display: flex;
     align-items: center;
     overflow: hidden;
     box-sizing: border-box;
 }
-.position_center{
+.position_center {
     justify-content: center;
 }
-.position_right{
+.position_right {
     flex-direction: row-reverse;
 }
-.position_left{
+.position_left {
     justify-content: flex-start;
 }
 </style>

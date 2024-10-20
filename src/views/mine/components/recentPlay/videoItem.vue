@@ -2,13 +2,13 @@
     <div class="video_item" @click="toVideoDetail">
         <div class="left">
             <div class="cover">
-                <img :src="videoData.coverUrl + '?param=140y140'" alt="">
+                <img :src="videoData.coverUrl + '?param=140y140'" alt="" />
             </div>
         </div>
         <div class="center">
             <div class="title text_over_line">{{ videoData.title || videoData.name }}</div>
             <div class="info">
-                <span style="margin-right: 5px;">{{ formatMusicTime(videoData.duration) }}</span>
+                <span style="margin-right: 5px">{{ formatMusicTime(videoData.duration) }}</span>
                 <span v-if="videoData.creator">{{ videoData.creator.nickname }}</span>
             </div>
         </div>
@@ -61,7 +61,6 @@ async function toVideoDetail() {
         }
     })
 }
-
 </script>
 <style scoped lang="less">
 .video_item {

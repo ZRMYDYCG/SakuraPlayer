@@ -1,5 +1,5 @@
 // 最近播放
-export interface RecentParams{
+export interface RecentParams {
     limit?: number
     timestamp?: number
 }

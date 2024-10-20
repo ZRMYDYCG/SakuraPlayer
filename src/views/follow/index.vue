@@ -7,15 +7,15 @@
  * @Description: 关注页开发
 -->
 <template>
-	<div class="follow">
-		<!-- <van-nav-bar fixed placeholder title="关注" /> -->
-		<div class="list">
-			<van-list :loading="loading" :finished="finished" @load="onLoad" finished-text="没有更多了">
-				<EventItem v-for="item in list" :key="item.id" :event-data="item" />
-				<van-empty v-if="!loading && list.length === 0" />
-			</van-list>
-		</div>
-	</div>
+    <div class="follow">
+        <!-- <van-nav-bar fixed placeholder title="关注" /> -->
+        <div class="list">
+            <van-list :loading="loading" :finished="finished" @load="onLoad" finished-text="没有更多了">
+                <EventItem v-for="item in list" :key="item.id" :event-data="item" />
+                <van-empty v-if="!loading && list.length === 0" />
+            </van-list>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -30,37 +30,37 @@ const list = ref<EventDataInterface[]>([])
 let lasttime = -1 // 用这个参数去翻页
 
 const onLoad = () => {
-	getList()
+    getList()
 }
 function getList() {
-	loading.value = true // 开始加载
-	reqEvent({
-		pagesize: 20,  // 每页大小
-		lasttime: lasttime // 页码
-	})
-	.then(res => {
-		console.log(res)
-		list.value = list.value.concat(res.data.event)
-		loading.value = false // 加载结束
-		lasttime = res.data.lasttime
-		finished.value = !res.data.more
-	})
-	.catch(() => {
-		loading.value = false
-		finished.value = true
-	})
+    loading.value = true // 开始加载
+    reqEvent({
+        pagesize: 20, // 每页大小
+        lasttime: lasttime // 页码
+    })
+        .then((res) => {
+            console.log(res)
+            list.value = list.value.concat(res.data.event)
+            loading.value = false // 加载结束
+            lasttime = res.data.lasttime
+            finished.value = !res.data.more
+        })
+        .catch(() => {
+            loading.value = false
+            finished.value = true
+        })
 }
 </script>
 
 <style scoped lang="less">
-.follow{
-	height: 100%;
-	overflow: auto;
-	padding-bottom: 180px;
-	box-sizing: border-box;
-	background-color: var(--my-back-color-white);
-	.list{
-		padding: 30px;
-	}
+.follow {
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 180px;
+    box-sizing: border-box;
+    background-color: var(--my-back-color-white);
+    .list {
+        padding: 30px;
+    }
 }
 </style>

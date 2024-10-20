@@ -30,8 +30,8 @@
 </template>
 <script setup lang="ts">
 import { reqLikeList } from '@/api/modules/user'
-import { watch, ref } from 'vue';
-interface Props{
+import { watch, ref } from 'vue'
+interface Props {
     listenSongs: number
     userId: number
 }
@@ -40,62 +40,64 @@ const props = withDefaults(defineProps<Props>(), {
     userId: 0
 })
 const total = ref<number>(0)
-watch(() => props.userId, (val) => {
-    if (val) getLikeList()
-}, { immediate: true })
+watch(
+    () => props.userId,
+    (val) => {
+        if (val) getLikeList()
+    },
+    { immediate: true }
+)
 function getLikeList() {
     reqLikeList({
         uid: props.userId,
         timestamp: Date.now()
-    })
-    .then(res => {
+    }).then((res) => {
         total.value = res.data.ids.length
     })
 }
-
 </script>
 <style scoped lang="less">
-.musicTaste{
+.musicTaste {
     margin-top: 30px;
 }
-.title{
+.title {
     font-size: 30px;
     color: var(--my-text-color-black);
     font-weight: bold;
     margin-bottom: 20px;
-    span{
+    span {
         margin-left: 10px;
         font-size: 26px;
         color: var(--my-text-color-gray);
     }
 }
-.listen_rank{
+.listen_rank {
     display: flex;
     margin-bottom: 20px;
     align-items: center;
-    &:hover{
+    &:hover {
         opacity: 0.8;
     }
-    .left{
+    .left {
         margin-right: 20px;
-        .cover{
+        .cover {
             width: 100px;
             height: 100px;
             border-radius: 20px;
             background: var(--my-primary-color);
-            .iconfont{
+            .iconfont {
                 color: #fff;
                 font-size: 30px;
             }
         }
     }
-    .right{
-        .right_title{
+    .right {
+        .right_title {
             font-weight: bold;
             color: var(--my-text-color-black);
             font-size: 28px;
         }
-        .right_text{
+        .right_text {
             color: var(--my-text-color-gray);
             font-size: 24px;
         }

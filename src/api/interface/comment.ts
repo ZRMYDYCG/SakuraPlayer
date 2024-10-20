@@ -24,16 +24,16 @@ export interface LikeCommentParams {
  * 6: 动态
  */
 // 新版评论
-export interface CommentParams{
+export interface CommentParams {
     id: number //  资源 id, 如歌曲 id,mv id
     type: CommentType
-    pageNo: number  // 分页参数,第 N 页,默认为 1
+    pageNo: number // 分页参数,第 N 页,默认为 1
     pageSize: number //
     sortType: number //  1:按推荐排序, 2:按热度排序, 3:按时间排序
     cursor?: number // 当sortType为 3 时且页数不是第一页时需传入,值为上一条数据的 time
 }
 // 楼层评论接口
-export interface CommentFloorParams{
+export interface CommentFloorParams {
     id: number
     parentCommentId: number
     type: CommentType

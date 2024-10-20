@@ -2,7 +2,7 @@
     <div class="conversation" @click="toChat">
         <div class="left">
             <div class="avatar">
-                <img class="avatarImg" :src="conData.fromUser.avatarUrl" alt="">
+                <img class="avatarImg" :src="conData.fromUser.avatarUrl" alt="" />
             </div>
         </div>
         <div class="center">
@@ -11,7 +11,7 @@
         </div>
         <div class="right">
             <div class="time">{{ dateFormat(conData.lastMsgTime, 'MM-dd') }}</div>
-            <van-badge :show-zero="false" :offset="[10,10]" :content="conData.newMsgCount" />
+            <van-badge :show-zero="false" :offset="[10, 10]" :content="conData.newMsgCount" />
         </div>
     </div>
 </template>
@@ -20,7 +20,7 @@ import { dateFormat } from '@/utils'
 import type { ConversationData } from '@/types/public/msg'
 import { useRouter } from 'vue-router'
 import { computed } from 'vue'
-interface Props{
+interface Props {
     conData: ConversationData
 }
 const router = useRouter()
@@ -51,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const msgText = computed(() => {
     console.log(JSON.parse(props.conData.lastMsg))
-    const msgObj = (JSON.parse(props.conData.lastMsg))
+    const msgObj = JSON.parse(props.conData.lastMsg)
     return msgObj.msg
 })
 function toChat() {
@@ -64,42 +64,42 @@ function toChat() {
 }
 </script>
 <style scoped lang="less">
-.conversation{
+.conversation {
     display: flex;
     font-size: 30px;
     align-items: center;
     margin-bottom: 20px;
     border-bottom: 1px solid var(--van-gray-3);
     padding: 10px 0;
-    .center{
+    .center {
         flex: 1;
     }
-    .left{
+    .left {
         flex-shrink: 0;
         margin-right: 10px;
-        .avatar{
+        .avatar {
             position: relative;
-            .avatarImg{
+            .avatarImg {
                 width: 100px;
                 height: 100px;
                 border-radius: 50%;
             }
         }
     }
-    .center{
+    .center {
         overflow: hidden;
-        .fromUser{
+        .fromUser {
             color: var(--my-text-color-black);
         }
-        .message{
+        .message {
             margin-bottom: 10px;
             font-size: 24px;
             color: var(--my-text-color-gray);
             // max-width: 500px;
         }
     }
-    .right{
-        .time{
+    .right {
+        .time {
             margin-top: 20px;
             font-size: 24px;
             color: var(--my-text-color-gray);

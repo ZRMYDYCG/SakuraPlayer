@@ -1,20 +1,20 @@
 <template>
     <div class="open_screen animate__animated" :class="{ animate__fadeOut: bounceOut }">
         <div class="circle" @click="tapClose">
-            <van-circle 
-                v-model:current-rate="currentRate" 
-                :rate="rate" 
+            <van-circle
+                v-model:current-rate="currentRate"
+                :rate="rate"
                 layer-color="#ebedf0"
                 color="#e20001"
-                :text="text + ''" 
+                :text="text + ''"
                 fill="#fff"
-                size="30px" 
+                size="30px"
                 :speed="20"
                 :clockwise="false"
             />
         </div>
         <div class="cover_img">
-            <img src="@/assets/images/public/screen.jpg" alt="">
+            <img src="@/assets/images/public/screen.jpg" alt="" />
         </div>
     </div>
 </template>
@@ -30,7 +30,7 @@ const timer = setInterval(() => {
     if (!rate.value) {
         rate.value = 0
         tapClose()
-    } else{
+    } else {
         rate.value = rate.value - 20
     }
 }, 1000)
@@ -47,7 +47,7 @@ function tapClose() {
 }
 </script>
 <style scoped lang="less">
-.open_screen{
+.open_screen {
     position: fixed;
     top: 0;
     left: 0;
@@ -55,15 +55,15 @@ function tapClose() {
     height: 100vh;
     width: 100vw;
     background-color: #fff;
-    .circle{
+    .circle {
         position: absolute;
         top: 30px;
         right: 30px;
     }
-    .cover_img{
+    .cover_img {
         width: 100%;
         height: 100%;
-        img{
+        img {
             width: 100%;
             height: 100%;
             object-fit: cover;

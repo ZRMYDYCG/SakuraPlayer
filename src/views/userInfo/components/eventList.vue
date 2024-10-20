@@ -12,7 +12,7 @@ import { ref, watch } from 'vue'
 import { reqUserEvent } from '@/api/modules/event'
 import type { EventDataInterface } from '@/types/public/event'
 
-interface Props{
+interface Props {
     userId: number
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -25,38 +25,41 @@ const list = ref<EventDataInterface[]>([])
 let lasttime = -1
 function onLoad() {
     if (loading.value) return
-	getList()
+    getList()
 }
 function getList() {
-	loading.value = true
-	reqUserEvent({
+    loading.value = true
+    reqUserEvent({
         uid: props.userId,
-		limit: 20,
-		lasttime: lasttime
-	})
-	.then(res => {
-		list.value = list.value.concat(res.data.events)
-		loading.value = false
-		lasttime = res.data.lasttime
-		finished.value = !res.data.more
-	})
-	.catch(() => {
-		loading.value = false
-		finished.value = true
-	})
+        limit: 20,
+        lasttime: lasttime
+    })
+        .then((res) => {
+            list.value = list.value.concat(res.data.events)
+            loading.value = false
+            lasttime = res.data.lasttime
+            finished.value = !res.data.more
+        })
+        .catch(() => {
+            loading.value = false
+            finished.value = true
+        })
 }
-watch(() => props.userId, (val) => {
-    if (val) {
-        lasttime = -1
-        finished.value = false
-        list.value = []
-        getList()
-    }
-}, { immediate: true })
-
+watch(
+    () => props.userId,
+    (val) => {
+        if (val) {
+            lasttime = -1
+            finished.value = false
+            list.value = []
+            getList()
+        }
+    },
+    { immediate: true }
+)
 </script>
 <style scoped lang="less">
-.event_list{
+.event_list {
     margin-top: 20px;
 }
 </style>

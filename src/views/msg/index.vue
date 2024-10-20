@@ -3,10 +3,10 @@
         <div class="msg">
             <van-nav-bar title="我的消息" left-arrow fixed placeholder @click-left="onClickLeft" />
             <van-list :loading="loading" :finished="finished" @load="onLoad">
-                <ConversationItem v-for="(item ,index) in list" :key="index" :con-data="item" />
+                <ConversationItem v-for="(item, index) in list" :key="index" :con-data="item" />
             </van-list>
         </div>
-    </MiniPlayOut>  
+    </MiniPlayOut>
 </template>
 <script setup lang="ts">
 import { reqMsgList } from '@/api/modules/msg'
@@ -24,8 +24,7 @@ function getMsgList() {
     reqMsgList({
         limit: limit,
         offset: limit * offset
-    })
-    .then(res => {
+    }).then((res) => {
         list.value = list.value.concat(res.data.msgs)
     })
 }
@@ -35,7 +34,7 @@ function onLoad() {
 }
 </script>
 <style scoped lang="less">
-.msg{
+.msg {
     overflow: auto;
     height: 100%;
     padding: 30px;

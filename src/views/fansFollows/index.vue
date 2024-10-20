@@ -42,34 +42,34 @@ function toSearch() {
 }
 </script>
 <style scoped lang="less">
-.fans_follows{
+.fans_follows {
     height: 100%;
     overflow: auto;
     background-color: var(--my-back-color-gray);
-    .tab_right{
+    .tab_right {
         box-sizing: border-box;
         padding-left: 30px;
         width: 150px;
         box-sizing: border-box;
-        .iconfont{
+        .iconfont {
             font-size: 40px;
             font-weight: 600;
             color: var(--my-text-color-black);
         }
     }
-    .tab_left{
+    .tab_left {
         text-align: right;
         box-sizing: border-box;
         padding-right: 30px;
         width: 150px;
         box-sizing: border-box;
-        .iconfont{
+        .iconfont {
             font-size: 40px;
             font-weight: 600;
             color: var(--my-text-color-black);
         }
     }
-    .container{
+    .container {
         padding: 30px;
         box-sizing: border-box;
     }

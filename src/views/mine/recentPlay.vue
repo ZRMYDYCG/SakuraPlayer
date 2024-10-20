@@ -1,13 +1,7 @@
 <template>
     <MiniPlayOut>
         <div class="recent_play">
-            <van-nav-bar
-                title="最近播放"
-                fixed
-                placeholder
-                left-arrow
-                @click-left="onClickLeft"
-            ></van-nav-bar>
+            <van-nav-bar title="最近播放" fixed placeholder left-arrow @click-left="onClickLeft"></van-nav-bar>
             <van-tabs v-model:active="active" sticky offset-top="1.22667rem">
                 <van-tab title="歌曲">
                     <RecentSong />
@@ -32,20 +26,19 @@
     </MiniPlayOut>
 </template>
 <script lang="ts" setup>
-    import { onClickLeft } from '@/utils/back'
-    import { ref } from 'vue'
-    import RecentSong from './components/recentPlay/recentSong.vue'
-    import RecentVideo from './components/recentPlay/recentVideo.vue'
-    import RecentVoice from './components/recentPlay/recentVoice.vue'
-    import RecentSheet from './components/recentPlay/recentSheet.vue'
-    import RecentDj from './components/recentPlay/recentDj.vue'
-    // import RecentAlbum from './components/recentPlay/recentAlbum.vue'
-    const active = ref<number>(0)
+import { onClickLeft } from '@/utils/back'
+import { ref } from 'vue'
+import RecentSong from './components/recentPlay/recentSong.vue'
+import RecentVideo from './components/recentPlay/recentVideo.vue'
+import RecentVoice from './components/recentPlay/recentVoice.vue'
+import RecentSheet from './components/recentPlay/recentSheet.vue'
+import RecentDj from './components/recentPlay/recentDj.vue'
+// import RecentAlbum from './components/recentPlay/recentAlbum.vue'
+const active = ref<number>(0)
 </script>
 <style scoped lang="less">
-    .recent_play{
-        height: 100%;
-        overflow: auto;
-    }
-    
+.recent_play {
+    height: 100%;
+    overflow: auto;
+}
 </style>

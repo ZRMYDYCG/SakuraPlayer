@@ -5,10 +5,15 @@
             <div class="list">
                 <van-list :loading="loading" :finished="finished" @load="onLoad">
                     <van-checkbox-group v-model="checked">
-                        <van-checkbox v-for="item in list" :key="item.userId" :name="item.userId" checked-color="#ee0a24">
+                        <van-checkbox
+                            v-for="item in list"
+                            :key="item.userId"
+                            :name="item.userId"
+                            checked-color="#ee0a24"
+                        >
                             <div class="user_info">
                                 <div class="avatar">
-                                    <img :src="item.avatarUrl" alt="">
+                                    <img :src="item.avatarUrl" alt="" />
                                 </div>
                                 <div class="nickname">{{ item.nickname }}</div>
                             </div>
@@ -17,15 +22,16 @@
                 </van-list>
             </div>
             <div class="btns box_shadow">
-                <van-button round size="small" @click="show=false">取消</van-button>
-                <van-button 
+                <van-button round size="small" @click="show = false">取消</van-button>
+                <van-button
                     round
-                    style="margin-left: 20px;" 
-                    type="danger" 
-                    size="small" 
+                    style="margin-left: 20px"
+                    type="danger"
+                    size="small"
                     :loading="btnLoading"
                     @click="sendMsg"
-                >确定</van-button>
+                    >确定</van-button
+                >
             </div>
         </div>
     </van-popup>
@@ -40,7 +46,7 @@ import type { UserInterface } from '@/types/public/user'
 import { reqSendSong, reqSendSheet } from '@/api/modules/msg'
 import { Toast } from 'vant'
 
-interface Props{
+interface Props {
     source: MsgType
     visible: boolean
     sourceId: number
@@ -78,8 +84,7 @@ function getList() {
         uid: userInfo.value.userId,
         limit: 30,
         offset: 30 * offset
-    })
-    .then(res => {
+    }).then((res) => {
         list.value = list.value.concat(res.data.follow)
         finished.value = !res.data.more
     })
@@ -106,13 +111,13 @@ function sendSong() {
         user_ids: checked.value.join(','),
         id: props.sourceId
     })
-    .then(() => {
-        Toast.success('发送成功')
-    })
-    .finally(() => {
-        show.value = false
-        btnLoading.value = false
-    })
+        .then(() => {
+            Toast.success('发送成功')
+        })
+        .finally(() => {
+            show.value = false
+            btnLoading.value = false
+        })
 }
 
 function sendSheet() {
@@ -121,50 +126,49 @@ function sendSheet() {
         user_ids: checked.value.join(','),
         playlist: props.sourceId
     })
-    .then(() => {
-        Toast.success('发送成功')
-    })
-    .finally(() => {
-        btnLoading.value = false
-        show.value = false
-    })
+        .then(() => {
+            Toast.success('发送成功')
+        })
+        .finally(() => {
+            btnLoading.value = false
+            show.value = false
+        })
 }
-
 </script>
 <style scoped lang="less">
-.content{
+.content {
     height: 60vh;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    .title{
+    .title {
         text-align: center;
         font-size: 34px;
         padding: 10px;
     }
-    .list{
+    .list {
         flex: 1;
         overflow: auto;
         padding: 30px;
     }
-    .user_info{
+    .user_info {
         display: flex;
         align-items: center;
         margin-bottom: 20px;
-        .avatar{
+        .avatar {
             margin-right: 20px;
-            img{
+            img {
                 width: 80px;
                 height: 80px;
                 border-radius: 50%;
             }
         }
-        .nickname{
+        .nickname {
             font-size: 30px;
             color: var(--my-text-color-black);
         }
     }
-    .btns{
+    .btns {
         display: flex;
         justify-content: center;
         padding: 20px;

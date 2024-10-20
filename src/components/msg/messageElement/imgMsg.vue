@@ -1,11 +1,11 @@
 <template>
     <div class="img_msg" @click="previewImg">
-        <img :src="msgJson.picInfo.picUrl" alt="">
+        <img :src="msgJson.picInfo.picUrl" alt="" />
     </div>
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
-interface Props{
+interface Props {
     msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -22,8 +22,8 @@ function previewImg() {
 }
 </script>
 <style scoped lang="less">
-.img_msg{
-    img{
+.img_msg {
+    img {
         max-width: 300px;
         height: auto;
     }
