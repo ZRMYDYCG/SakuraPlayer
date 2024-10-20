@@ -20,7 +20,6 @@ import { useRoute } from 'vue-router'
 import { reqAllVideo, reqVideoDetail, reqMvDetail } from '@/api/modules/video'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import PlayVideo from './components/playVideo.vue'
-import 'swiper/swiper.min.css'
 
 const playerStore = usePlayerStore()
 interface ListData {

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { ref, Ref } from 'vue'
-import { reqSheetTags } from '@/api/song'
+import { reqSheetTags } from '@/api/modules/song'
 import { onClickLeft } from '@/utils/back'
 import SheetList from './components/sheetList.vue'
 
