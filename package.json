@@ -25,6 +25,7 @@
         "vue-router": "4"
     },
     "devDependencies": {
+        "@types/lyric-parser": "^1.0.4",
         "@vant/auto-import-resolver": "^1.2.1",
         "@vitejs/plugin-vue": "^5.1.4",
         "postcss": "^8.4.47",
