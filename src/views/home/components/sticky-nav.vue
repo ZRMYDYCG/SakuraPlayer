@@ -44,7 +44,7 @@ getDefaultWord()
     </van-sticky>
 </template>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 .nav {
     display: flex;
     align-items: center;

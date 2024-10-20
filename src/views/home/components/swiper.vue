@@ -11,21 +11,26 @@
 <script lang="ts" setup>
 import { reqBanner } from '@/api/modules/home'
 import { ref, defineExpose } from 'vue'
+
 interface ImgList {
     typeTitle: string
     pic: string
     bannerId: number
 }
+
 const imgList = ref<ImgList[]>([])
+
 function getBanner() {
     reqBanner().then((res) => {
         imgList.value = res.data.banners
     })
 }
-getBanner()
+
 defineExpose({
     getBanner
 })
+
+getBanner()
 </script>
 
 <style scoped lang="less">
