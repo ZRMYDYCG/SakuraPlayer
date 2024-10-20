@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="info text_over_two_lines">
-            <span class="name">{{ djData.name }} </span>
+            <span class="name">{{ djData.name }}</span>
         </div>
     </div>
     <div v-else class="dj_item_line" @click="getDetail">

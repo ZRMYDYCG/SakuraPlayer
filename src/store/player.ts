@@ -13,7 +13,7 @@ export interface playerState {
 }
 export const usePlayerStore = defineStore('player', {
     //导出 pinia仓库
-    state: (): any => ({
+    state: (): playerState => ({
         showBigPlayer: false,
         playList: [],
         currentSong: {

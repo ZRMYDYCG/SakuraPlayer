@@ -105,9 +105,9 @@
                     </van-cell>
                 </van-cell-group>
             </div>
-            <van-button v-if="isLogin" block round class="out-btn" :loading="btnLoading" @click="logout"
-                >退出登录</van-button
-            >
+            <van-button v-if="isLogin" block round class="out-btn" :loading="btnLoading" @click="logout">
+                退出登录
+            </van-button>
         </div>
     </div>
 </template>

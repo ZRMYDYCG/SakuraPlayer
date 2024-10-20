@@ -14,7 +14,8 @@
         </div>
         <div class="flex_box_center_column play_btn">
             <van-button round size="small" @click.stop="playBeckoning">
-                <i class="iconfont icon-huaban"></i>心动模式
+                <i class="iconfont icon-huaban"></i>
+                心动模式
             </van-button>
         </div>
     </div>

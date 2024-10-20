@@ -30,8 +30,9 @@
                     size="small"
                     :loading="btnLoading"
                     @click="sendMsg"
-                    >确定</van-button
                 >
+                    确定
+                </van-button>
             </div>
         </div>
     </van-popup>

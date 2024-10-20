@@ -20,10 +20,11 @@
 </template>
 
 <script lang="ts" setup>
-import { storeToRefs } from 'pinia'
-import MiniPlayer from '@/components/MiniPlayer/index.vue'
-import { usePlayerStore } from '@/store'
 import { reactive } from 'vue'
+import { storeToRefs } from 'pinia'
+import { usePlayerStore } from '@/store'
+import MiniPlayer from '@/components/MiniPlayer/index.vue'
+
 const palyerStore = usePlayerStore()
 const menuList = reactive([
     {

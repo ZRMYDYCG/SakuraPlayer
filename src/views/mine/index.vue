@@ -20,12 +20,12 @@
                     <div class="user_name">{{ userInfo.nickname }}</div>
                     <div class="other_info">
                         <div class="other_info_item" @click="toFans">
-                            <span>{{ profile.follows }}</span
-                            >关注
+                            <span>{{ profile.follows }}</span>
+                            关注
                         </div>
                         <div class="other_info_item" @click="toFans">
-                            <span>{{ profile.followeds }}</span
-                            >粉丝
+                            <span>{{ profile.followeds }}</span>
+                            粉丝
                         </div>
                         <div class="other_info_item">Lv.{{ level }}</div>
                     </div>

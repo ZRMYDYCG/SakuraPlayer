@@ -17,8 +17,9 @@
                     round
                     :loading="loading"
                     @click="sendTextMsg"
-                    >发送</van-button
                 >
+                    发送
+                </van-button>
             </div>
         </div>
         <div class="tool_list" :style="{ height: showTools ? '250px' : '0px' }">

@@ -29,11 +29,12 @@
                                 round
                                 v-if="!fansData.isFollow"
                                 @click="subSinger(1)"
-                                >关注</van-button
                             >
-                            <van-button size="small" block :loading="loading" round v-else @click="subSinger(0)"
-                                >取消</van-button
-                            >
+                                关注
+                            </van-button>
+                            <van-button size="small" block :loading="loading" round v-else @click="subSinger(0)">
+                                取消
+                            </van-button>
                         </div>
                     </div>
 
@@ -57,9 +58,9 @@
                         <div class="big_title">
                             <div>热门歌曲</div>
                             <div>
-                                <van-button round size="small" @click="playAll" style="margin-right: 15px"
-                                    >播放全部</van-button
-                                >
+                                <van-button round size="small" @click="playAll" style="margin-right: 15px">
+                                    播放全部
+                                </van-button>
                             </div>
                         </div>
                         <div class="">

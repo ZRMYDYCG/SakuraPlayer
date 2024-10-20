@@ -17,8 +17,9 @@
                         :song-id="item.songId"
                         :index="index + 1"
                         @reload="reload"
-                        >{{ item.simpleSong.name }}</CloudItem
                     >
+                        {{ item.simpleSong.name }}
+                    </CloudItem>
                 </div>
             </van-list>
         </div>

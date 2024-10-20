@@ -22,12 +22,12 @@
                         <div class="user_name">{{ userProfile.nickname }}</div>
                         <div class="other_info">
                             <div class="other_info_item" @click="toFollow">
-                                <span>{{ userProfile.follows }}</span
-                                >关注
+                                <span>{{ userProfile.follows }}</span>
+                                关注
                             </div>
                             <div class="other_info_item" @click="toFollow">
-                                <span>{{ userProfile.followeds }}</span
-                                >粉丝
+                                <span>{{ userProfile.followeds }}</span>
+                                粉丝
                             </div>
                             <div class="other_info_item">Lv.{{ userProfile.level }}</div>
                         </div>
@@ -44,8 +44,8 @@
                                 size="small"
                                 @click="followUser(2)"
                             >
-                                取消关注</van-button
-                            >
+                                取消关注
+                            </van-button>
                             <van-button
                                 v-else
                                 type="danger"
@@ -54,8 +54,8 @@
                                 size="small"
                                 @click="followUser(1)"
                             >
-                                关注</van-button
-                            >
+                                关注
+                            </van-button>
                             <van-button round size="small" class="msg_btn" @click="sendMsg">私信</van-button>
                         </div>
                     </div>
