@@ -20,39 +20,12 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue'
 import { storeToRefs } from 'pinia'
 import { usePlayerStore } from '@/store'
+import { menuList } from '@/config'
 import MiniPlayer from '@/components/MiniPlayer/index.vue'
 
 const palyerStore = usePlayerStore()
-const menuList = reactive([
-    {
-        name: '发现',
-        url: '/home',
-        icon: 'icon-faxian'
-    },
-    {
-        name: '播客',
-        url: '/boke',
-        icon: 'icon-zhiboziyuan'
-    },
-    {
-        name: '我的',
-        url: '/mine',
-        icon: 'icon-yinle'
-    },
-    {
-        name: '关注',
-        url: '/follow',
-        icon: 'icon-guanzhu'
-    },
-    {
-        name: '云村',
-        url: '/village',
-        icon: 'icon-shequ-active'
-    }
-])
 const { showBigPlayer, currentSong } = storeToRefs(palyerStore)
 </script>
 
