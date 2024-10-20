@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
     <div class="tabbar" :class="{ hide_tabbar: showBigPlayer }">
         <MiniPlayer v-if="currentSong.url" />
