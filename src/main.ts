@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'  //导入pinia
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import vant from '@/vant'
+import './style.css'
 import '@/assets/styles/global.less'
 import '@/assets/styles/mode.less'
 import '@/assets/iconfont/iconfont.css'
