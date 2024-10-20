@@ -1,12 +1,26 @@
-<script setup lang="ts"></script>
-
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
-  <h1 class="text-3xl text-yellow-400 font-bold underline">
-    Hello world!
-    <van-button type="primary">Hello World!</van-button>
-  </h1>
+	<router-view />
+	<BigPlayer />
+	<Screen v-if="showScreen" @close="closeScreen" />
 </template>
+<script setup lang="ts">
+	import { ref } from 'vue'
+	import BigPlayer from '@/components/BigPlayer/index.vue'
+	import Screen from '@/components/Screen/index.vue'
+	import { useSystemStore } from '@/store'
+	const systemStore = useSystemStore()
+	systemStore.setMode(systemStore.mode)
 
-<style scoped>
-
-</style>
+	
+	const showScreen = ref<boolean>(true)
+	function closeScreen() {
+		showScreen.value = false
+	}
+</script>
