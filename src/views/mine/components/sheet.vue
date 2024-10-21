@@ -19,8 +19,8 @@
                 </div>
             </van-tab>
             <van-tab title="动态">
-				<div class="box_white_container"></div>
-			</van-tab>
+                <div class="box_white_container"></div>
+            </van-tab>
         </van-tabs>
     </div>
 </template>

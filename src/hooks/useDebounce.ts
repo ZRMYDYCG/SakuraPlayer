@@ -5,18 +5,13 @@
  * @LastEditTime: 2024-10
  * @Description: 防抖函数
  */
-import { ref } from 'vue'
-
-export const useDebounce = (value: any, delay = 500) => {
-    let timeout: any
-    const debounceValue = ref(value)
-
-    const setDebounceValue = (newValue: any) => {
-        clearTimeout(timeout)
-        timeout = setTimeout(() => {
-            debounceValue.value = newValue
-        }, delay)
-    }
-
-    return [debounceValue, setDebounceValue]
+export function useDebounce(fn: (...args: any[]) => void, delay: number) {
+    let timeoutId: ReturnType<typeof setTimeout>;
+    
+    return function(this: any, ...args: any[]) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    };
 }
