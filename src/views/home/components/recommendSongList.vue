@@ -8,7 +8,7 @@
 <template>
     <div class="recomend">
         <div class="recomend_top">
-            <div class="recomend_title">推荐跟单</div>
+            <div class="recomend_title">推荐歌单</div>
             <van-button icon="arrow" round size="mini" icon-position="right" @click="goSheets">更多</van-button>
         </div>
         <van-skeleton title :row="3" :loading="loading">
