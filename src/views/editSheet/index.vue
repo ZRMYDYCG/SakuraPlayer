@@ -43,7 +43,7 @@
 </template>
 
 <script setup lang="ts">
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 import { reactive } from 'vue'
 import { onClickLeft } from '@/utils/back'
 import { useRoute, useRouter } from 'vue-router'
@@ -66,17 +66,17 @@ function afterRead(file: any) {
     }
     const formData = new FormData()
     formData.append('imgFile', file.file)
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
-    })
+    // const loading = Toast.loading({
+    //     duration: 0,
+    //     message: '加载中...',
+    //     overlay: true
+    // })
     reqUpdateCover(params, formData)
         .then((res) => {
             details.coverImgUrl = res.data.data.url
         })
         .finally(() => {
-            loading.clear()
+            // loading.clear()
         })
 }
 function getDetail() {
