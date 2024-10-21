@@ -84,7 +84,7 @@ import SongItem from '@/components/songItem/index.vue'
 import Scroll from '@/components/Scroll/scrollBanner.vue'
 import { usePlayerStore, useUserStore } from '@/store'
 import SheetInfo from './components/sheetInfo.vue'
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 import CommentPopup from '@/components/Comment/commentPopup.vue'
 import { SongData } from '@/types/store/player'
 import { CommentType } from '@/types/public/comment'
@@ -156,15 +156,15 @@ function getDetail() {
 }
 
 function getSheetSongs() {
-    Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
-    })
+    // Toast.loading({
+    //     duration: 0,
+    //     message: '加载中...',
+    //     overlay: true
+    // })
     reqSheetSongs({ id: Number(id), time: Date.now() })
         .then((res) => {
             list.value = res.data.songs
-            Toast.clear()
+            // Toast.clear()
             nextTick(() => {
                 setTimeout(() => {
                     scrollRef.value && scrollRef.value.refresh()
@@ -172,7 +172,7 @@ function getSheetSongs() {
             })
         })
         .catch(() => {
-            Toast.clear()
+            // Toast.clear()
         })
 }
 
@@ -182,11 +182,11 @@ function PlayAll() {
 // 收藏歌单
 function subscribeSheet() {
     if (!isLogin.value) {
-        Toast.fail('还没有登录')
+        // Toast.fail('还没有登录')
         return
     }
     if (showdel.value) {
-        Toast.fail('不能收藏自己的歌单')
+        // Toast.fail('不能收藏自己的歌单')
         return
     }
 
@@ -195,16 +195,16 @@ function subscribeSheet() {
         id: Number(id)
     }).then(() => {
         details.subscribed = !details.subscribed
-        Toast.success(details.subscribed ? '取消成功' : '收藏成功')
+        // Toast.success(details.subscribed ? '取消成功' : '收藏成功')
     })
 }
 // 删除
 function del(item: SongData) {
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
-    })
+    // const loading = Toast.loading({
+    //     duration: 0,
+    //     message: '加载中...',
+    //     overlay: true
+    // })
     const params = {
         op: 'del', // 从歌单增加单曲为 add, 删除为 del
         pid: Number(id), // 歌单 id
@@ -214,10 +214,10 @@ function del(item: SongData) {
         .then(() => {
             const index = list.value.findIndex((track) => track.id === item.id)
             list.value.splice(index, 1)
-            Toast.success('删除成功')
+            // Toast.success('删除成功')
         })
         .finally(() => {
-            loading.clear()
+            // loading.clear()
         })
 }
 getDetail()

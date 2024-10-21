@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description: 
+-->
 <template>
     <div class="song_list_item">
         <div class="cover" @click="goDetail">
@@ -23,6 +30,7 @@ const router = useRouter()
 interface Props {
     songListData: songListFace
 }
+
 // eslint-disable-next-line
 const props = withDefaults(defineProps<Props>(), {
     songListData: () => {
@@ -42,7 +50,7 @@ const props = withDefaults(defineProps<Props>(), {
         }
     }
 })
-// console.log(props)
+
 function goDetail() {
     router.push({
         path: '/songSheetDetail',
