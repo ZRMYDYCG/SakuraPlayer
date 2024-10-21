@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 import { ref, watch } from 'vue'
 import VerifyCode from '@/components/VerifyCode/index.vue'
 import { useRouter } from 'vue-router'
@@ -25,18 +25,18 @@ const phoneStr = ref<string>(loginPhone)
 const code = ref<number | undefined>()
 watch(code, (val) => {
     if ((val + '').length == 4) {
-        Toast.loading('登录中...')
+        // Toast.loading('登录中...')
         userStore
             .loginByPhone({
                 phone: loginPhone,
                 captcha: Number(code.value)
             })
             .then(() => {
-                Toast.clear()
+                // Toast.clear()
                 router.replace('/')
             })
             .catch(() => {
-                Toast.clear()
+                // Toast.clear()
             })
     }
 })

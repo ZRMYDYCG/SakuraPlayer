@@ -21,7 +21,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { reqSendCode } from '@/api/modules/user'
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 import { onClickLeft } from '@/utils/back'
 
 const router = useRouter()
@@ -31,11 +31,11 @@ function sendCode() {
     if (phone.value && reg.test(phone.value + '')) {
         reqSendCode({ phone: phone.value }).then(() => {
             sessionStorage.setItem('loginPhone', phone.value + '')
-            Toast.success('验证码发送成功')
+            // Toast.success('验证码发送成功')
             router.push('/inputCode')
         })
     } else {
-        Toast('请输入正确的手机号')
+        // Toast('请输入正确的手机号')
     }
 }
 </script>
