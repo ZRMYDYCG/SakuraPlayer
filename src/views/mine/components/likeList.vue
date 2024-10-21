@@ -35,8 +35,8 @@ const playerStore = usePlayerStore()
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const total = ref<number>(0)
-const url = () => require('@/assets/images/public/heijiao.png')
-const imgUrl = ref<string>(url())
+// const url = () => require('@/assets/images/public/heijiao.png')
+const imgUrl = ref<string>()
 let list = []
 let pid = 0 // 歌单id 心动模式播放需要
 let ids: Array<number> = []
