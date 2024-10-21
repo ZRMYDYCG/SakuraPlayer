@@ -38,10 +38,10 @@ const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const show = ref<boolean>(false)
 const list = ref<SheetDataInterface[]>([]) // 列表
-const limit = 1 // 条数
+const limit = 30 // 条数
 let offset = -1 // 分页
 const total = ref<number>(0) // 总条数
-const loading = ref<boolean>(false)
+const loading = ref<boolean>(true)
 const finished = ref<boolean>(false)
 const router = useRouter()
 
@@ -64,12 +64,14 @@ function getList() {
             loading.value = false
         })
 }
+
 // 获取总条数
 function getCount() {
     reqUserSubCount().then((res) => {
         total.value = res.data.createdPlaylistCount
     })
 }
+
 function onLoad() {
     offset++
     getList()
@@ -78,16 +80,19 @@ function onLoad() {
 function handleCreate() {
     show.value = true
 }
+
 function refreshList() {
     offset = 0
     list.value = []
     getList()
 }
+
 function delSuccess(id: number) {
     const index = list.value.findIndex((item) => item.id === id)
     list.value.splice(index, 1)
     total.value -= 1
 }
+
 // 编辑
 function edit(item: SheetDataInterface) {
     router.push({
@@ -97,6 +102,8 @@ function edit(item: SheetDataInterface) {
         }
     })
 }
+
+getList()
 
 getCount()
 </script>
