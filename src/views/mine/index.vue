@@ -56,26 +56,31 @@
 </template>
 
 <script lang="ts" setup>
-import { reqUserDetail } from '@/api/modules/user'
-import { storeToRefs } from 'pinia'
-import { ref, reactive, computed } from 'vue'
-import { useUserStore, useSystemStore } from '@/store'
-import $bus from '@/utils/eventBus'
-import LikeList from './components/likeList.vue'
-import Sheet from './components/sheet.vue'
-import { Mode } from '@/store/system'
 import router from '@/router'
+import { storeToRefs } from 'pinia'
+import $bus from '@/utils/eventBus'
+import { Mode } from '@/store/system'
+import Sheet from './components/sheet.vue'
+import { ref, reactive, computed } from 'vue'
+import LikeList from './components/likeList.vue'
+import { reqUserDetail } from '@/api/modules/user'
+import { useUserStore, useSystemStore } from '@/store'
 
 const userStore = useUserStore()
 const systemStore = useSystemStore()
-const { isLogin, userInfo } = storeToRefs(userStore)
-const { mode } = storeToRefs(systemStore)
+
 const profile = reactive({
     follows: 0,
     followeds: 0
 })
+const navStyle = reactive({
+    background: 'transparent'
+})
 const level = ref<number>(0)
+const { mode } = storeToRefs(systemStore)
 const mine = ref<HTMLDivElement | null>(null)
+const { isLogin, userInfo } = storeToRefs(userStore)
+
 const appList = computed(() => {
     return [
         { name: '最近播放', icon: 'icon-bofang1', path: '/recentPlay' },
@@ -89,9 +94,6 @@ const appList = computed(() => {
         { name: '音乐罐子', icon: 'icon-zhiboshenqing' }
     ]
 })
-const navStyle = reactive({
-    background: 'transparent'
-})
 
 function openMenu(): void {
     $bus.emit('opne_menu')
@@ -102,6 +104,7 @@ function Init() {
         getUserDetail()
     }
 }
+
 function getUserDetail() {
     reqUserDetail({ uid: userInfo.value.userId }).then((res) => {
         profile.follows = res.data.profile.follows
@@ -124,6 +127,7 @@ function scroll() {
         }
     }
 }
+
 function tapApp(path: string | undefined) {
     if (!path) return
     router.push(path)
@@ -134,6 +138,7 @@ function toSearch() {
         path: '/search'
     })
 }
+
 function toFans() {
     router.push({
         path: '/fansFollows',

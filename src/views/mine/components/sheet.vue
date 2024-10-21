@@ -1,3 +1,10 @@
+<!--
+ * @Author: ZRMYDYCG
+ * @Date: 2024-10
+ * @LastEditors: ZRMYDYCG
+ * @LastEditTime: 2024-10
+ * @Description:
+-->
 <template>
     <div class="sheet">
         <van-tabs v-model:active="active" scrollspy sticky offset-top="1.17333rem" :lazy-render="false">
@@ -11,9 +18,9 @@
                     <CollectSheet />
                 </div>
             </van-tab>
-            <!-- <van-tab title="歌单助手">
+            <van-tab title="动态">
 				<div class="box_white_container"></div>
-			</van-tab> -->
+			</van-tab>
         </van-tabs>
     </div>
 </template>
@@ -30,8 +37,5 @@ const active = ref(0)
     .box_white_container {
         margin-top: 30px;
     }
-    // :deep(.van-tabs__nav){
-    // 	background: transparent;
-    // }
 }
 </style>

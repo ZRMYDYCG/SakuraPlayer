@@ -7,7 +7,9 @@
             </div>
         </div>
         <van-list v-model:loading="loading" :finished="finished" @load="onLoad">
+            <van-empty v-if="list.length <= 0" text="暂无歌单" />
             <SheetItem
+                v-else
                 v-for="item in list"
                 :key="item.id"
                 :hide-edit="false"
@@ -17,28 +19,29 @@
                 @edit="edit(item)"
             />
         </van-list>
-
         <CreatePopup v-model:showPopup="show" @success="refreshList" />
     </div>
 </template>
 
 <script setup lang="ts">
-import CreatePopup from './createPopup.vue'
 import SheetItem from './sheetItem.vue'
+import CreatePopup from './createPopup.vue'
+
 import { ref } from 'vue'
 import { storeToRefs } from 'pinia'
-import { reqUserPlayList, reqUserSubCount } from '@/api/modules/user'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store'
 import type { SheetDataInterface } from '@/types/public/sheet'
+import { reqUserPlayList, reqUserSubCount } from '@/api/modules/user'
+
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 const show = ref<boolean>(false)
 const list = ref<SheetDataInterface[]>([]) // 列表
-const limit = 30 // 条数
+const limit = 1 // 条数
 let offset = -1 // 分页
 const total = ref<number>(0) // 总条数
-const loading = ref<boolean>(true)
+const loading = ref<boolean>(false)
 const finished = ref<boolean>(false)
 const router = useRouter()
 
