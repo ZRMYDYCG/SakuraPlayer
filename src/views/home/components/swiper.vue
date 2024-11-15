@@ -37,11 +37,14 @@ getBanner()
 .swiper {
     background-image: var(--my-linear-back);
     padding: 20px;
+    :deep(.van-swipe__indicators) {
+      bottom: 25px;
+    }
 }
 .my-swipe {
     .swiper_img {
         width: 100%;
-        height: 260px;
+        height: 280px;
         border-radius: 15px;
     }
 }

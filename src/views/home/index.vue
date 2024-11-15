@@ -24,9 +24,9 @@ import { ref } from 'vue'
 import Swiper from './components/swiper.vue'
 import Menu from './components/menu.vue'
 import StickyNav from './components/sticky-nav.vue'
-import RecommendSongList from './components/recommendSongList.vue'
-import NewSong from './components/newSong.vue'
-import NewMvVue from './components/newMv.vue'
+import RecommendSongList from './components/recommend-song-list.vue'
+import NewSong from './components/new-song.vue'
+import NewMvVue from './components/new-mv.vue'
 
 const loading = ref<boolean>(false)
 const swiper = ref<InstanceType<typeof Swiper>>()
@@ -37,6 +37,7 @@ function onRefresh() {
     swiper.value && swiper.value.getBanner()
     recommendSongList.value && recommendSongList.value.getList()
     newSong.value && newSong.value.getList()
+    /*添加 Loading 效果*/
     setTimeout(() => {
         loading.value = false
     }, 2000)

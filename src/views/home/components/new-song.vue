@@ -34,7 +34,7 @@ import { reqRecommendNewSongs } from '@/api/modules/home'
 import { ref, defineExpose, toRaw } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
 // import "swiper/swiper.min.css"
-import NewSongItem from './newSongItem.vue'
+import NewSongItem from './new-song-item.vue'
 import { songData } from '@/types/public'
 const list = ref<Array<Array<songData>>>([])
 const songList = ref<Array<songData>>([])
