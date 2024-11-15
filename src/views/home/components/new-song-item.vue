@@ -11,7 +11,7 @@
                         <span class="song_name">{{ songData.name }}</span>
                         <span class="singer">- {{ singerName }}</span>
                     </div>
-                    <!-- <div class="desc">你有很多故事 可我却从未参与其中可我却从未参与其中</div> -->
+<!--                     <div class="desc">你有很多故事 可我却从未参与其中可我却从未参与其中</div>-->
                 </div>
             </div>
             <div class="right flex_box_center_column">
@@ -22,14 +22,16 @@
 </template>
 
 <script setup lang="ts">
-import { usePlayerStore } from '@/store'
 import { computed } from 'vue'
-import type { songData as songDataInterface } from '@/types/public'
+import { usePlayerStore } from '@/store'
 import type { arData } from '@/types/store/player'
-const playerStore = usePlayerStore()
+import type { songData as songDataInterface } from '@/types/public'
+
 interface Props {
-    songData: songDataInterface
+  songData: songDataInterface
 }
+
+const playerStore = usePlayerStore()
 
 const props = withDefaults(defineProps<Props>(), {
     songData: (): songDataInterface => {

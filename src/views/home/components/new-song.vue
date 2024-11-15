@@ -12,30 +12,26 @@
             <div class="recommend_title">新歌推荐</div>
             <van-button icon="play" round size="medium" @click="playAll">播放</van-button>
         </div>
+
         <van-skeleton title :row="10" :loading="loading">
-            <swiper
-                :slides-per-view="1.2"
-                :space-between="20"
-                navigation
-                :pagination="{ clickable: true }"
-                :scrollbar="{ draggable: true }"
+            <van-swipe
+                :show-indicators="false"
             >
-                <swiper-slide v-for="(item, index) in list" :key="index">
+                <van-swipe-item v-for="(item, index) in list" :key="index">
                     <new-song-item :song-data="data" v-for="data in item" :key="data.id" />
-                </swiper-slide>
-            </swiper>
+                </van-swipe-item>
+            </van-swipe>
         </van-skeleton>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref, defineExpose, toRaw } from 'vue'
 import { usePlayerStore } from '@/store'
 import { reqRecommendNewSongs } from '@/api/modules/home'
-import { ref, defineExpose, toRaw } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import "swiper/css"
 import NewSongItem from './new-song-item.vue'
 import { songData } from '@/types/public'
+
 const list = ref<Array<Array<songData>>>([])
 const songList = ref<Array<songData>>([])
 const playerStore = usePlayerStore()
@@ -78,7 +74,6 @@ function playAll() {
             al: item.song.album
         }
     })
-    console.log(newlist)
     playerStore.resetList(newlist)
 }
 

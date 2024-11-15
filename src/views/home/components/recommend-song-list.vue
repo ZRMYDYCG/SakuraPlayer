@@ -39,7 +39,9 @@ function getList() {
             songsList.value = res.data.result
         })
         .finally(() => {
-            loading.value = false
+            setTimeout(() => {
+              loading.value = false
+            }, 1000)
         })
 }
 function scroll(e: Event): void {
