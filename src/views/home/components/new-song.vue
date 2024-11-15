@@ -12,7 +12,7 @@
             <div class="recommend_title">新歌推荐</div>
             <van-button icon="play" round size="medium" @click="playAll">播放</van-button>
         </div>
-        <van-skeleton title :row="1" :loading="loading">
+        <van-skeleton title :row="10" :loading="loading">
             <swiper
                 :slides-per-view="1.2"
                 :space-between="20"
@@ -94,6 +94,10 @@ defineExpose({
     margin-top: 20px;
     background: var(--van-white);
     padding: 15px;
+   .van-button {
+     padding-left: 10px;
+     padding-right: 10px;
+   }
     .top {
         display: flex;
         align-items: center;
