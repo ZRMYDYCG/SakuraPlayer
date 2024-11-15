@@ -6,13 +6,13 @@
  * @Description: 
 -->
 <template>
-    <div class="recomend">
-        <div class="recomend_top">
-            <div class="recomend_title">推荐歌单</div>
+    <div class="recommend">
+        <div class="recommend_top">
+            <div class="recommend_title">推荐歌单</div>
             <van-button icon="arrow" round size="mini" icon-position="right" @click="goSheets">更多</van-button>
         </div>
         <van-skeleton title :row="3" :loading="loading">
-            <div class="sroll_wrapper" ref="scrollRef" @touchmove="scroll">
+            <div class="scroll_wrapper" ref="scrollRef" @touchmove="scroll">
                 <div class="list">
                     <SongListItem v-for="item in songsList" :key="item.id" :songListData="item" />
                 </div>
@@ -20,16 +20,18 @@
         </van-skeleton>
     </div>
 </template>
-<!-- 推荐歌单列表 -->
+
 <script setup lang="ts">
+import { ref, defineExpose } from 'vue'
+import { useRouter } from 'vue-router'
+import type { songListFace } from '@/types/public'
 import { reqRecommendList } from '@/api/modules/home'
 import SongListItem from '@/components/songListItem/index.vue'
-import { ref, defineExpose } from 'vue'
-import type { songListFace } from '@/types/public'
-import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const songsList = ref<songListFace[]>([])
 const loading = ref<boolean>(false)
+
 function getList() {
     loading.value = true
     reqRecommendList({ limit: 10 })
@@ -43,35 +45,35 @@ function getList() {
 function scroll(e: Event): void {
     e.stopPropagation()
 }
-
 function goSheets() {
     router.push('/sheetSquare')
 }
 
-getList()
 defineExpose({
     getList
 })
+
+getList()
 </script>
 
 <style scoped lang="less">
-.recomend {
+.recommend {
     background-color: var(--van-white);
     padding: 20px;
     box-sizing: border-box;
     border-radius: 0 15px 15px 0;
-    .recomend_top {
+    .recommend_top {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
-        .recomend_title {
+        .recommend_title {
             font-size: 30px;
             font-weight: bold;
             color: var(--my-text-color-black);
         }
     }
-    .sroll_wrapper {
+    .scroll_wrapper {
         width: 100%;
         overflow-x: scroll;
         &::-webkit-scrollbar {

@@ -15,7 +15,7 @@ import { onClickLeft } from '@/utils/back'
 import NewAlbum from './components/newAlbum.vue'
 import DigitAlbum from './components/digitAlbum.vue'
 import SingleDigit from './components/singleDigit.vue'
-import Banner from '@/views/home/components/swiper.vue'
+import Banner from '@/views/home/components/nav-swiper.vue'
 </script>
 
 <style scoped lang="less">

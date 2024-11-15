@@ -9,8 +9,8 @@
 <template>
     <div class="newSong" @touchmove="(e) => e.stopPropagation()">
         <div class="top">
-            <div class="recomend_title">新歌推荐</div>
-            <van-button icon="play" round size="mini" @click="playAll">播放</van-button>
+            <div class="recommend_title">新歌推荐</div>
+            <van-button icon="play" round size="medium" @click="playAll">播放</van-button>
         </div>
         <van-skeleton title :row="1" :loading="loading">
             <swiper
@@ -60,7 +60,9 @@ function getList() {
             list.value = tempList
         })
         .finally(() => {
-            loading.value = false
+            setTimeout(() => {
+              loading.value = false
+            }, 1000)
         })
 }
 
@@ -97,7 +99,7 @@ defineExpose({
         align-items: center;
         justify-content: space-between;
         margin-bottom: 20px;
-        .recomend_title {
+        .recommend_title {
             font-size: 30px;
             font-weight: bold;
             color: var(--my-text-color-black);

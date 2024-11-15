@@ -9,27 +9,27 @@
     <van-pull-refresh class="home" v-model="loading" @refresh="onRefresh">
         <sticky-nav />
         <div class="main_content">
-            <Swiper ref="swiper" />
+            <nav-swiper ref="swiper" />
             <Menu />
             <div class="line"></div>
-            <RecommendSongList ref="recommendSongList" />
-            <NewSong ref="newSong" />
-            <NewMvVue />
+            <recommend-song-list ref="recommendSongList" />
+            <new-song ref="newSong" />
+            <new-mv />
         </div>
     </van-pull-refresh>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import Swiper from './components/swiper.vue'
+import NavSwiper from './components/nav-swiper.vue'
 import Menu from './components/menu.vue'
 import StickyNav from './components/sticky-nav.vue'
 import RecommendSongList from './components/recommend-song-list.vue'
 import NewSong from './components/new-song.vue'
-import NewMvVue from './components/new-mv.vue'
+import NewMv from './components/new-mv.vue'
 
 const loading = ref<boolean>(false)
-const swiper = ref<InstanceType<typeof Swiper>>()
+const swiper = ref<InstanceType<typeof NavSwiper>>()
 const recommendSongList = ref<InstanceType<typeof RecommendSongList>>()
 const newSong = ref<InstanceType<typeof NewSong>>()
 
