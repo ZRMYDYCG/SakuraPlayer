@@ -14,7 +14,7 @@ function goSearch(): void {
 }
 
 function openMenu(): void {
-    $bus.emit('opne_menu')
+    $bus.emit('open_menu')
 }
 
 function getDefaultWord(): void {

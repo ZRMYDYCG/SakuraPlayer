@@ -96,7 +96,7 @@ const appList = computed(() => {
 })
 
 function openMenu(): void {
-    $bus.emit('opne_menu')
+    $bus.emit('open_menu')
 }
 
 function Init() {

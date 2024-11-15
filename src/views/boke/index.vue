@@ -34,7 +34,7 @@ const active = ref<number>(1)
 
 // 侧边菜单
 function openMenu(): void {
-    $bus.emit('opne_menu')
+    $bus.emit('open_menu')
 }
 </script>
 
