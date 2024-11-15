@@ -9,7 +9,7 @@
     <div class="recommend">
         <div class="recommend_top">
             <div class="recommend_title">推荐歌单</div>
-            <van-button icon="arrow" round size="mini" icon-position="right" @click="goSheets">更多</van-button>
+            <van-button icon="arrow" round size="medium" icon-position="right" @click="goSheets">更多</van-button>
         </div>
         <van-skeleton title :row="3" :loading="loading">
             <div class="scroll_wrapper" ref="scrollRef" @touchmove="scroll">
@@ -64,6 +64,10 @@ getList()
     padding: 20px;
     box-sizing: border-box;
     border-radius: 0 15px 15px 0;
+  .van-button {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
     .recommend_top {
         display: flex;
         align-items: center;

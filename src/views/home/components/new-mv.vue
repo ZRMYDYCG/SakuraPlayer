@@ -2,7 +2,7 @@
     <div class="newMv">
         <div class="top">
             <div class="recomend_title">最新MV</div>
-            <van-button icon="play" round size="mini" @click="toMv">更多</van-button>
+            <van-button icon="play" round size="medium" @click="toMv">更多</van-button>
         </div>
         <van-skeleton title :row="1" :loading="loading">
             <div>
@@ -45,6 +45,10 @@ getList()
     margin-top: 20px;
     background: var(--van-white);
     padding: 15px;
+  .van-button {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
     .top {
         display: flex;
         align-items: center;
