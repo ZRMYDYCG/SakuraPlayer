@@ -33,7 +33,7 @@ import { usePlayerStore } from '@/store'
 import { reqRecommendNewSongs } from '@/api/modules/home'
 import { ref, defineExpose, toRaw } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-// import "swiper/swiper.min.css"
+import "swiper/css"
 import NewSongItem from './new-song-item.vue'
 import { songData } from '@/types/public'
 const list = ref<Array<Array<songData>>>([])
