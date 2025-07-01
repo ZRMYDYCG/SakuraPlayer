@@ -16,7 +16,7 @@ if (!loginPhone) {
 const phoneStr = ref<string>(loginPhone)
 const code = ref<number | undefined>()
 watch(code, (val) => {
-  if ((`${val}`).length == 4) {
+  if ((`${val}`).length === 4) {
     // Toast.loading('登录中...')
     userStore
       .loginByPhone({

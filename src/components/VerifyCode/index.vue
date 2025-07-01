@@ -3,8 +3,8 @@ import type { ComputedRef, WritableComputedRef } from 'vue'
 import { computed } from 'vue'
 
 interface Props {
-  code: number | string | undefined
-  len: number
+  code?: number | string | undefined
+  len?: number
 }
 const props = withDefaults(defineProps<Props>(), {
   code: '',
