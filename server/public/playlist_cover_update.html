@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh">
   <head>
     <meta charset="UTF-8" />
@@ -43,7 +43,8 @@
         const res = await axios({
           url: `/playlist/detail?id=${playlist_id}&timestamp=${Date.now()}`,
         })
-        document.querySelector('#playlist_cover').src = res.data.playlist.coverImgUrl
+        document.querySelector('#playlist_cover').src =
+          res.data.playlist.coverImgUrl
       }
       async function login() {
         const res = await axios({

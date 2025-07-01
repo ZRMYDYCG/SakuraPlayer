@@ -45,10 +45,10 @@ getList()
     margin-top: 20px;
     background: var(--van-white);
     padding: 15px;
-  .van-button {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    .van-button {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
     .top {
         display: flex;
         align-items: center;

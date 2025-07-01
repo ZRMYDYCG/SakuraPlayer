@@ -38,7 +38,7 @@ getBanner()
     background-image: var(--my-linear-back);
     padding: 20px;
     :deep(.van-swipe__indicators) {
-      bottom: 25px;
+        bottom: 25px;
     }
 }
 .my-swipe {

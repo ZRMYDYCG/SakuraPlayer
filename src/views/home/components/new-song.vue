@@ -14,9 +14,7 @@
         </div>
 
         <van-skeleton title :row="10" :loading="loading">
-            <van-swipe
-                :show-indicators="false"
-            >
+            <van-swipe :show-indicators="false">
                 <van-swipe-item v-for="(item, index) in list" :key="index">
                     <new-song-item :song-data="data" v-for="data in item" :key="data.id" />
                 </van-swipe-item>
@@ -57,7 +55,7 @@ function getList() {
         })
         .finally(() => {
             setTimeout(() => {
-              loading.value = false
+                loading.value = false
             }, 1000)
         })
 }
@@ -89,10 +87,10 @@ defineExpose({
     margin-top: 20px;
     background: var(--van-white);
     padding: 15px;
-   .van-button {
-     padding-left: 10px;
-     padding-right: 10px;
-   }
+    .van-button {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
     .top {
         display: flex;
         align-items: center;

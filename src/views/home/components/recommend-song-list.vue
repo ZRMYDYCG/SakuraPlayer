@@ -40,7 +40,7 @@ function getList() {
         })
         .finally(() => {
             setTimeout(() => {
-              loading.value = false
+                loading.value = false
             }, 1000)
         })
 }
@@ -64,10 +64,10 @@ getList()
     padding: 20px;
     box-sizing: border-box;
     border-radius: 0 15px 15px 0;
-  .van-button {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    .van-button {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
     .recommend_top {
         display: flex;
         align-items: center;
