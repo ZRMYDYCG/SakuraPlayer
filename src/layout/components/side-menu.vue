@@ -1,123 +1,10 @@
-<template>
-    <div class="sideMenu" @click="(e) => e.stopPropagation()">
-        <div>
-            <!-- 已经登录了 -->
-            <div class="user_info" v-if="isLogin">
-                <div class="left">
-                    <img class="avatarUrl" :src="userInfo.avatarUrl" alt="" />
-                    <div class="nickname">{{ userInfo.nickname }}</div>
-                    <div class="flex_box_center_column">
-                        <van-icon name="arrow" />
-                    </div>
-                </div>
-                <div class="right flex_box_center_column">
-                    <i class="iconfont icon-iconfontscan"></i>
-                </div>
-            </div>
-            <!-- 还没有登录 -->
-            <div v-if="!isLogin">
-                <div class="unlogin" @click="toLogin">
-                    <div>
-                        <i class="iconfont icon-morentouxiang"></i>
-                    </div>
-                    <div class="text">前往登录</div>
-                </div>
-            </div>
-            <div class="box-container">
-                <van-cell-group inset v-if="isLogin">
-                    <van-cell title="我的消息" is-link to="/msg">
-                        <template #icon>
-                            <i class="iconfont icon-xiaoxitongzhi"></i>
-                        </template>
-                        <template #value>
-                            <van-badge :content="newMsgCount" :offset="[-15, -5]" :show-zero="false">
-                                <div></div>
-                            </van-badge>
-                        </template>
-                    </van-cell>
-                    <van-cell title="云贝中心" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-yun_o"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="创作者中心" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-dengpao"></i>
-                        </template>
-                    </van-cell>
-                </van-cell-group>
-            </div>
-            <div class="box-container">
-                <van-cell-group inset>
-                    <van-cell title="音乐服务">
-                        <template #title>
-                            <span class="box_title">音乐服务</span>
-                        </template>
-                    </van-cell>
-                    <van-cell title="云村有票" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-youhuobaopiaoju"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="商城" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-shangcheng"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="Beat交易平台" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-zhongchengdujiaoyi"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="游戏专区" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-youxi"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="口袋彩铃" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-icon--"></i>
-                        </template>
-                    </van-cell>
-                </van-cell-group>
-            </div>
-            <div class="box-container">
-                <van-cell-group inset>
-                    <van-cell title="其他设置">
-                        <template #title>
-                            <span class="box_title">其他设置</span>
-                        </template>
-                    </van-cell>
-                    <van-cell title="设置" is-link>
-                        <template #icon>
-                            <i class="iconfont icon-shezhi"></i>
-                        </template>
-                    </van-cell>
-                    <van-cell title="夜间模式">
-                        <template #icon>
-                            <i class="iconfont icon-yejianmoshi"></i>
-                        </template>
-                        <template #value>
-                            <div class="flex_box_center_column" style="align-items: flex-end; height: 100%">
-                                <van-switch v-model="checked" active-color="#404341" size="small" />
-                            </div>
-                        </template>
-                    </van-cell>
-                </van-cell-group>
-            </div>
-            <van-button v-if="isLogin" block round class="out-btn" :loading="btnLoading" @click="logout">
-                退出登录
-            </van-button>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { Mode } from '@/store/system'
-import { computed, ref } from 'vue'
-import { useUserStore, useSystemStore, useMsgStore } from '@/store'
 import { storeToRefs } from 'pinia'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useMsgStore, useSystemStore, useUserStore } from '@/store'
+import { Mode } from '@/store/system'
+
 const useStore = useUserStore()
 const systemStore = useSystemStore()
 const msgStore = useMsgStore()
@@ -125,41 +12,160 @@ const { isLogin, userInfo } = storeToRefs(useStore)
 const { newMsgCount } = storeToRefs(msgStore)
 const router = useRouter()
 const checked = computed({
-    get() {
-        systemStore.setMode(systemStore.mode)
-        return systemStore.mode == 'dark' ? true : false
-    },
-    set(val) {
-        changeMode(val)
-    }
+  get() {
+    systemStore.setMode(systemStore.mode)
+    return systemStore.mode == 'dark'
+  },
+  set(val) {
+    changeMode(val)
+  },
 })
 
 function changeMode(value: boolean) {
-    if (!value) {
-        systemStore.setMode(Mode.light)
-    } else {
-        systemStore.setMode(Mode.dark)
-    }
+  if (!value) {
+    systemStore.setMode(Mode.light)
+  }
+  else {
+    systemStore.setMode(Mode.dark)
+  }
 }
 
 const btnLoading = ref<boolean>(false)
 function logout() {
-    btnLoading.value = true
-    useStore
-        .logout()
-        .then(() => {
-            btnLoading.value = false
-        })
-        .catch(() => {
-            btnLoading.value = false
-        })
-}
-function toLogin() {
-    router.push({
-        path: '/login'
+  btnLoading.value = true
+  useStore
+    .logout()
+    .then(() => {
+      btnLoading.value = false
+    })
+    .catch(() => {
+      btnLoading.value = false
     })
 }
+function toLogin() {
+  router.push({
+    path: '/login',
+  })
+}
 </script>
+
+<template>
+  <div class="sideMenu" @click="(e) => e.stopPropagation()">
+    <div>
+      <!-- 已经登录了 -->
+      <div v-if="isLogin" class="user_info">
+        <div class="left">
+          <img class="avatarUrl" :src="userInfo.avatarUrl" alt="">
+          <div class="nickname">
+            {{ userInfo.nickname }}
+          </div>
+          <div class="flex_box_center_column">
+            <van-icon name="arrow" />
+          </div>
+        </div>
+        <div class="right flex_box_center_column">
+          <i class="iconfont icon-iconfontscan" />
+        </div>
+      </div>
+      <!-- 还没有登录 -->
+      <div v-if="!isLogin">
+        <div class="unlogin" @click="toLogin">
+          <div>
+            <i class="iconfont icon-morentouxiang" />
+          </div>
+          <div class="text">
+            前往登录
+          </div>
+        </div>
+      </div>
+      <div class="box-container">
+        <van-cell-group v-if="isLogin" inset>
+          <van-cell title="我的消息" is-link to="/msg">
+            <template #icon>
+              <i class="iconfont icon-xiaoxitongzhi" />
+            </template>
+            <template #value>
+              <van-badge :content="newMsgCount" :offset="[-15, -5]" :show-zero="false">
+                <div />
+              </van-badge>
+            </template>
+          </van-cell>
+          <van-cell title="云贝中心" is-link>
+            <template #icon>
+              <i class="iconfont icon-yun_o" />
+            </template>
+          </van-cell>
+          <van-cell title="创作者中心" is-link>
+            <template #icon>
+              <i class="iconfont icon-dengpao" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
+      <div class="box-container">
+        <van-cell-group inset>
+          <van-cell title="音乐服务">
+            <template #title>
+              <span class="box_title">音乐服务</span>
+            </template>
+          </van-cell>
+          <van-cell title="云村有票" is-link>
+            <template #icon>
+              <i class="iconfont icon-youhuobaopiaoju" />
+            </template>
+          </van-cell>
+          <van-cell title="商城" is-link>
+            <template #icon>
+              <i class="iconfont icon-shangcheng" />
+            </template>
+          </van-cell>
+          <van-cell title="Beat交易平台" is-link>
+            <template #icon>
+              <i class="iconfont icon-zhongchengdujiaoyi" />
+            </template>
+          </van-cell>
+          <van-cell title="游戏专区" is-link>
+            <template #icon>
+              <i class="iconfont icon-youxi" />
+            </template>
+          </van-cell>
+          <van-cell title="口袋彩铃" is-link>
+            <template #icon>
+              <i class="iconfont icon-icon--" />
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
+      <div class="box-container">
+        <van-cell-group inset>
+          <van-cell title="其他设置">
+            <template #title>
+              <span class="box_title">其他设置</span>
+            </template>
+          </van-cell>
+          <van-cell title="设置" is-link>
+            <template #icon>
+              <i class="iconfont icon-shezhi" />
+            </template>
+          </van-cell>
+          <van-cell title="夜间模式">
+            <template #icon>
+              <i class="iconfont icon-yejianmoshi" />
+            </template>
+            <template #value>
+              <div class="flex_box_center_column" style="align-items: flex-end; height: 100%">
+                <van-switch v-model="checked" active-color="#404341" size="small" />
+              </div>
+            </template>
+          </van-cell>
+        </van-cell-group>
+      </div>
+      <van-button v-if="isLogin" block round class="out-btn" :loading="btnLoading" @click="logout">
+        退出登录
+      </van-button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .sideMenu {

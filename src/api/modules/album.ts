@@ -1,43 +1,48 @@
 import type { AxiosResponse } from 'axios'
+import type { AlbumDetailParams, AlbumListParams, DigitAlbumParams } from '../interface/album'
 import request from '../index'
-import type { AlbumListParams, DigitAlbumParams, AlbumDetailParams } from '../interface/album'
 
 // 新碟上架
-export const reqAlbumList = (params: AlbumListParams): Promise<AxiosResponse> =>
-    request({
-        url: '/album/list',
-        method: 'GET',
-        params
-    })
+export function reqAlbumList(params: AlbumListParams): Promise<AxiosResponse> {
+  return request({
+    url: '/album/list',
+    method: 'GET',
+    params,
+  })
+}
 
 // 获取数字专辑
-export const reqDigitAlbum = (params: DigitAlbumParams): Promise<AxiosResponse> =>
-    request({
-        url: '/album/songsaleboard',
-        method: 'GET',
-        params
-    })
+export function reqDigitAlbum(params: DigitAlbumParams): Promise<AxiosResponse> {
+  return request({
+    url: '/album/songsaleboard',
+    method: 'GET',
+    params,
+  })
+}
 
 // 数字专辑详情
-export const reqAlbumDetail = (params: AlbumDetailParams): Promise<AxiosResponse> =>
-    request({
-        url: '/album/detail',
-        method: 'GET',
-        params
-    })
+export function reqAlbumDetail(params: AlbumDetailParams): Promise<AxiosResponse> {
+  return request({
+    url: '/album/detail',
+    method: 'GET',
+    params,
+  })
+}
 
 // 专辑详情 /digitalAlbum/detail
-export const reqDigitalAlbum = (params: AlbumDetailParams): Promise<AxiosResponse> =>
-    request({
-        url: '/digitalAlbum/detail',
-        method: 'GET',
-        params
-    })
+export function reqDigitalAlbum(params: AlbumDetailParams): Promise<AxiosResponse> {
+  return request({
+    url: '/digitalAlbum/detail',
+    method: 'GET',
+    params,
+  })
+}
 
 // 获取专辑内容
-export const reqAlbum = (params: AlbumDetailParams): Promise<AxiosResponse> =>
-    request({
-        url: '/album',
-        method: 'GET',
-        params
-    })
+export function reqAlbum(params: AlbumDetailParams): Promise<AxiosResponse> {
+  return request({
+    url: '/album',
+    method: 'GET',
+    params,
+  })
+}

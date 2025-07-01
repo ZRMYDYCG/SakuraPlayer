@@ -1,120 +1,123 @@
-<template>
-    <teleport to="body">
-        <van-popup v-model:show="show" position="bottom" round>
-            <div class="content">
-                <div class="top box_shadow">
-                    <div class="left">
-                        <div class="sortList">
-                            <div class="sortItem" :class="{ sortItem_active: sortType == 1 }" @click="setSortType(1)">
-                                推荐
-                            </div>
-                            <div class="sortItem" :class="{ sortItem_active: sortType == 2 }" @click="setSortType(2)">
-                                热门
-                            </div>
-                            <div class="sortItem" :class="{ sortItem_active: sortType == 3 }" @click="setSortType(3)">
-                                时间
-                            </div>
-                        </div>
-                    </div>
-                    <div class="right flex_box_center_column">
-                        <van-icon name="cross" @click="show = false" />
-                    </div>
-                </div>
-                <div class="scroll_content">
-                    <van-list :loading="loading" :finished="finished" @load="onLoad" finished-text="没有更多了~">
-                        <CommentItem
-                            v-for="item in list"
-                            :key="item.commentId"
-                            :comment="item"
-                            :sourceId="sourceId"
-                            :comment-type="commentType"
-                            :ischild="false"
-                        />
-                    </van-list>
-                </div>
-            </div>
-        </van-popup>
-    </teleport>
-</template>
 <script setup lang="ts">
-import { computed } from 'vue'
-import { watch, ref } from 'vue'
-import { reqCommnet } from '@/api/modules/comment'
-import CommentItem from './commentItem.vue'
 import type { CommentDataNew } from '@/types/public/comment'
+import { computed, ref, watch } from 'vue'
+import { reqCommnet } from '@/api/modules/comment'
 import { CommentType } from '@/types/public/comment'
+import CommentItem from './commentItem.vue'
+
 interface Props {
-    visible: boolean
-    sourceId: number
-    commentType: CommentType
+  visible: boolean
+  sourceId: number
+  commentType: CommentType
 }
+const props = withDefaults(defineProps<Props>(), {
+  visible: false,
+  number: 0,
+  commentType: CommentType.song,
+})
+const emit = defineEmits<{
+  (e: 'update:visible', value: boolean): void
+}>()
 let pageNo = 0
 let cursor = 0
 const sortType = ref<number>(1)
 const list = ref<CommentDataNew[]>([])
 const loading = ref<boolean>(true)
 const finished = ref<boolean>(false)
-const props = withDefaults(defineProps<Props>(), {
-    visible: false,
-    number: 0,
-    commentType: CommentType.song
-})
-const emit = defineEmits<{
-    (e: 'update:visible', value: boolean): void
-}>()
 const show = computed({
-    get() {
-        return props.visible
-    },
-    set(val) {
-        emit('update:visible', val)
-    }
+  get() {
+    return props.visible
+  },
+  set(val) {
+    emit('update:visible', val)
+  },
 })
 watch(
-    () => props.sourceId,
-    (val) => {
-        if (val) {
-            pageNo = 0
-            list.value = []
-            getList()
-        }
+  () => props.sourceId,
+  (val) => {
+    if (val) {
+      pageNo = 0
+      list.value = []
+      getList()
     }
+  },
 )
 function getList() {
-    if (!props.sourceId) return
-    loading.value = true
-    pageNo++
-    reqCommnet({
-        id: props.sourceId,
-        type: props.commentType,
-        pageNo: pageNo,
-        pageSize: 20,
-        sortType: sortType.value,
-        cursor: pageNo !== 1 ? cursor : undefined
+  if (!props.sourceId)
+    return
+  loading.value = true
+  pageNo++
+  reqCommnet({
+    id: props.sourceId,
+    type: props.commentType,
+    pageNo,
+    pageSize: 20,
+    sortType: sortType.value,
+    cursor: pageNo !== 1 ? cursor : undefined,
+  })
+    .then((res) => {
+      list.value = list.value.concat(res.data.data.comments)
+      loading.value = false
+      finished.value = !res.data.data.hasMore
+      if (list.value.length) {
+        cursor = list.value[list.value.length - 1].time
+      }
     })
-        .then((res) => {
-            list.value = list.value.concat(res.data.data.comments)
-            loading.value = false
-            finished.value = !res.data.data.hasMore
-            if (list.value.length) {
-                cursor = list.value[list.value.length - 1].time
-            }
-        })
-        .catch(() => {
-            loading.value = false
-        })
+    .catch(() => {
+      loading.value = false
+    })
 }
 function onLoad() {
-    getList()
+  getList()
 }
 function setSortType(type: number): void {
-    sortType.value = type
-    pageNo = 0
-    list.value = []
-    getList()
+  sortType.value = type
+  pageNo = 0
+  list.value = []
+  getList()
 }
 getList()
 </script>
+
+<template>
+  <teleport to="body">
+    <van-popup v-model:show="show" position="bottom" round>
+      <div class="content">
+        <div class="top box_shadow">
+          <div class="left">
+            <div class="sortList">
+              <div class="sortItem" :class="{ sortItem_active: sortType == 1 }" @click="setSortType(1)">
+                推荐
+              </div>
+              <div class="sortItem" :class="{ sortItem_active: sortType == 2 }" @click="setSortType(2)">
+                热门
+              </div>
+              <div class="sortItem" :class="{ sortItem_active: sortType == 3 }" @click="setSortType(3)">
+                时间
+              </div>
+            </div>
+          </div>
+          <div class="right flex_box_center_column">
+            <van-icon name="cross" @click="show = false" />
+          </div>
+        </div>
+        <div class="scroll_content">
+          <van-list :loading="loading" :finished="finished" finished-text="没有更多了~" @load="onLoad">
+            <CommentItem
+              v-for="item in list"
+              :key="item.commentId"
+              :comment="item"
+              :source-id="sourceId"
+              :comment-type="commentType"
+              :ischild="false"
+            />
+          </van-list>
+        </div>
+      </div>
+    </van-popup>
+  </teleport>
+</template>
+
 <style scoped lang="less">
 .content {
     height: 70vh;

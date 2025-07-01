@@ -1,86 +1,86 @@
-<template>
-    <div class="lyric_item">
-        <div :class="{ inner: hide }">
-            <div class="songname" v-html="songname"></div>
-            <div class="singer" v-html="singer"></div>
-            <div class="" v-for="(item, index) in lines" :key="index" v-html="item"></div>
-        </div>
-        <div class="more_btn" @click="toggle">
-            <template v-if="hide">
-                <div>展开歌词</div>
-                <div>
-                    <van-icon name="arrow-down" />
-                </div>
-            </template>
-            <template v-else>
-                <div>收起歌词</div>
-                <div>
-                    <van-icon name="arrow-up" />
-                </div>
-            </template>
-        </div>
-        <div class="play">
-            <van-icon name="play-circle-o" @click="play" />
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { LyricInterface } from '@/types/public/comprehensive'
 import { computed, ref } from 'vue'
-import { LyricInterface } from '@/types/public/comprehensive'
 import { reqSongDetail } from '@/api/modules/song'
 import { usePlayerStore } from '@/store'
 
+const props = withDefaults(defineProps<Props>(), {
+  lyricData: () => {
+    return {
+      name: '',
+      id: 0,
+      lyrics: {
+        txt: '',
+      },
+      artists: [],
+    }
+  },
+  keyword: '',
+})
 const playerStore = usePlayerStore()
 interface Props {
-    lyricData: LyricInterface
-    keyword: string
+  lyricData: LyricInterface
+  keyword: string
 }
-const props = withDefaults(defineProps<Props>(), {
-    lyricData: () => {
-        return {
-            name: '',
-            id: 0,
-            lyrics: {
-                txt: ''
-            },
-            artists: []
-        }
-    },
-    keyword: ''
-})
 const hide = ref<boolean>(true)
 const singer = computed(() => {
-    return props.lyricData.artists
-        .map((item) => item.name)
-        .join('/')
-        .replace(props.keyword, `<span class="key_span">${props.keyword}</span>`)
+  return props.lyricData.artists
+    .map(item => item.name)
+    .join('/')
+    .replace(props.keyword, `<span class="key_span">${props.keyword}</span>`)
 })
 
 const lines = computed(() => {
-    return props.lyricData.lyrics.txt
-        .split('\n')
-        .map((item) => item.replace(props.keyword, `<span class="key_span">${props.keyword}</span>`))
+  return props.lyricData.lyrics.txt
+    .split('\n')
+    .map(item => item.replace(props.keyword, `<span class="key_span">${props.keyword}</span>`))
 })
 const songname = computed(() => {
-    return props.lyricData.name
-        .split('\n')
-        .map((item) => item.replace(props.keyword, `<span class="key_span">${props.keyword}</span>`))
+  return props.lyricData.name
+    .split('\n')
+    .map(item => item.replace(props.keyword, `<span class="key_span">${props.keyword}</span>`))
 })
 
 function toggle() {
-    hide.value = !hide.value
+  hide.value = !hide.value
 }
 function play() {
-    reqSongDetail({
-        ids: props.lyricData.id + ''
-    }).then((res) => {
-        if (res.data.songs.length) {
-            playerStore.setCurSong(res.data.songs[0])
-        }
-    })
+  reqSongDetail({
+    ids: `${props.lyricData.id}`,
+  }).then((res) => {
+    if (res.data.songs.length) {
+      playerStore.setCurSong(res.data.songs[0])
+    }
+  })
 }
 </script>
+
+<template>
+  <div class="lyric_item">
+    <div :class="{ inner: hide }">
+      <div class="songname" v-html="songname" />
+      <div class="singer" v-html="singer" />
+      <div v-for="(item, index) in lines" :key="index" class="" v-html="item" />
+    </div>
+    <div class="more_btn" @click="toggle">
+      <template v-if="hide">
+        <div>展开歌词</div>
+        <div>
+          <van-icon name="arrow-down" />
+        </div>
+      </template>
+      <template v-else>
+        <div>收起歌词</div>
+        <div>
+          <van-icon name="arrow-up" />
+        </div>
+      </template>
+    </div>
+    <div class="play">
+      <van-icon name="play-circle-o" @click="play" />
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .lyric_item {

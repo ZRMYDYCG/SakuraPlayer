@@ -1,37 +1,37 @@
-<template>
-    <div class="swiper">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-            <van-swipe-item v-for="item in imgList" :key="item.bannerId">
-                <img :src="item.pic" :alt="item.typeTitle" class="swiper_img" />
-            </van-swipe-item>
-        </van-swipe>
-    </div>
-</template>
-
 <script lang="ts" setup>
+import { defineExpose, ref } from 'vue'
 import { reqBanner } from '@/api/modules/home'
-import { ref, defineExpose } from 'vue'
 
 interface ImgList {
-    typeTitle: string
-    pic: string
-    bannerId: number
+  typeTitle: string
+  pic: string
+  bannerId: number
 }
 
 const imgList = ref<ImgList[]>([])
 
 function getBanner() {
-    reqBanner().then((res) => {
-        imgList.value = res.data.banners
-    })
+  reqBanner().then((res) => {
+    imgList.value = res.data.banners
+  })
 }
 
 defineExpose({
-    getBanner
+  getBanner,
 })
 
 getBanner()
 </script>
+
+<template>
+  <div class="swiper">
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="item in imgList" :key="item.bannerId">
+        <img :src="item.pic" :alt="item.typeTitle" class="swiper_img">
+      </van-swipe-item>
+    </van-swipe>
+  </div>
+</template>
 
 <style scoped lang="less">
 .swiper {

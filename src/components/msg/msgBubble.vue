@@ -1,35 +1,41 @@
-<template>
-    <div class="message_bubble" :class="bubbleClass">
-        <slot></slot>
-    </div>
-</template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { MsgType } from '@/types/public/msg'
+
 interface Props {
-    isMine: boolean
-    msgType: MsgType
+  isMine: boolean
+  msgType: MsgType
 }
 const props = withDefaults(defineProps<Props>(), {
-    isMine: false,
-    msgType: MsgType.text
+  isMine: false,
+  msgType: MsgType.text,
 })
 
 const bubbleClass = computed(() => {
-    if (props.msgType == MsgType.time) {
-        return 'bubble_center'
-    } else if (props.isMine) {
-        if (props.msgType === MsgType.sheet) {
-            return 'bubble_right_white'
-        } else if (props.msgType === MsgType.song) {
-            return 'bubble_right_white'
-        }
-        return 'bubble_right'
-    } else {
-        return 'bubble_left'
+  if (props.msgType == MsgType.time) {
+    return 'bubble_center'
+  }
+  else if (props.isMine) {
+    if (props.msgType === MsgType.sheet) {
+      return 'bubble_right_white'
     }
+    else if (props.msgType === MsgType.song) {
+      return 'bubble_right_white'
+    }
+    return 'bubble_right'
+  }
+  else {
+    return 'bubble_left'
+  }
 })
 </script>
+
+<template>
+  <div class="message_bubble" :class="bubbleClass">
+    <slot />
+  </div>
+</template>
+
 <style scoped lang="less">
 .message_bubble {
     border-radius: 10px;

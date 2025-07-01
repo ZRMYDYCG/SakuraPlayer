@@ -1,60 +1,67 @@
-<template>
-    <div class="album_item" @click="toVideoDetail">
-        <div class="cover">
-            <img :src="videoData.coverUrl + '?param=140y140'" alt="" />
-            <!-- <video src=""></video> -->
-        </div>
-        <div class="info">
-            <div class="album_name">{{ videoData.title }}</div>
-            <div class="singer">{{ videoData.creator.userName }}</div>
-            <div class="singer">{{ videoData.playTime }}播放</div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import type { VideoInterface } from '@/types/public/video'
 import { useRouter } from 'vue-router'
-interface Props {
-    videoData: VideoInterface
-}
-const router = useRouter()
-const props = withDefaults(defineProps<Props>(), {
-    videoData: () => {
-        return {
-            title: '',
-            coverUrl: '',
-            vid: 0,
-            durationms: 0,
-            playTime: 0,
-            type: 0,
-            creator: {
-                userId: 0,
-                userName: ''
-            }
-        }
-    }
-})
 
-function toVideoDetail() {
-    if (props.videoData.type == 1) {
-        router.push({
-            path: '/videoDetail',
-            query: {
-                id: props.videoData.vid
-            }
-        })
-    } else if (props.videoData.type == 0) {
-        router.push({
-            path: '/videoDetail',
-            query: {
-                id: props.videoData.vid,
-                type: 'MV'
-            }
-        })
+interface Props {
+  videoData: VideoInterface
+}
+const props = withDefaults(defineProps<Props>(), {
+  videoData: () => {
+    return {
+      title: '',
+      coverUrl: '',
+      vid: 0,
+      durationms: 0,
+      playTime: 0,
+      type: 0,
+      creator: {
+        userId: 0,
+        userName: '',
+      },
     }
+  },
+})
+const router = useRouter()
+function toVideoDetail() {
+  if (props.videoData.type == 1) {
+    router.push({
+      path: '/videoDetail',
+      query: {
+        id: props.videoData.vid,
+      },
+    })
+  }
+  else if (props.videoData.type == 0) {
+    router.push({
+      path: '/videoDetail',
+      query: {
+        id: props.videoData.vid,
+        type: 'MV',
+      },
+    })
+  }
 }
 </script>
+
+<template>
+  <div class="album_item" @click="toVideoDetail">
+    <div class="cover">
+      <img :src="`${videoData.coverUrl}?param=140y140`" alt="">
+      <!-- <video src=""></video> -->
+    </div>
+    <div class="info">
+      <div class="album_name">
+        {{ videoData.title }}
+      </div>
+      <div class="singer">
+        {{ videoData.creator.userName }}
+      </div>
+      <div class="singer">
+        {{ videoData.playTime }}播放
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .album_item {

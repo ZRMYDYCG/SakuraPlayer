@@ -1,30 +1,31 @@
-<template>
-    <div>
-        <van-tabs v-model:active="active" sticky offset-top="1.2rem">
-            <van-tab :title="item.name" v-for="item in searchType" :key="item.type">
-                <div class="reslut_container">
-                    <component :is="item.component" :keyword="keyword" :type="item.type" @switchActive="switchActive" />
-                </div>
-            </van-tab>
-        </van-tabs>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { searchType } from '@/utils/enum'
 import { ref } from 'vue'
+import { searchType } from '@/utils/enum'
+
 interface Props {
-    keyword: string
+  keyword: string
 }
 withDefaults(defineProps<Props>(), {
-    keyword: ''
+  keyword: '',
 })
 const active = ref<number>(0)
 
 function switchActive(index: number) {
-    active.value = index
+  active.value = index
 }
 </script>
+
+<template>
+  <div>
+    <van-tabs v-model:active="active" sticky offset-top="1.2rem">
+      <van-tab v-for="item in searchType" :key="item.type" :title="item.name">
+        <div class="reslut_container">
+          <component :is="item.component" :keyword="keyword" :type="item.type" @switch-active="switchActive" />
+        </div>
+      </van-tab>
+    </van-tabs>
+  </div>
+</template>
 
 <style scoped lang="less">
 .reslut_container {

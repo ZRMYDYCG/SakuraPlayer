@@ -1,144 +1,165 @@
-<template>
-    <div class="songSheetDetail">
-        <MiniPlayOut>
-            <van-nav-bar fixed placeholder left-arrow @click-left="onClickLeft">
-                <template #title>
-                    <van-notice-bar scrollable :text="details.name" />
-                </template>
-            </van-nav-bar>
-            <Scroll :probeType="3" ref="scrollRef" :stopPropagation="true" :imgUrl="details.picUrl">
-                <template #btn>
-                    <div class="top_content">
-                        <div class="bg">
-                            <img :src="details.picUrl" alt="" />
-                        </div>
-                        <div class="mask"></div>
-                        <div class="main">
-                            <div class="data">
-                                <div class="left">
-                                    <div class="play_count">
-                                        <i class="iconfont icon-bofang"></i>
-                                        <div>{{ formatCountNumber(info.shareCount) }}</div>
-                                    </div>
-                                    <img :src="details.picUrl" alt="" v-if="details.picUrl" />
-                                </div>
-                                <div class="right">
-                                    <div class="sheetName text_over_two_lines">{{ details.name }}</div>
-                                    <!-- 作者 -->
-                                    <div class="creator" v-if="details.artist">
-                                        <img class="avatarUrl" :src="details.artist.img1v1Url" alt="" />
-                                        <div class="nickname">{{ details.artist.name }}</div>
-                                    </div>
-                                    <div class="description" @click="show = true">
-                                        <div class="text">{{ details.description }}</div>
-                                        <van-icon name="arrow" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="btn_wrapper">
-                                <div class="btn_item">
-                                    <div class="flex_box_center_column"><i class="iconfont icon-shoucangjia"></i></div>
-                                    <div class="text">{{ info.likedCount }}</div>
-                                </div>
-                                <div class="btn_item">
-                                    <div class="flex_box_center_column"><i class="iconfont icon-pinglun"></i></div>
-                                    <div class="text">{{ info.commentCount }}</div>
-                                </div>
-                                <div class="btn_item">
-                                    <div class="flex_box_center_column"><i class="iconfont icon-fenxiang"></i></div>
-                                    <div class="text">{{ info.shareCount }}</div>
-                                </div>
-                                <div class="btn_item" @click="PlayAll">
-                                    <div class="flex_box_center_column"><i class="iconfont icon-bofang"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <div class="list">
-                    <SongItem v-for="item in list" :key="item.id" :song-data="item" />
-                </div>
-            </Scroll>
-        </MiniPlayOut>
-
-        <SheetInfo v-model:showPopup="show" :info="details" />
-    </div>
-</template>
-
 <script setup lang="ts">
-import { onClickLeft } from '@/utils/back'
-import SongItem from '@/components/songItem/index.vue'
-import Scroll from '@/components/Scroll/scrollBanner.vue'
-import { usePlayerStore } from '@/store'
-import SheetInfo from './components/sheetInfo.vue'
-import { SongData } from '@/types/store/player'
+import type { SongData } from '@/types/store/player'
+import { nextTick, reactive, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
-import { ref, reactive, nextTick, toRaw } from 'vue'
-import { formatCountNumber } from '@/utils'
 import { reqAlbum } from '@/api/modules/album'
+import Scroll from '@/components/Scroll/scrollBanner.vue'
+import SongItem from '@/components/songItem/index.vue'
+import { usePlayerStore } from '@/store'
+import { formatCountNumber } from '@/utils'
+import { onClickLeft } from '@/utils/back'
+import SheetInfo from './components/sheetInfo.vue'
+
 const route = useRoute()
 const details = reactive({
-    id: 0,
-    shareCount: 0,
-    commentCount: 0,
-    tags: [],
-    picUrl: '',
+  id: 0,
+  shareCount: 0,
+  commentCount: 0,
+  tags: [],
+  picUrl: '',
+  name: '',
+  artist: {
+    img1v1Url: '',
     name: '',
-    artist: {
-        img1v1Url: '',
-        name: ''
-    },
-    description: ''
+  },
+  description: '',
 })
 const list = ref<SongData[]>([])
 const scrollRef = ref<InstanceType<typeof Scroll>>()
 const playerStore = usePlayerStore()
 const show = ref<boolean>(false)
 const info = reactive({
-    tags: [],
-    shareCount: 0,
-    likedCount: 0,
-    commentCount: 0
+  tags: [],
+  shareCount: 0,
+  likedCount: 0,
+  commentCount: 0,
 })
 
 function PlayAll() {
-    playerStore.resetList(toRaw(list.value))
+  playerStore.resetList(toRaw(list.value))
 }
 
 function getAlbum() {
-    reqAlbum({ id: Number(route.query.id) }).then((res) => {
-        // console.log(res)
-        list.value = res.data.songs
+  reqAlbum({ id: Number(route.query.id) }).then((res) => {
+    // console.log(res)
+    list.value = res.data.songs
 
-        // for (const key in res.data.album.info) {
-        // 	info[key] = res.data.album.info[key]
-        // }
-        const infoData = res.data.album.info
-        info.commentCount = infoData.commentCount
-        info.likedCount = infoData.likedCount
-        info.shareCount = infoData.shareCount
-        info.tags = infoData.tags
+    // for (const key in res.data.album.info) {
+    // 	info[key] = res.data.album.info[key]
+    // }
+    const infoData = res.data.album.info
+    info.commentCount = infoData.commentCount
+    info.likedCount = infoData.likedCount
+    info.shareCount = infoData.shareCount
+    info.tags = infoData.tags
 
-        // for(const key in res.data.album) {
-        // 	details[key] = res.data.album[key]
-        // }
-        const detailsData = res.data.album
-        details.artist = detailsData.artist
-        details.commentCount = detailsData.commentCount
-        details.description = detailsData.description
-        details.id = detailsData.id
-        details.name = detailsData.name
-        details.picUrl = detailsData.picUrl
-        details.shareCount = detailsData.shareCount
-        details.tags = detailsData.tags
+    // for(const key in res.data.album) {
+    // 	details[key] = res.data.album[key]
+    // }
+    const detailsData = res.data.album
+    details.artist = detailsData.artist
+    details.commentCount = detailsData.commentCount
+    details.description = detailsData.description
+    details.id = detailsData.id
+    details.name = detailsData.name
+    details.picUrl = detailsData.picUrl
+    details.shareCount = detailsData.shareCount
+    details.tags = detailsData.tags
 
-        nextTick(() => {
-            scrollRef.value && scrollRef.value.refresh()
-        })
+    nextTick(() => {
+      scrollRef.value && scrollRef.value.refresh()
     })
+  })
 }
 getAlbum()
 </script>
+
+<template>
+  <div class="songSheetDetail">
+    <MiniPlayOut>
+      <van-nav-bar fixed placeholder left-arrow @click-left="onClickLeft">
+        <template #title>
+          <van-notice-bar scrollable :text="details.name" />
+        </template>
+      </van-nav-bar>
+      <Scroll ref="scrollRef" :probe-type="3" :stop-propagation="true" :img-url="details.picUrl">
+        <template #btn>
+          <div class="top_content">
+            <div class="bg">
+              <img :src="details.picUrl" alt="">
+            </div>
+            <div class="mask" />
+            <div class="main">
+              <div class="data">
+                <div class="left">
+                  <div class="play_count">
+                    <i class="iconfont icon-bofang" />
+                    <div>{{ formatCountNumber(info.shareCount) }}</div>
+                  </div>
+                  <img v-if="details.picUrl" :src="details.picUrl" alt="">
+                </div>
+                <div class="right">
+                  <div class="sheetName text_over_two_lines">
+                    {{ details.name }}
+                  </div>
+                  <!-- 作者 -->
+                  <div v-if="details.artist" class="creator">
+                    <img class="avatarUrl" :src="details.artist.img1v1Url" alt="">
+                    <div class="nickname">
+                      {{ details.artist.name }}
+                    </div>
+                  </div>
+                  <div class="description" @click="show = true">
+                    <div class="text">
+                      {{ details.description }}
+                    </div>
+                    <van-icon name="arrow" />
+                  </div>
+                </div>
+              </div>
+              <div class="btn_wrapper">
+                <div class="btn_item">
+                  <div class="flex_box_center_column">
+                    <i class="iconfont icon-shoucangjia" />
+                  </div>
+                  <div class="text">
+                    {{ info.likedCount }}
+                  </div>
+                </div>
+                <div class="btn_item">
+                  <div class="flex_box_center_column">
+                    <i class="iconfont icon-pinglun" />
+                  </div>
+                  <div class="text">
+                    {{ info.commentCount }}
+                  </div>
+                </div>
+                <div class="btn_item">
+                  <div class="flex_box_center_column">
+                    <i class="iconfont icon-fenxiang" />
+                  </div>
+                  <div class="text">
+                    {{ info.shareCount }}
+                  </div>
+                </div>
+                <div class="btn_item" @click="PlayAll">
+                  <div class="flex_box_center_column">
+                    <i class="iconfont icon-bofang" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
+        <div class="list">
+          <SongItem v-for="item in list" :key="item.id" :song-data="item" />
+        </div>
+      </Scroll>
+    </MiniPlayOut>
+
+    <SheetInfo v-model:show-popup="show" :info="details" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .songSheetDetail {

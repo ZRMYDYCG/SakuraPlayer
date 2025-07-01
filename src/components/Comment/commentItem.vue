@@ -1,80 +1,39 @@
-<template>
-    <div class="comment_item">
-        <div class="top_header">
-            <div class="left" @click="toUser">
-                <img
-                    class="avatar"
-                    :class="{ childavatar: ischild }"
-                    :src="comment.user.avatarUrl + '?param=140y140'"
-                    alt=""
-                />
-            </div>
-            <div class="center">
-                <div class="nickname">{{ comment.user.nickname }}</div>
-                <div class="timestr">{{ comment.timeStr }}</div>
-            </div>
-            <div class="right">
-                <i v-if="!liked" @click="likeComment" class="iconfont icon-dianzan"></i>
-                <i v-else @click="likeComment" class="iconfont icon-dianzan1"></i>
-                <div class="likedCount">{{ likedCount }}</div>
-            </div>
-        </div>
-
-        <div class="content" :class="{ childContent: ischild }">
-            <div class="comment">{{ comment.content }}</div>
-            <comment-item
-                v-for="item in replyList"
-                :ischild="true"
-                :key="item.commentId"
-                :comment-type="commentType"
-                :source-id="sourceId"
-                :comment="item"
-            />
-            <div v-if="comment.replyCount && !openReply && !loading" class="more_reply" @click="getReplyList">
-                展开{{ comment.replyCount }}条评论>>
-            </div>
-            <div v-if="comment.replyCount && openReply && hasMore && !loading" class="more_reply" @click="getReplyList">
-                查看更多>>
-            </div>
-            <van-loading v-if="loading" color="#e20001" />
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
+import type { CommentDataNew } from '@/types/public/comment'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { reqCommnetFloor, reqLikeComment } from '@/api/modules/comment'
 import { usePlayerStore } from '@/store'
-import type { CommentDataNew } from '@/types/public/comment'
-import { reqLikeComment, reqCommnetFloor } from '@/api/modules/comment'
 import { CommentType } from '@/types/public/comment'
+
 interface Props {
-    comment: CommentDataNew
-    sourceId: number // 歌曲id
-    commentType: CommentType
-    ischild: boolean
+  comment: CommentDataNew
+  sourceId: number // 歌曲id
+  commentType: CommentType
+  ischild: boolean
 }
 const props = withDefaults(defineProps<Props>(), {
-    comment: () => {
-        return {
-            user: {
-                nickname: '',
-                userId: 0,
-                avatarUrl: '',
-                followed: false
-            },
-            timeStr: '',
-            commentId: 0,
-            content: '',
-            likedCount: 0,
-            liked: false,
-            replyCount: 0,
-            beReplied: null,
-            time: 0
-        }
-    },
-    sourceId: 0,
-    commentType: CommentType.song,
-    ischild: false
+  comment: () => {
+    return {
+      user: {
+        nickname: '',
+        userId: 0,
+        avatarUrl: '',
+        followed: false,
+      },
+      timeStr: '',
+      commentId: 0,
+      content: '',
+      likedCount: 0,
+      liked: false,
+      replyCount: 0,
+      beReplied: null,
+      time: 0,
+    }
+  },
+  sourceId: 0,
+  commentType: CommentType.song,
+  ischild: false,
 })
 const playerStore = usePlayerStore()
 const router = useRouter()
@@ -85,60 +44,114 @@ const loading = ref<boolean>(false)
 const liked = ref<boolean>(props.comment.liked)
 const likedCount = ref<number>(props.comment.likedCount)
 const replyParams = {
-    id: props.sourceId,
-    type: props.commentType,
-    parentCommentId: props.comment.commentId,
-    limit: 20,
-    time: 0
+  id: props.sourceId,
+  type: props.commentType,
+  parentCommentId: props.comment.commentId,
+  limit: 20,
+  time: 0,
 }
 // 点赞
 function likeComment() {
-    let params = {
-        id: props.sourceId,
-        cid: props.comment.commentId,
-        t: 0,
-        type: props.commentType
+  const params = {
+    id: props.sourceId,
+    cid: props.comment.commentId,
+    t: 0,
+    type: props.commentType,
+  }
+  if (liked.value === true) {
+    params.t = 0
+  }
+  else {
+    params.t = 1
+  }
+  reqLikeComment(params).then(() => {
+    if (liked.value) {
+      likedCount.value--
     }
-    if (liked.value === true) {
-        params.t = 0
-    } else {
-        params.t = 1
+    else {
+      likedCount.value++
     }
-    reqLikeComment(params).then(() => {
-        if (liked.value) {
-            likedCount.value--
-        } else {
-            likedCount.value++
-        }
-        liked.value = !liked.value
-    })
+    liked.value = !liked.value
+  })
 }
 
 // 获取回复列表
 function getReplyList() {
-    loading.value = true
-    reqCommnetFloor(replyParams)
-        .then((res) => {
-            openReply.value = true
-            replyList.value = replyList.value.concat(res.data.data.comments)
-            replyParams.time = res.data.data.time
-            hasMore.value = res.data.data.hasMore
-        })
-        .finally(() => {
-            loading.value = false
-        })
+  loading.value = true
+  reqCommnetFloor(replyParams)
+    .then((res) => {
+      openReply.value = true
+      replyList.value = replyList.value.concat(res.data.data.comments)
+      replyParams.time = res.data.data.time
+      hasMore.value = res.data.data.hasMore
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 // 用户中心
 function toUser() {
-    playerStore.setPlayerVisible(false)
-    router.push({
-        path: '/userInfo',
-        query: {
-            id: props.comment.user.userId
-        }
-    })
+  playerStore.setPlayerVisible(false)
+  router.push({
+    path: '/userInfo',
+    query: {
+      id: props.comment.user.userId,
+    },
+  })
 }
 </script>
+
+<template>
+  <div class="comment_item">
+    <div class="top_header">
+      <div class="left" @click="toUser">
+        <img
+          class="avatar"
+          :class="{ childavatar: ischild }"
+          :src="`${comment.user.avatarUrl}?param=140y140`"
+          alt=""
+        >
+      </div>
+      <div class="center">
+        <div class="nickname">
+          {{ comment.user.nickname }}
+        </div>
+        <div class="timestr">
+          {{ comment.timeStr }}
+        </div>
+      </div>
+      <div class="right">
+        <i v-if="!liked" class="iconfont icon-dianzan" @click="likeComment" />
+        <i v-else class="iconfont icon-dianzan1" @click="likeComment" />
+        <div class="likedCount">
+          {{ likedCount }}
+        </div>
+      </div>
+    </div>
+
+    <div class="content" :class="{ childContent: ischild }">
+      <div class="comment">
+        {{ comment.content }}
+      </div>
+      <comment-item
+        v-for="item in replyList"
+        :key="item.commentId"
+        :ischild="true"
+        :comment-type="commentType"
+        :source-id="sourceId"
+        :comment="item"
+      />
+      <div v-if="comment.replyCount && !openReply && !loading" class="more_reply" @click="getReplyList">
+        展开{{ comment.replyCount }}条评论>>
+      </div>
+      <div v-if="comment.replyCount && openReply && hasMore && !loading" class="more_reply" @click="getReplyList">
+        查看更多>>
+      </div>
+      <van-loading v-if="loading" color="#e20001" />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .comment_item {
     padding: 10px;

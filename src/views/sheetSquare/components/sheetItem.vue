@@ -1,48 +1,51 @@
-<template>
-    <div class="song_list_item">
-        <div class="cover" @click="goDetail">
-            <img
-                class="cover_img"
-                :src="sheetData.coverImgUrl + '?param=140y140'"
-                alt=""
-                v-lazy="sheetData.coverImgUrl + '?param=140y140'"
-            />
-            <div class="play_count">
-                <i class="iconfont icon-bofang"></i>
-                <div>{{ formatCountNumber(sheetData.playCount) }}</div>
-            </div>
-        </div>
-        <div class="song_list_title text_over_two_lines">{{ sheetData.name }}</div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import type { SheetDataFace } from '@/types/public'
-import { formatCountNumber } from '@/utils'
 import { useRouter } from 'vue-router'
+import { formatCountNumber } from '@/utils'
+
+const props = withDefaults(defineProps<Props>(), {
+  sheetData: () => {
+    return {
+      coverImgUrl: '',
+      tags: [],
+      updateTime: 0,
+      name: '',
+      playCount: 0,
+      id: 0,
+    }
+  },
+})
 const router = useRouter()
 interface Props {
-    sheetData: SheetDataFace
+  sheetData: SheetDataFace
 }
-const props = withDefaults(defineProps<Props>(), {
-    sheetData: () => {
-        return {
-            coverImgUrl: '',
-            tags: [],
-            updateTime: 0,
-            name: '',
-            playCount: 0,
-            id: 0
-        }
-    }
-})
 function goDetail() {
-    router.push({
-        path: '/songSheetDetail',
-        query: { id: props.sheetData.id }
-    })
+  router.push({
+    path: '/songSheetDetail',
+    query: { id: props.sheetData.id },
+  })
 }
 </script>
+
+<template>
+  <div class="song_list_item">
+    <div class="cover" @click="goDetail">
+      <img
+        v-lazy="`${sheetData.coverImgUrl}?param=140y140`"
+        class="cover_img"
+        :src="`${sheetData.coverImgUrl}?param=140y140`"
+        alt=""
+      >
+      <div class="play_count">
+        <i class="iconfont icon-bofang" />
+        <div>{{ formatCountNumber(sheetData.playCount) }}</div>
+      </div>
+    </div>
+    <div class="song_list_title text_over_two_lines">
+      {{ sheetData.name }}
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .song_list_item {

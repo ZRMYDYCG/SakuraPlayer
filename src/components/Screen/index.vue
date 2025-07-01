@@ -1,51 +1,55 @@
-<template>
-    <div class="open_screen animate__animated" :class="{ animate__fadeOut: bounceOut }">
-        <div class="circle" @click="tapClose">
-            <van-circle
-                v-model:current-rate="currentRate"
-                :rate="rate"
-                layer-color="#ebedf0"
-                color="#e20001"
-                :text="text + ''"
-                fill="#fff"
-                size="30px"
-                :speed="20"
-                :clockwise="false"
-            />
-        </div>
-        <div class="cover_img">
-            <img src="@/assets/images/public/screen.jpg" alt="" />
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-const bounceOut = ref<boolean>(false)
+import { computed, ref } from 'vue'
+
 const emit = defineEmits<{
-    (e: 'close'): void
+  (e: 'close'): void
 }>()
+const bounceOut = ref<boolean>(false)
 const rate = ref<number>(100)
 const currentRate = ref<number>(100)
 const timer = setInterval(() => {
-    if (!rate.value) {
-        rate.value = 0
-        tapClose()
-    } else {
-        rate.value = rate.value - 20
-    }
+  if (!rate.value) {
+    rate.value = 0
+    tapClose()
+  }
+  else {
+    rate.value = rate.value - 20
+  }
 }, 1000)
 const text = computed(() => {
-    return Math.ceil(rate.value / 20)
+  return Math.ceil(rate.value / 20)
 })
 
 function tapClose() {
-    clearInterval(timer)
-    bounceOut.value = true
-    setTimeout(() => {
-        emit('close')
-    }, 1000)
+  clearInterval(timer)
+  bounceOut.value = true
+  setTimeout(() => {
+    emit('close')
+  }, 1000)
 }
 </script>
+
+<template>
+  <div class="open_screen animate__animated" :class="{ animate__fadeOut: bounceOut }">
+    <div class="circle" @click="tapClose">
+      <van-circle
+        v-model:current-rate="currentRate"
+        :rate="rate"
+        layer-color="#ebedf0"
+        color="#e20001"
+        :text="`${text}`"
+        fill="#fff"
+        size="30px"
+        :speed="20"
+        :clockwise="false"
+      />
+    </div>
+    <div class="cover_img">
+      <img src="@/assets/images/public/screen.jpg" alt="">
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .open_screen {
     position: fixed;

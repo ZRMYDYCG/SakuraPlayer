@@ -1,40 +1,42 @@
-<template>
-    <div class="dateList">
-        <SongItem v-for="item in songList" :key="item.id" :song-data="item" />
-    </div>
-</template>
-
 <script lang="ts" setup>
+import type { SongData } from '@/types/store/player'
+import { Toast } from 'vant'
 import { ref } from 'vue'
 import { reqHistoryRecommend } from '@/api/modules/home'
-import type { SongData } from '@/types/store/player'
 import SongItem from '@/components/songItem/index.vue'
-import { Toast } from 'vant'
+
 interface Props {
-    date: string
+  date: string
 }
 const props = withDefaults(defineProps<Props>(), {
-    date: ''
+  date: '',
 })
+const emit = defineEmits(['refresh'])
+
 const songList = ref<SongData[]>([])
 
-const emit = defineEmits(['refresh'])
 function getList() {
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...'
+  const loading = Toast.loading({
+    duration: 0,
+    message: '加载中...',
+  })
+  reqHistoryRecommend({ date: props.date })
+    .then((res) => {
+      songList.value = res.data.data.songs
+      emit('refresh')
     })
-    reqHistoryRecommend({ date: props.date })
-        .then((res) => {
-            songList.value = res.data.data.songs
-            emit('refresh')
-        })
-        .finally(() => {
-            loading.clear()
-        })
+    .finally(() => {
+      loading.clear()
+    })
 }
 getList()
 </script>
+
+<template>
+  <div class="dateList">
+    <SongItem v-for="item in songList" :key="item.id" :song-data="item" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .dateList {

@@ -1,3 +1,5 @@
+import type { AxiosResponse } from 'axios'
+import type { EventParams, UserEventParams } from '../interface/event'
 /*
  * @Author: ZRMYDYCG
  * @Date: 2024-10
@@ -6,19 +8,19 @@
  * @Description:
  */
 import request from '../index'
-import type { AxiosResponse } from 'axios'
-import { EventParams, UserEventParams } from '../interface/event'
 // 动态
-export const reqEvent = (params: EventParams): Promise<AxiosResponse> =>
-    request({
-        url: '/event',
-        method: 'GET',
-        params
-    })
+export function reqEvent(params: EventParams): Promise<AxiosResponse> {
+  return request({
+    url: '/event',
+    method: 'GET',
+    params,
+  })
+}
 // 获取用户动态
-export const reqUserEvent = (params: UserEventParams): Promise<AxiosResponse> =>
-    request({
-        url: '/user/event',
-        method: 'GET',
-        params
-    })
+export function reqUserEvent(params: UserEventParams): Promise<AxiosResponse> {
+  return request({
+    url: '/user/event',
+    method: 'GET',
+    params,
+  })
+}

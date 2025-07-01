@@ -1,20 +1,57 @@
-<template>
-    <div class="musicTaste box_white_container">
-        <div class="title">音乐品味</div>
-        <div>
-            <div class="listen_rank">
-                <div class="left">
-                    <div class="cover flex_box_center_column">
-                        <i class="iconfont icon-paihang"></i>
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="right_title">听歌排行</div>
-                    <div class="right_text">累计听歌{{ listenSongs }}首</div>
-                </div>
-            </div>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import { reqLikeList } from '@/api/modules/user'
 
-            <!-- <div class="listen_rank">
+interface Props {
+  listenSongs: number
+  userId: number
+}
+const props = withDefaults(defineProps<Props>(), {
+  listenSongs: 0,
+  userId: 0,
+})
+const total = ref<number>(0)
+watch(
+  () => props.userId,
+  (val) => {
+    if (val)
+      getLikeList()
+  },
+  { immediate: true },
+)
+function getLikeList() {
+  reqLikeList({
+    uid: props.userId,
+    timestamp: Date.now(),
+  }).then((res) => {
+    total.value = res.data.ids.length
+  })
+}
+</script>
+
+<template>
+  <div class="musicTaste box_white_container">
+    <div class="title">
+      音乐品味
+    </div>
+    <div>
+      <div class="listen_rank">
+        <div class="left">
+          <div class="cover flex_box_center_column">
+            <i class="iconfont icon-paihang" />
+          </div>
+        </div>
+        <div class="right">
+          <div class="right_title">
+            听歌排行
+          </div>
+          <div class="right_text">
+            累计听歌{{ listenSongs }}首
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="listen_rank">
                 <div class="left">
                     <div class="cover flex_box_center_column">
                         <i class="iconfont icon-xihuan"></i>
@@ -25,37 +62,10 @@
                     <div class="right_text">{{ total }}首，累计播放300次</div>
                 </div>
             </div> -->
-        </div>
     </div>
+  </div>
 </template>
-<script setup lang="ts">
-import { reqLikeList } from '@/api/modules/user'
-import { watch, ref } from 'vue'
-interface Props {
-    listenSongs: number
-    userId: number
-}
-const props = withDefaults(defineProps<Props>(), {
-    listenSongs: 0,
-    userId: 0
-})
-const total = ref<number>(0)
-watch(
-    () => props.userId,
-    (val) => {
-        if (val) getLikeList()
-    },
-    { immediate: true }
-)
-function getLikeList() {
-    reqLikeList({
-        uid: props.userId,
-        timestamp: Date.now()
-    }).then((res) => {
-        total.value = res.data.ids.length
-    })
-}
-</script>
+
 <style scoped lang="less">
 .musicTaste {
     margin-top: 30px;

@@ -1,24 +1,28 @@
-<template>
-    <div class="login">
-        <van-nav-bar left-arrow title="登录方式" @click-left="onClickLeft" fixed placeholder></van-nav-bar>
-        <div class="logo">
-            <img src="../../assets/images/public/logo.jpg" alt="" />
-        </div>
-        <div class="btn_wrapper">
-            <router-link to="/phoneLogin">
-                <van-button block round>手机登录</van-button>
-            </router-link>
-
-            <router-link to="/emailLogin">
-                <van-button block round>邮箱登录</van-button>
-            </router-link>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { onClickLeft } from '@/utils/back'
 </script>
+
+<template>
+  <div class="login">
+    <van-nav-bar left-arrow title="登录方式" fixed placeholder @click-left="onClickLeft" />
+    <div class="logo">
+      <img src="../../assets/images/public/logo.jpg" alt="">
+    </div>
+    <div class="btn_wrapper">
+      <router-link to="/phoneLogin">
+        <van-button block round>
+          手机登录
+        </van-button>
+      </router-link>
+
+      <router-link to="/emailLogin">
+        <van-button block round>
+          邮箱登录
+        </van-button>
+      </router-link>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .login {

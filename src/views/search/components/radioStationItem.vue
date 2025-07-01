@@ -1,45 +1,48 @@
-<template>
-    <div class="user_item">
-        <div class="left">
-            <div class="coverImg">
-                <img :src="radioData.picUrl + '?param=140y140'" alt="" />
-            </div>
-            <div>
-                <div class="singer_name">{{ radioData.name }}</div>
-                <div class="info">
-                    {{ radioData.programCount }}个声音、播放{{ radioData.programCount }}次、by{{
-                        radioData.dj.nickname
-                    }}
-                </div>
-            </div>
-        </div>
-        <div class="right"></div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import type { RadioInterface } from '@/types/public/radio'
+
 interface Props {
-    radioData: RadioInterface
+  radioData: RadioInterface
 }
 withDefaults(defineProps<Props>(), {
-    radioData: () => {
-        return {
-            id: 0,
-            programCount: 0,
-            name: '',
-            picUrl: '',
-            playCount: 0,
-            dj: {
-                nickname: '',
-                userId: 0,
-                avatarUrl: '',
-                followed: false
-            }
-        }
+  radioData: () => {
+    return {
+      id: 0,
+      programCount: 0,
+      name: '',
+      picUrl: '',
+      playCount: 0,
+      dj: {
+        nickname: '',
+        userId: 0,
+        avatarUrl: '',
+        followed: false,
+      },
     }
+  },
 })
 </script>
+
+<template>
+  <div class="user_item">
+    <div class="left">
+      <div class="coverImg">
+        <img :src="`${radioData.picUrl}?param=140y140`" alt="">
+      </div>
+      <div>
+        <div class="singer_name">
+          {{ radioData.name }}
+        </div>
+        <div class="info">
+          {{ radioData.programCount }}个声音、播放{{ radioData.programCount }}次、by{{
+            radioData.dj.nickname
+          }}
+        </div>
+      </div>
+    </div>
+    <div class="right" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .user_item {

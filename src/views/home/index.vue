@@ -3,30 +3,16 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <van-pull-refresh class="home" v-model="loading" @refresh="onRefresh">
-        <sticky-nav />
-        <div class="main_content">
-            <nav-swiper ref="swiper" />
-            <Menu />
-            <div class="line"></div>
-            <recommend-song-list ref="recommendSongList" />
-            <new-song ref="newSong" />
-            <new-mv />
-        </div>
-    </van-pull-refresh>
-</template>
-
 <script lang="ts" setup>
+import type NewSong from './components/new-song.vue'
+import type RecommendSongList from './components/recommend-song-list.vue'
 import { ref } from 'vue'
-import NavSwiper from './components/nav-swiper.vue'
 import Menu from './components/menu.vue'
-import StickyNav from './components/sticky-nav.vue'
-import RecommendSongList from './components/recommend-song-list.vue'
-import NewSong from './components/new-song.vue'
+import NavSwiper from './components/nav-swiper.vue'
 import NewMv from './components/new-mv.vue'
+import StickyNav from './components/sticky-nav.vue'
 
 const loading = ref<boolean>(false)
 const swiper = ref<InstanceType<typeof NavSwiper>>()
@@ -34,15 +20,29 @@ const recommendSongList = ref<InstanceType<typeof RecommendSongList>>()
 const newSong = ref<InstanceType<typeof NewSong>>()
 
 function onRefresh() {
-    swiper.value && swiper.value.getBanner()
-    recommendSongList.value && recommendSongList.value.getList()
-    newSong.value && newSong.value.getList()
-    /*添加 Loading 效果*/
-    setTimeout(() => {
-        loading.value = false
-    }, 2000)
+  swiper.value && swiper.value.getBanner()
+  recommendSongList.value && recommendSongList.value.getList()
+  newSong.value && newSong.value.getList()
+  /* 添加 Loading 效果 */
+  setTimeout(() => {
+    loading.value = false
+  }, 2000)
 }
 </script>
+
+<template>
+  <van-pull-refresh v-model="loading" class="home" @refresh="onRefresh">
+    <StickyNav />
+    <div class="main_content">
+      <NavSwiper ref="swiper" />
+      <Menu />
+      <div class="line" />
+      <RecommendSongList ref="recommendSongList" />
+      <NewSong ref="newSong" />
+      <NewMv />
+    </div>
+  </van-pull-refresh>
+</template>
 
 <style scoped lang="less">
 .home {

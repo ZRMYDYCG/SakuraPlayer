@@ -1,78 +1,87 @@
 // 歌单
 import type { AxiosResponse } from 'axios'
-import request from '../index'
 import type {
-    subscribeParams,
-    createParams,
-    delParams,
-    SheetTracksParams,
-    UpdateCoverParams,
-    UpdateNameParams,
-    UpdateTagsParams,
-    UpdateDescParams
+  createParams,
+  delParams,
+  SheetTracksParams,
+  subscribeParams,
+  UpdateCoverParams,
+  UpdateDescParams,
+  UpdateNameParams,
+  UpdateTagsParams,
 } from '../interface/sheet'
+import request from '../index'
 
-export const reqSubscribeSheet = (params: subscribeParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/subscribe',
-        method: 'GET',
-        params
-    })
+export function reqSubscribeSheet(params: subscribeParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/subscribe',
+    method: 'GET',
+    params,
+  })
+}
 
 // 歌单分类
-export const reqCatList = (): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/catlist',
-        method: 'GET'
-    })
+export function reqCatList(): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/catlist',
+    method: 'GET',
+  })
+}
 
 // 创建歌单
-export const reqCreateSheet = (params: createParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/create',
-        method: 'GET',
-        params
-    })
+export function reqCreateSheet(params: createParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/create',
+    method: 'GET',
+    params,
+  })
+}
 // 删除歌单
-export const reqDelSheet = (params: delParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/delete',
-        method: 'GET',
-        params
-    })
+export function reqDelSheet(params: delParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/delete',
+    method: 'GET',
+    params,
+  })
+}
 // 对歌单添加或删除歌曲
-export const reqSheetTracks = (params: SheetTracksParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/tracks',
-        method: 'GET',
-        params
-    })
+export function reqSheetTracks(params: SheetTracksParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/tracks',
+    method: 'GET',
+    params,
+  })
+}
 // 歌单封面更新
-export const reqUpdateCover = (params: UpdateCoverParams, data: FormData): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/cover/update',
-        method: 'POST',
-        params,
-        data
-    })
+export function reqUpdateCover(params: UpdateCoverParams, data: FormData): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/cover/update',
+    method: 'POST',
+    params,
+    data,
+  })
+}
 // 更新歌单名
-export const reqUpdateSheetName = (params: UpdateNameParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/name/update',
-        method: 'GET',
-        params
-    })
+export function reqUpdateSheetName(params: UpdateNameParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/name/update',
+    method: 'GET',
+    params,
+  })
+}
 // 更新歌单标签
-export const reqUpdateSheetTags = (params: UpdateTagsParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/tags/update',
-        method: 'GET',
-        params
-    })
+export function reqUpdateSheetTags(params: UpdateTagsParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/tags/update',
+    method: 'GET',
+    params,
+  })
+}
 // 更新歌单描述
-export const reqUpdateSheetDesc = (params: UpdateDescParams): Promise<AxiosResponse> =>
-    request({
-        url: '/playlist/desc/update',
-        method: 'GET',
-        params
-    })
+export function reqUpdateSheetDesc(params: UpdateDescParams): Promise<AxiosResponse> {
+  return request({
+    url: '/playlist/desc/update',
+    method: 'GET',
+    params,
+  })
+}

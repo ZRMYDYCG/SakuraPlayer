@@ -1,32 +1,35 @@
 <!-- 头像 -->
-<template>
-    <div class="avatar" @click="tapAvatar">
-        <img :src="avatarSrc" alt="" />
-    </div>
-</template>
 <script setup lang="ts">
 import { computed } from 'vue'
 
 interface Props {
-    avatarUrl: string
+  avatarUrl: string
 }
 const props = withDefaults(defineProps<Props>(), {
-    avatarUrl: ''
+  avatarUrl: '',
 })
 const emit = defineEmits<{
-    (e: 'tapAvatar'): void
+  (e: 'tapAvatar'): void
 }>()
 const avatarSrc = computed(() => {
-    if (/^(https:|http:|\/\/)/.test(props.avatarUrl)) {
-        return props.avatarUrl
-    } else {
-        return require('@/assets/images/public/header.png')
-    }
+  if (/^(https:|http:|\/\/)/.test(props.avatarUrl)) {
+    return props.avatarUrl
+  }
+  else {
+    return require('@/assets/images/public/header.png')
+  }
 })
 function tapAvatar() {
-    emit('tapAvatar')
+  emit('tapAvatar')
 }
 </script>
+
+<template>
+  <div class="avatar" @click="tapAvatar">
+    <img :src="avatarSrc" alt="">
+  </div>
+</template>
+
 <style scoped lang="less">
 .avatar {
     width: 80px;

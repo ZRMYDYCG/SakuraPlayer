@@ -1,72 +1,78 @@
-<template>
-    <div v-if="boxType == BoxType.box" class="dj_item" @click="getDetail">
-        <div class="cover">
-            <div class="cover_img">
-                <img :src="djData.picUrl + '?param=140y140'" alt="" />
-            </div>
-            <div class="feeScope" v-if="djData.feeScope == 0">免费</div>
-            <div class="play_count">
-                <i class="iconfont icon-bofang"></i>
-                <div>{{ formatCountNumber(djData.playCount) }}</div>
-            </div>
-        </div>
-        <div class="info text_over_two_lines">
-            <span class="name">{{ djData.name }}</span>
-        </div>
-    </div>
-    <div v-else class="dj_item_line" @click="getDetail">
-        <div class="left">
-            <img :src="djData.picUrl" alt="" />
-        </div>
-        <div class="right">
-            <div class="dj_name">{{ djData.name }}</div>
-            <div class="dj_info">
-                <div class="rcmdText text_over_line">{{ djData.rcmdText }}</div>
-                <div class="count">
-                    <i class="iconfont icon-bofang"></i>
-                    {{ djData.playCount }}
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { formatCountNumber } from '@/utils'
 import type { DjData } from '@/types/public/dj'
-import { BoxType } from '@/types/public'
 import { useRouter } from 'vue-router'
-
-const router = useRouter()
-interface Props {
-    djData: DjData
-    boxType: BoxType
-}
+import { BoxType } from '@/types/public'
+import { formatCountNumber } from '@/utils'
 
 const props = withDefaults(defineProps<Props>(), {
-    djData: () => {
-        return {
-            id: 0,
-            rcmdText: '',
-            subed: false,
-            programCount: 0,
-            picUrl: '',
-            name: '',
-            playCount: 0,
-            feeScope: 0
-        }
-    },
-    boxType: BoxType.box
+  djData: () => {
+    return {
+      id: 0,
+      rcmdText: '',
+      subed: false,
+      programCount: 0,
+      picUrl: '',
+      name: '',
+      playCount: 0,
+      feeScope: 0,
+    }
+  },
+  boxType: BoxType.box,
 })
-const getDetail = () => {
-    router.push({
-        path: '/djDetail',
-        query: {
-            id: props.djData.id
-        }
-    })
+const router = useRouter()
+interface Props {
+  djData: DjData
+  boxType: BoxType
+}
+
+function getDetail() {
+  router.push({
+    path: '/djDetail',
+    query: {
+      id: props.djData.id,
+    },
+  })
 }
 </script>
+
+<template>
+  <div v-if="boxType == BoxType.box" class="dj_item" @click="getDetail">
+    <div class="cover">
+      <div class="cover_img">
+        <img :src="`${djData.picUrl}?param=140y140`" alt="">
+      </div>
+      <div v-if="djData.feeScope == 0" class="feeScope">
+        免费
+      </div>
+      <div class="play_count">
+        <i class="iconfont icon-bofang" />
+        <div>{{ formatCountNumber(djData.playCount) }}</div>
+      </div>
+    </div>
+    <div class="info text_over_two_lines">
+      <span class="name">{{ djData.name }}</span>
+    </div>
+  </div>
+  <div v-else class="dj_item_line" @click="getDetail">
+    <div class="left">
+      <img :src="djData.picUrl" alt="">
+    </div>
+    <div class="right">
+      <div class="dj_name">
+        {{ djData.name }}
+      </div>
+      <div class="dj_info">
+        <div class="rcmdText text_over_line">
+          {{ djData.rcmdText }}
+        </div>
+        <div class="count">
+          <i class="iconfont icon-bofang" />
+          {{ djData.playCount }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .dj_item {

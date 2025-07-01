@@ -1,26 +1,33 @@
-<template>
-    <div class="voiceItem">
-        <div class="left">
-            <div class="cover">
-                <img :src="djData.picUrl" alt="" />
-            </div>
-        </div>
-        <div class="center">
-            <div class="name">{{ djData.name }}</div>
-            <div class="info">
-                <div v-if="djData" class="info_item">
-                    <span style="margin-right: 5px">by</span>
-                    {{ djData.name }}
-                </div>
-            </div>
-        </div>
-        <div class="right">{{ dateFormat(playTime, 'yyyy-MM-dd') }}</div>
-    </div>
-</template>
 <script setup lang="ts">
 import { dateFormat } from '@/utils'
+
 defineProps(['djData', 'playTime'])
 </script>
+
+<template>
+  <div class="voiceItem">
+    <div class="left">
+      <div class="cover">
+        <img :src="djData.picUrl" alt="">
+      </div>
+    </div>
+    <div class="center">
+      <div class="name">
+        {{ djData.name }}
+      </div>
+      <div class="info">
+        <div v-if="djData" class="info_item">
+          <span style="margin-right: 5px">by</span>
+          {{ djData.name }}
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      {{ dateFormat(playTime, 'yyyy-MM-dd') }}
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .voiceItem {
     display: flex;

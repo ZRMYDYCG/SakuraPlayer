@@ -1,38 +1,13 @@
-<template>
-    <div class="create_sheet">
-        <div class="menu">
-            <div class="text">创建歌单（{{ total }}）个</div>
-            <div class="flex_box_center_column" @click="handleCreate">
-                <van-icon name="plus" />
-            </div>
-        </div>
-        <van-list v-model:loading="loading" :finished="finished" @load="onLoad">
-            <van-empty v-if="list.length <= 0" text="暂无歌单" />
-            <SheetItem
-                v-else
-                v-for="item in list"
-                :key="item.id"
-                :hide-edit="false"
-                :show-edit="true"
-                :sheet-data="item"
-                @delsuccess="delSuccess(item.id)"
-                @edit="edit(item)"
-            />
-        </van-list>
-        <CreatePopup v-model:showPopup="show" @success="refreshList" />
-    </div>
-</template>
-
 <script setup lang="ts">
-import SheetItem from './sheetItem.vue'
-import CreatePopup from './createPopup.vue'
+import type { SheetDataInterface } from '@/types/public/sheet'
+import { storeToRefs } from 'pinia'
 
 import { ref } from 'vue'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/store'
-import type { SheetDataInterface } from '@/types/public/sheet'
 import { reqUserPlayList, reqUserSubCount } from '@/api/modules/user'
+import { useUserStore } from '@/store'
+import CreatePopup from './createPopup.vue'
+import SheetItem from './sheetItem.vue'
 
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
@@ -46,67 +21,94 @@ const finished = ref<boolean>(false)
 const router = useRouter()
 
 function getList() {
-    const params = {
-        uid: userInfo.value.userId,
-        limit: limit,
-        offset: limit * offset,
-        time: Date.now()
-    }
-    loading.value = true
-    reqUserPlayList(params)
-        .then((res) => {
-            list.value = list.value.concat(
-                res.data.playlist.filter((item: SheetDataInterface) => item.creator.userId === userInfo.value.userId)
-            )
-            finished.value = !res.data.more
-        })
-        .finally(() => {
-            loading.value = false
-        })
+  const params = {
+    uid: userInfo.value.userId,
+    limit,
+    offset: limit * offset,
+    time: Date.now(),
+  }
+  loading.value = true
+  reqUserPlayList(params)
+    .then((res) => {
+      list.value = list.value.concat(
+        res.data.playlist.filter((item: SheetDataInterface) => item.creator.userId === userInfo.value.userId),
+      )
+      finished.value = !res.data.more
+    })
+    .finally(() => {
+      loading.value = false
+    })
 }
 
 // 获取总条数
 function getCount() {
-    reqUserSubCount().then((res) => {
-        total.value = res.data.createdPlaylistCount
-    })
+  reqUserSubCount().then((res) => {
+    total.value = res.data.createdPlaylistCount
+  })
 }
 
 function onLoad() {
-    offset++
-    getList()
+  offset++
+  getList()
 }
 
 function handleCreate() {
-    show.value = true
+  show.value = true
 }
 
 function refreshList() {
-    offset = 0
-    list.value = []
-    getList()
+  offset = 0
+  list.value = []
+  getList()
 }
 
 function delSuccess(id: number) {
-    const index = list.value.findIndex((item) => item.id === id)
-    list.value.splice(index, 1)
-    total.value -= 1
+  const index = list.value.findIndex(item => item.id === id)
+  list.value.splice(index, 1)
+  total.value -= 1
 }
 
 // 编辑
 function edit(item: SheetDataInterface) {
-    router.push({
-        path: '/editSheet',
-        query: {
-            id: item.id
-        }
-    })
+  router.push({
+    path: '/editSheet',
+    query: {
+      id: item.id,
+    },
+  })
 }
 
 getList()
 
 getCount()
 </script>
+
+<template>
+  <div class="create_sheet">
+    <div class="menu">
+      <div class="text">
+        创建歌单（{{ total }}）个
+      </div>
+      <div class="flex_box_center_column" @click="handleCreate">
+        <van-icon name="plus" />
+      </div>
+    </div>
+    <van-list v-model:loading="loading" :finished="finished" @load="onLoad">
+      <van-empty v-if="list.length <= 0" text="暂无歌单" />
+      <SheetItem
+        v-for="item in list"
+        v-else
+        :key="item.id"
+        :hide-edit="false"
+        :show-edit="true"
+        :sheet-data="item"
+        @delsuccess="delSuccess(item.id)"
+        @edit="edit(item)"
+      />
+    </van-list>
+    <CreatePopup v-model:show-popup="show" @success="refreshList" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .create_sheet {

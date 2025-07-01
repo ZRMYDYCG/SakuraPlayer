@@ -3,31 +3,31 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="tabbar" :class="{ hide_tabbar: showBigPlayer }">
-        <MiniPlayer v-if="currentSong.url" />
-        <van-tabbar route :fixed="false" :border="false" active-color="#e20001">
-            <van-tabbar-item replace :to="item.url" v-for="item in menuList" :key="item.icon">
-                <span>{{ item.name }}</span>
-                <template #icon>
-                    <i class="iconfont" :class="item.icon"></i>
-                </template>
-            </van-tabbar-item>
-        </van-tabbar>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { usePlayerStore } from '@/store'
-import { menuList } from '@/config'
 import MiniPlayer from '@/components/MiniPlayer/index.vue'
+import { menuList } from '@/config'
+import { usePlayerStore } from '@/store'
 
 const palyerStore = usePlayerStore()
 const { showBigPlayer, currentSong } = storeToRefs(palyerStore)
 </script>
+
+<template>
+  <div class="tabbar" :class="{ hide_tabbar: showBigPlayer }">
+    <MiniPlayer v-if="currentSong.url" />
+    <van-tabbar route :fixed="false" :border="false" active-color="#e20001">
+      <van-tabbar-item v-for="item in menuList" :key="item.icon" replace :to="item.url">
+        <span>{{ item.name }}</span>
+        <template #icon>
+          <i class="iconfont" :class="item.icon" />
+        </template>
+      </van-tabbar-item>
+    </van-tabbar>
+  </div>
+</template>
 
 <style scoped>
 .tabbar {

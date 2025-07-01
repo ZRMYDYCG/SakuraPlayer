@@ -1,25 +1,28 @@
 <!-- 文本消息 -->
-<template>
-    <div class="text_msg">
-        <div class="msg_wrapper" v-for="(item, index) in msgList" :key="index">
-            <span v-if="item.name === 'text'">{{ item.text }}</span>
-            <img class="img" v-else-if="item.name === 'img'" :src="item.src" />
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { decodeText } from '@/utils/decodeText'
+
 interface Props {
-    msg: string
+  msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
-    msg: '{}'
+  msg: '{}',
 })
 const msgList = computed(() => {
-    return decodeText(JSON.parse(props.msg))
+  return decodeText(JSON.parse(props.msg))
 })
 </script>
+
+<template>
+  <div class="text_msg">
+    <div v-for="(item, index) in msgList" :key="index" class="msg_wrapper">
+      <span v-if="item.name === 'text'">{{ item.text }}</span>
+      <img v-else-if="item.name === 'img'" class="img" :src="item.src">
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .msg_wrapper {
     display: inline-block;

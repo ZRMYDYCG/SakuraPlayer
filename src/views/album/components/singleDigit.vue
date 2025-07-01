@@ -3,66 +3,67 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="digitAlbum">
-        <div class="top">
-            <div class="title">
-                <div>数字单曲榜</div>
-                <div class="flex_box_center_column">
-                    <van-icon name="arrow" />
-                </div>
-            </div>
-            <div class="menu">
-                <div
-                    class="menu_item"
-                    @click="tapMenu(item.type)"
-                    :class="{ menu_item_active: item.type == type }"
-                    v-for="item in menuList"
-                    :key="item.type"
-                >
-                    {{ item.name }}
-                </div>
-            </div>
-        </div>
-        <van-row>
-            <van-col :span="8" v-for="item in list" :key="item.albumId">
-                <AlbumItem :album-data="item" />
-            </van-col>
-        </van-row>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { albumDataInterface } from '@/types/public/album'
 import { ref } from 'vue'
 import { reqDigitAlbum } from '@/api/modules/album'
-import { albumDataInterface } from '@/types/public/album'
 import AlbumItem from './albumItem.vue'
+
 const menuList = ref([
-    { name: '日榜', type: 'daily' },
-    { name: '周榜', type: 'week' },
-    { name: '总榜', type: 'total' }
+  { name: '日榜', type: 'daily' },
+  { name: '周榜', type: 'week' },
+  { name: '总榜', type: 'total' },
 ])
 const type = ref<string>('daily')
 const list = ref<Array<albumDataInterface>>([])
 function tapMenu(typeStr: string): void {
-    type.value = typeStr
-    getDigitAlbum()
+  type.value = typeStr
+  getDigitAlbum()
 }
 
 function getDigitAlbum() {
-    const data = {
-        limit: 6,
-        type: type.value,
-        albumType: 1
-    }
-    reqDigitAlbum(data).then((res) => {
-        list.value = res.data.products.filter((item: albumDataInterface, index: number): boolean => index < 6)
-    })
+  const data = {
+    limit: 6,
+    type: type.value,
+    albumType: 1,
+  }
+  reqDigitAlbum(data).then((res) => {
+    list.value = res.data.products.filter((item: albumDataInterface, index: number): boolean => index < 6)
+  })
 }
 getDigitAlbum()
 </script>
+
+<template>
+  <div class="digitAlbum">
+    <div class="top">
+      <div class="title">
+        <div>数字单曲榜</div>
+        <div class="flex_box_center_column">
+          <van-icon name="arrow" />
+        </div>
+      </div>
+      <div class="menu">
+        <div
+          v-for="item in menuList"
+          :key="item.type"
+          class="menu_item"
+          :class="{ menu_item_active: item.type == type }"
+          @click="tapMenu(item.type)"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+    <van-row>
+      <van-col v-for="item in list" :key="item.albumId" :span="8">
+        <AlbumItem :album-data="item" />
+      </van-col>
+    </van-row>
+  </div>
+</template>
 
 <style scoped lang="less">
 .digitAlbum {

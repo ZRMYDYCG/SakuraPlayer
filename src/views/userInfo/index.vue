@@ -1,208 +1,225 @@
-<template>
-    <MiniPlayOut>
-        <div class="userPage" ref="mine" @scroll="scroll">
-            <div class="nav" :style="navStyle">
-                <div class="left flex_box_center_column" @click="onClickLeft">
-                    <i class="iconfont icon-fanhui"></i>
-                </div>
-                <div class="center">
-                    <div>{{ userProfile.nickname }}</div>
-                </div>
-                <div class="right"></div>
-            </div>
-            <div class="content">
-                <div class="back_ground">
-                    <img v-if="userProfile.backgroundUrl" :src="userProfile.backgroundUrl" />
-                </div>
-                <div class="main_content">
-                    <div class="box_white_container user_info">
-                        <div class="user_img">
-                            <img v-if="userProfile.avatarUrl" :src="userProfile.avatarUrl + '?param=140y140'" alt="" />
-                        </div>
-                        <div class="user_name">{{ userProfile.nickname }}</div>
-                        <div class="other_info">
-                            <div class="other_info_item" @click="toFollow">
-                                <span>{{ userProfile.follows }}</span>
-                                关注
-                            </div>
-                            <div class="other_info_item" @click="toFollow">
-                                <span>{{ userProfile.followeds }}</span>
-                                粉丝
-                            </div>
-                            <div class="other_info_item">Lv.{{ userProfile.level }}</div>
-                        </div>
-                        <div class="tags">
-                            <div class="tag">{{ cityName }}</div>
-                            <div class="tag">村龄{{ userProfile.createDays }}年</div>
-                        </div>
-                        <div class="follow_btn">
-                            <van-button
-                                v-if="userProfile.followed"
-                                type="danger"
-                                :loading="followLoding"
-                                round
-                                size="small"
-                                @click="followUser(2)"
-                            >
-                                取消关注
-                            </van-button>
-                            <van-button
-                                v-else
-                                type="danger"
-                                :loading="followLoding"
-                                round
-                                size="small"
-                                @click="followUser(1)"
-                            >
-                                关注
-                            </van-button>
-                            <van-button round size="small" class="msg_btn" @click="sendMsg">私信</van-button>
-                        </div>
-                    </div>
-                    <van-tabs :lazy-render="false">
-                        <van-tab title="主页">
-                            <MusicTaste :listenSongs="userProfile.listenSongs" :user-id="userId" />
-                            <CreateSheet :user-id="userId" />
-                            <CollectSheet :user-id="userId" />
-                        </van-tab>
-                        <van-tab>
-                            <template #title>
-                                <van-badge :content="userProfile.eventCount" :show-zero="false" :offset="[-10, 8]">
-                                    <div style="padding: 0 25px">动态</div>
-                                </van-badge>
-                            </template>
-                            <EventList :user-id="userId" />
-                        </van-tab>
-                    </van-tabs>
-                </div>
-            </div>
-        </div>
-    </MiniPlayOut>
-</template>
 <script setup lang="ts">
-import { useSystemStore } from '@/store'
-import { onClickLeft } from '@/utils/back'
-import { useRoute } from 'vue-router'
-import { reqUserDetail } from '@/api/modules/user'
-import { watch, reactive, ref, computed, ComputedRef } from 'vue'
+import type { ComputedRef } from 'vue'
 import type { UserProfileData } from '@/types/public/user'
-import { getCityName } from '@/utils'
-import { reqFollow } from '@/api/modules/user'
+import { storeToRefs } from 'pinia'
 import { Toast } from 'vant'
-import MusicTaste from './components/musicTaste.vue'
+import { computed, reactive, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { reqFollow, reqUserDetail } from '@/api/modules/user'
+import router from '@/router'
+import { useSystemStore } from '@/store'
+import { Mode } from '@/store/system'
+import { getCityName } from '@/utils'
+import { onClickLeft } from '@/utils/back'
 import CollectSheet from './components/collectSheet.vue'
 import CreateSheet from './components/createSheet.vue'
-import { Mode } from '@/store/system'
-import { storeToRefs } from 'pinia'
 import EventList from './components/eventList.vue'
-import router from '@/router'
+import MusicTaste from './components/musicTaste.vue'
 
 const mine = ref<HTMLDivElement | null>(null)
 const systemStore = useSystemStore()
 const { mode } = storeToRefs(systemStore)
 const route = useRoute()
 const userProfile = reactive<UserProfileData>({
-    avatarUrl: '',
-    backgroundUrl: '',
-    city: 0,
-    createTime: 0,
-    nickname: '',
-    province: 0,
-    signature: '',
-    userId: 0,
-    follows: 0,
-    followeds: 0,
-    followed: false,
-    level: 0,
-    listenSongs: 0,
-    createDays: 0,
-    eventCount: 0
+  avatarUrl: '',
+  backgroundUrl: '',
+  city: 0,
+  createTime: 0,
+  nickname: '',
+  province: 0,
+  signature: '',
+  userId: 0,
+  follows: 0,
+  followeds: 0,
+  followed: false,
+  level: 0,
+  listenSongs: 0,
+  createDays: 0,
+  eventCount: 0,
 })
 const cityName = ref<string>('')
 const followLoding = ref<boolean>(false)
 const navStyle = reactive({
-    background: 'transparent'
+  background: 'transparent',
 })
 watch(
-    () => route.query.id,
-    (val) => {
-        if (val && route.path === '/userInfo') {
-            getUserInfo()
-        }
-    },
-    { immediate: true }
+  () => route.query.id,
+  (val) => {
+    if (val && route.path === '/userInfo') {
+      getUserInfo()
+    }
+  },
+  { immediate: true },
 )
 const userId: ComputedRef<number> = computed(() => {
-    return Number(route.query.id)
+  return Number(route.query.id)
 })
 function getUserInfo() {
-    reqUserDetail({ uid: Number(route.query.id) }).then((res) => {
-        userProfile.avatarUrl = res.data.profile.avatarUrl
-        userProfile.backgroundUrl = res.data.profile.backgroundUrl
-        userProfile.city = res.data.profile.city
-        userProfile.createTime = res.data.profile.createTime
-        userProfile.nickname = res.data.profile.nickname
-        userProfile.province = res.data.profile.province
-        userProfile.signature = res.data.profile.signature
-        userProfile.userId = res.data.profile.userId
-        userProfile.follows = res.data.profile.follows
-        userProfile.followeds = res.data.profile.followeds
-        userProfile.followed = res.data.profile.followed
-        userProfile.level = res.data.level
-        userProfile.listenSongs = res.data.listenSongs
-        userProfile.createDays = Math.round(res.data.createDays / 365)
-        userProfile.eventCount = res.data.profile.eventCount
-        cityName.value = getCityName(userProfile.province, userProfile.city)
-    })
+  reqUserDetail({ uid: Number(route.query.id) }).then((res) => {
+    userProfile.avatarUrl = res.data.profile.avatarUrl
+    userProfile.backgroundUrl = res.data.profile.backgroundUrl
+    userProfile.city = res.data.profile.city
+    userProfile.createTime = res.data.profile.createTime
+    userProfile.nickname = res.data.profile.nickname
+    userProfile.province = res.data.profile.province
+    userProfile.signature = res.data.profile.signature
+    userProfile.userId = res.data.profile.userId
+    userProfile.follows = res.data.profile.follows
+    userProfile.followeds = res.data.profile.followeds
+    userProfile.followed = res.data.profile.followed
+    userProfile.level = res.data.level
+    userProfile.listenSongs = res.data.listenSongs
+    userProfile.createDays = Math.round(res.data.createDays / 365)
+    userProfile.eventCount = res.data.profile.eventCount
+    cityName.value = getCityName(userProfile.province, userProfile.city)
+  })
 }
 function followUser(type: number) {
-    followLoding.value = true
-    reqFollow({
-        id: Number(route.query.id),
-        t: type
+  followLoding.value = true
+  reqFollow({
+    id: Number(route.query.id),
+    t: type,
+  })
+    .then(() => {
+      Toast.success(type == 1 ? '关注成功' : '取消关注')
+      userProfile.followed = !userProfile.followed
+      followLoding.value = false
     })
-        .then(() => {
-            Toast.success(type == 1 ? '关注成功' : '取消关注')
-            userProfile.followed = !userProfile.followed
-            followLoding.value = false
-        })
-        .catch(() => {
-            followLoding.value = false
-        })
+    .catch(() => {
+      followLoding.value = false
+    })
 }
 function scroll() {
-    const top = mine.value?.scrollTop || 0
-    if (top > 50) {
-        navStyle.background = 'var(--my-back-color-white)'
-    } else if (top == 0) {
-        navStyle.background = 'transparent'
-    } else {
-        if (mode.value == Mode.light) {
-            navStyle.background = `rgba(255,255,255, ${(top * 2) / 100})`
-        } else {
-            navStyle.background = `rgba(0,0,0, ${(top * 2) / 100})`
-        }
+  const top = mine.value?.scrollTop || 0
+  if (top > 50) {
+    navStyle.background = 'var(--my-back-color-white)'
+  }
+  else if (top == 0) {
+    navStyle.background = 'transparent'
+  }
+  else {
+    if (mode.value == Mode.light) {
+      navStyle.background = `rgba(255,255,255, ${(top * 2) / 100})`
     }
+    else {
+      navStyle.background = `rgba(0,0,0, ${(top * 2) / 100})`
+    }
+  }
 }
 // 私信
 function sendMsg() {
-    router.push({
-        path: '/conversation',
-        query: {
-            id: userId.value
-        }
-    })
+  router.push({
+    path: '/conversation',
+    query: {
+      id: userId.value,
+    },
+  })
 }
 // 关注列表
 function toFollow() {
-    router.push({
-        path: '/fansFollows',
-        query: {
-            id: userId.value
-        }
-    })
+  router.push({
+    path: '/fansFollows',
+    query: {
+      id: userId.value,
+    },
+  })
 }
 </script>
+
+<template>
+  <MiniPlayOut>
+    <div ref="mine" class="userPage" @scroll="scroll">
+      <div class="nav" :style="navStyle">
+        <div class="left flex_box_center_column" @click="onClickLeft">
+          <i class="iconfont icon-fanhui" />
+        </div>
+        <div class="center">
+          <div>{{ userProfile.nickname }}</div>
+        </div>
+        <div class="right" />
+      </div>
+      <div class="content">
+        <div class="back_ground">
+          <img v-if="userProfile.backgroundUrl" :src="userProfile.backgroundUrl">
+        </div>
+        <div class="main_content">
+          <div class="box_white_container user_info">
+            <div class="user_img">
+              <img v-if="userProfile.avatarUrl" :src="`${userProfile.avatarUrl}?param=140y140`" alt="">
+            </div>
+            <div class="user_name">
+              {{ userProfile.nickname }}
+            </div>
+            <div class="other_info">
+              <div class="other_info_item" @click="toFollow">
+                <span>{{ userProfile.follows }}</span>
+                关注
+              </div>
+              <div class="other_info_item" @click="toFollow">
+                <span>{{ userProfile.followeds }}</span>
+                粉丝
+              </div>
+              <div class="other_info_item">
+                Lv.{{ userProfile.level }}
+              </div>
+            </div>
+            <div class="tags">
+              <div class="tag">
+                {{ cityName }}
+              </div>
+              <div class="tag">
+                村龄{{ userProfile.createDays }}年
+              </div>
+            </div>
+            <div class="follow_btn">
+              <van-button
+                v-if="userProfile.followed"
+                type="danger"
+                :loading="followLoding"
+                round
+                size="small"
+                @click="followUser(2)"
+              >
+                取消关注
+              </van-button>
+              <van-button
+                v-else
+                type="danger"
+                :loading="followLoding"
+                round
+                size="small"
+                @click="followUser(1)"
+              >
+                关注
+              </van-button>
+              <van-button round size="small" class="msg_btn" @click="sendMsg">
+                私信
+              </van-button>
+            </div>
+          </div>
+          <van-tabs :lazy-render="false">
+            <van-tab title="主页">
+              <MusicTaste :listen-songs="userProfile.listenSongs" :user-id="userId" />
+              <CreateSheet :user-id="userId" />
+              <CollectSheet :user-id="userId" />
+            </van-tab>
+            <van-tab>
+              <template #title>
+                <van-badge :content="userProfile.eventCount" :show-zero="false" :offset="[-10, 8]">
+                  <div style="padding: 0 25px">
+                    动态
+                  </div>
+                </van-badge>
+              </template>
+              <EventList :user-id="userId" />
+            </van-tab>
+          </van-tabs>
+        </div>
+      </div>
+    </div>
+  </MiniPlayOut>
+</template>
+
 <style scoped lang="less">
 .userPage {
     height: 100%;

@@ -1,38 +1,41 @@
-<template>
-    <div class="upMusic">
-        <van-uploader :after-read="afterRead" accept=".mp3">
-            <template #default>
-                <div class="wrapper box_shadow flex_box_center_column">
-                    <i class="iconfont icon-yunshangchuan_o"></i>
-                </div>
-            </template>
-        </van-uploader>
-    </div>
-</template>
 <script setup lang="ts">
 import { Toast } from 'vant'
 import { reqUpCloudMusic } from '@/api/modules/user'
+
 const emit = defineEmits<{
-    (e: 'success'): void
+  (e: 'success'): void
 }>()
-// eslint-disable-next-line
+
 function afterRead(file: any) {
-    const formData = new FormData()
-    formData.append('songFile', file.file)
-    const loading = Toast.loading({
-        message: '上传中...',
-        overlay: true,
-        duration: 0
+  const formData = new FormData()
+  formData.append('songFile', file.file)
+  const loading = Toast.loading({
+    message: '上传中...',
+    overlay: true,
+    duration: 0,
+  })
+  reqUpCloudMusic(formData)
+    .then(() => {
+      emit('success')
     })
-    reqUpCloudMusic(formData)
-        .then(() => {
-            emit('success')
-        })
-        .finally(() => {
-            loading.clear()
-        })
+    .finally(() => {
+      loading.clear()
+    })
 }
 </script>
+
+<template>
+  <div class="upMusic">
+    <van-uploader :after-read="afterRead" accept=".mp3">
+      <template #default>
+        <div class="wrapper box_shadow flex_box_center_column">
+          <i class="iconfont icon-yunshangchuan_o" />
+        </div>
+      </template>
+    </van-uploader>
+  </div>
+</template>
+
 <style scoped lang="less">
 .upMusic {
     position: fixed;

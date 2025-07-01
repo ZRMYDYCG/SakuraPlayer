@@ -1,40 +1,45 @@
-<template>
-    <div class="album_item">
-        <div class="cover" @click="tapAlbum">
-            <img :src="albumData.coverUrl + '?param=140y140'" alt="" />
-        </div>
-        <div class="albumName">{{ albumData.albumName }}</div>
-        <div class="artistName">{{ albumData.artistName }}</div>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { albumDataInterface } from '@/types/public/album'
 import { useRouter } from 'vue-router'
-import { albumDataInterface } from '@/types/public/album'
+
+const props = withDefaults(defineProps<Props>(), {
+  albumData: () => {
+    return {
+      albumId: 0,
+      albumName: '',
+      coverUrl: '',
+      price: 0,
+      artistName: '',
+    }
+  },
+})
 const router = useRouter()
 interface Props {
-    albumData: albumDataInterface
+  albumData: albumDataInterface
 }
-const props = withDefaults(defineProps<Props>(), {
-    albumData: () => {
-        return {
-            albumId: 0,
-            albumName: '',
-            coverUrl: '',
-            price: 0,
-            artistName: ''
-        }
-    }
-})
 function tapAlbum() {
-    router.push({
-        path: '/albumDetail',
-        query: {
-            id: props.albumData.albumId
-        }
-    })
+  router.push({
+    path: '/albumDetail',
+    query: {
+      id: props.albumData.albumId,
+    },
+  })
 }
 </script>
+
+<template>
+  <div class="album_item">
+    <div class="cover" @click="tapAlbum">
+      <img :src="`${albumData.coverUrl}?param=140y140`" alt="">
+    </div>
+    <div class="albumName">
+      {{ albumData.albumName }}
+    </div>
+    <div class="artistName">
+      {{ albumData.artistName }}
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .album_item {

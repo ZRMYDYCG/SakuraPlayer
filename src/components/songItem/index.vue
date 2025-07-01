@@ -1,129 +1,131 @@
-<template>
-    <div class="song-item">
-        <div class="left">
-            <img
-                class="left_al_img"
-                :src="songData.al.picUrl + '?param=140y140'"
-                alt=""
-                v-lazy="songData.al.picUrl + '?param=140y140'"
-            />
-        </div>
-        <div class="center">
-            <div class="song-name">{{ songData.name }}</div>
-            <div class="singer">{{ singer }}</div>
-        </div>
-        <div class="right">
-            <img
-                class="active_img"
-                v-if="currentSong.id === songData.id"
-                src="@/assets/images/public/active.gif"
-                alt=""
-            />
-            <i v-else class="iconfont icon-24gf-play" @click="playThis"></i>
-            <i class="iconfont icon-Androidgengduo" @click="showShareMenu"></i>
-        </div>
-    </div>
-
-    <SongMenu
-        v-if="show"
-        :song-data="songData"
-        :showdel="showdel"
-        v-model:show="show"
-        :music-type="songData.type"
-        @play="playThis"
-        @addToSheet="addToSheet"
-        @del="del"
-    />
-    <MySheetList v-if="showSheet" v-model:show="showSheet" @select="selectSheet" />
-</template>
-
 <script setup lang="ts">
-import MySheetList from '@/components/mySheetList/index.vue'
-import SongMenu from './songMenu.vue'
-import { computed, toRaw, ref } from 'vue'
-import { usePlayerStore } from '@/store'
-import { reqSheetTracks } from '@/api/modules/sheet'
-import { Toast } from 'vant'
-import type { arData } from '@/types/store/player'
 import type { SheetDataInterface } from '@/types/public/sheet'
-import type { SongData } from '@/types/store/player'
+import type { arData, SongData } from '@/types/store/player'
 import { storeToRefs } from 'pinia'
+import { Toast } from 'vant'
+import { computed, ref, toRaw } from 'vue'
+import { reqSheetTracks } from '@/api/modules/sheet'
+import MySheetList from '@/components/mySheetList/index.vue'
+import { usePlayerStore } from '@/store'
+import SongMenu from './songMenu.vue'
 
+const props = withDefaults(defineProps<Props>(), {
+  songData: () => {
+    return {
+      url: '',
+      name: '',
+      id: 0,
+      ar: [],
+      al: {
+        id: 0,
+        name: '',
+        pic: 0,
+        picUrl: '',
+        pic_str: '',
+      },
+      dt: 0,
+    }
+  },
+  showdel: false,
+})
+const emit = defineEmits<{
+  (e: 'del'): void
+}>()
 const playerStore = usePlayerStore()
 interface Props {
-    // eslint-disable-next-line
+  // eslint-disable-next-line
     songData: SongData
-    showdel?: boolean
+  showdel?: boolean
 }
 const { currentSong } = storeToRefs(playerStore)
-const props = withDefaults(defineProps<Props>(), {
-    songData: () => {
-        return {
-            url: '',
-            name: '',
-            id: 0,
-            ar: [],
-            al: {
-                id: 0,
-                name: '',
-                pic: 0,
-                picUrl: '',
-                pic_str: ''
-            },
-            dt: 0
-        }
-    },
-    showdel: false
-})
 const singer = computed(() => {
-    if (props.songData?.ar) {
-        return props.songData.ar.map((item: arData) => item.name).join('/')
-    }
-    return ''
+  if (props.songData?.ar) {
+    return props.songData.ar.map((item: arData) => item.name).join('/')
+  }
+  return ''
 })
 const show = ref<boolean>(false)
 const showSheet = ref<boolean>(false)
 
-const emit = defineEmits<{
-    (e: 'del'): void
-}>()
-
 function showShareMenu() {
-    show.value = true
+  show.value = true
 }
 function playThis() {
-    playerStore.setCurSong(toRaw(props.songData))
+  playerStore.setCurSong(toRaw(props.songData))
 }
 function addToSheet() {
-    show.value = false
-    showSheet.value = true
+  show.value = false
+  showSheet.value = true
 }
 // 添加歌曲到歌单
 function selectSheet(item: SheetDataInterface) {
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
+  const loading = Toast.loading({
+    duration: 0,
+    message: '加载中...',
+    overlay: true,
+  })
+  const params = {
+    op: 'add', // 从歌单增加单曲为 add, 删除为 del
+    pid: item.id, // 歌单 id
+    tracks: props.songData.id, //  tracks: 歌曲 id,可多个,用逗号隔开
+  }
+  reqSheetTracks(params)
+    .then(() => {
+      showSheet.value = false
+      Toast.success('添加成功')
     })
-    const params = {
-        op: 'add', // 从歌单增加单曲为 add, 删除为 del
-        pid: item.id, // 歌单 id
-        tracks: props.songData.id //  tracks: 歌曲 id,可多个,用逗号隔开
-    }
-    reqSheetTracks(params)
-        .then(() => {
-            showSheet.value = false
-            Toast.success('添加成功')
-        })
-        .finally(() => {
-            loading.clear()
-        })
+    .finally(() => {
+      loading.clear()
+    })
 }
 // 删除歌曲
 function del() {
-    emit('del')
+  emit('del')
 }
 </script>
+
+<template>
+  <div class="song-item">
+    <div class="left">
+      <img
+        v-lazy="`${songData.al.picUrl}?param=140y140`"
+        class="left_al_img"
+        :src="`${songData.al.picUrl}?param=140y140`"
+        alt=""
+      >
+    </div>
+    <div class="center">
+      <div class="song-name">
+        {{ songData.name }}
+      </div>
+      <div class="singer">
+        {{ singer }}
+      </div>
+    </div>
+    <div class="right">
+      <img
+        v-if="currentSong.id === songData.id"
+        class="active_img"
+        src="@/assets/images/public/active.gif"
+        alt=""
+      >
+      <i v-else class="iconfont icon-24gf-play" @click="playThis" />
+      <i class="iconfont icon-Androidgengduo" @click="showShareMenu" />
+    </div>
+  </div>
+
+  <SongMenu
+    v-if="show"
+    v-model:show="show"
+    :song-data="songData"
+    :showdel="showdel"
+    :music-type="songData.type"
+    @play="playThis"
+    @add-to-sheet="addToSheet"
+    @del="del"
+  />
+  <MySheetList v-if="showSheet" v-model:show="showSheet" @select="selectSheet" />
+</template>
 
 <style scoped lang="less">
 .song-item {

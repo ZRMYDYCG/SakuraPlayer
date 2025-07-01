@@ -1,124 +1,127 @@
-<template>
-    <div class="send_box">
-        <div class="tool_box box_shadow">
-            <div class="textarea">
-                <textarea placeholder="发送消息" rows="1" resize="false" v-model.trim="text"></textarea>
-            </div>
-            <div class="icon flex_box_center_column" @click="handleEmo">
-                <i class="iconfont icon-ma"></i>
-            </div>
-            <div class="icon flex_box_center_column" @click="handleTools">
-                <i class="iconfont icon-icon_tianjia"></i>
-            </div>
-            <div class="send_btn flex_box_center_column">
-                <van-button
-                    size="small"
-                    :type="text ? 'primary' : 'default'"
-                    round
-                    :loading="loading"
-                    @click="sendTextMsg"
-                >
-                    发送
-                </van-button>
-            </div>
-        </div>
-        <div class="tool_list" :style="{ height: showTools ? '250px' : '0px' }">
-            <div class="tool_wrapper">
-                <van-row>
-                    <van-col>
-                        <van-uploader :after-read="afterRead" />
-                    </van-col>
-                </van-row>
-            </div>
-        </div>
-        <div class="emo_wrapper" :style="{ height: showEmo ? '250px' : '0px' }">
-            <div class="emojis">
-                <van-row>
-                    <van-col v-for="item in emojiName" :span="3" :key="item">
-                        <div class="flex_box_center_column" @click="chooseEmoji(item)">
-                            <img :src="emojiUrl + emojiMap[item]" class="emoji_img" />
-                        </div>
-                    </van-col>
-                </van-row>
-            </div>
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
-import { ref, defineExpose } from 'vue'
-import { emojiMap, emojiName, emojiUrl } from '@/utils/emojiMap'
+import type { MsgData } from '@/types/public/msg'
+import { defineExpose, ref } from 'vue'
 import { reqSendText } from '@/api/modules/msg'
-import { MsgData } from '@/types/public/msg'
+import { emojiMap, emojiName, emojiUrl } from '@/utils/emojiMap'
 
 interface Props {
-    toUser: number
+  toUser: number
 }
 const props = withDefaults(defineProps<Props>(), {
-    toUser: 0
+  toUser: 0,
 })
+const emit = defineEmits<{
+  (e: 'changeHeight'): void
+  (e: 'sendSuccess', value: MsgData[]): void
+}>()
 const loading = ref<boolean>(false)
 const text = ref<string>('')
 const showTools = ref<boolean>(false)
 const showEmo = ref<boolean>(false)
-const emit = defineEmits<{
-    (e: 'changeHeight'): void
-    (e: 'sendSuccess', value: MsgData[]): void
-}>()
 function handleEmo() {
-    console.log('点击表情')
-    showEmo.value = !showEmo.value
-    showTools.value = false
-    setTimeout(() => {
-        emit('changeHeight')
-    }, 500)
+  console.log('点击表情')
+  showEmo.value = !showEmo.value
+  showTools.value = false
+  setTimeout(() => {
+    emit('changeHeight')
+  }, 500)
 }
 function handleTools() {
-    console.log('点击工具')
-    showTools.value = !showTools.value
-    showEmo.value = false
-    setTimeout(() => {
-        emit('changeHeight')
-    }, 500)
+  console.log('点击工具')
+  showTools.value = !showTools.value
+  showEmo.value = false
+  setTimeout(() => {
+    emit('changeHeight')
+  }, 500)
 }
 function hideAll() {
-    if (showEmo.value || showTools.value) {
-        showEmo.value = false
-        showTools.value = false
-        setTimeout(() => {
-            emit('changeHeight')
-        }, 500)
-    }
+  if (showEmo.value || showTools.value) {
+    showEmo.value = false
+    showTools.value = false
+    setTimeout(() => {
+      emit('changeHeight')
+    }, 500)
+  }
 }
 // 选择表情
 function chooseEmoji(emoji: string): void {
-    text.value += emoji
+  text.value += emoji
 }
 // 发送文本消息
 function sendTextMsg() {
-    if (!text.value) return
-    loading.value = true
-    reqSendText({
-        user_ids: props.toUser,
-        msg: text.value
+  if (!text.value)
+    return
+  loading.value = true
+  reqSendText({
+    user_ids: props.toUser,
+    msg: text.value,
+  })
+    .then((res) => {
+      console.log(res)
+      text.value = ''
+      emit('sendSuccess', res.data.newMsgs)
     })
-        .then((res) => {
-            console.log(res)
-            text.value = ''
-            emit('sendSuccess', res.data.newMsgs)
-        })
-        .finally(() => {
-            loading.value = false
-        })
+    .finally(() => {
+      loading.value = false
+    })
 }
 // 发送图片 暂无接口
-// eslint-disable-next-line
+
 function afterRead(file: any) {
-    console.log(file)
+  console.log(file)
 }
 defineExpose({
-    hideAll
+  hideAll,
 })
 </script>
+
+<template>
+  <div class="send_box">
+    <div class="tool_box box_shadow">
+      <div class="textarea">
+        <textarea v-model.trim="text" placeholder="发送消息" rows="1" resize="false" />
+      </div>
+      <div class="icon flex_box_center_column" @click="handleEmo">
+        <i class="iconfont icon-ma" />
+      </div>
+      <div class="icon flex_box_center_column" @click="handleTools">
+        <i class="iconfont icon-icon_tianjia" />
+      </div>
+      <div class="send_btn flex_box_center_column">
+        <van-button
+          size="small"
+          :type="text ? 'primary' : 'default'"
+          round
+          :loading="loading"
+          @click="sendTextMsg"
+        >
+          发送
+        </van-button>
+      </div>
+    </div>
+    <div class="tool_list" :style="{ height: showTools ? '250px' : '0px' }">
+      <div class="tool_wrapper">
+        <van-row>
+          <van-col>
+            <van-uploader :after-read="afterRead" />
+          </van-col>
+        </van-row>
+      </div>
+    </div>
+    <div class="emo_wrapper" :style="{ height: showEmo ? '250px' : '0px' }">
+      <div class="emojis">
+        <van-row>
+          <van-col v-for="item in emojiName" :key="item" :span="3">
+            <div class="flex_box_center_column" @click="chooseEmoji(item)">
+              <img :src="emojiUrl + emojiMap[item]" class="emoji_img">
+            </div>
+          </van-col>
+        </van-row>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .send_box {
     min-height: 80px;

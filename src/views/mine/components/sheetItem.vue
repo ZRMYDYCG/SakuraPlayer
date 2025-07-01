@@ -1,77 +1,80 @@
-<template>
-    <div class="flex_box" @click="goSheetDetail">
-        <div class="left">
-            <div class="cover">
-                <img :src="sheetData.coverImgUrl" alt="" />
-            </div>
-            <div class="info">
-                <div class="title">{{ sheetData.name }}</div>
-                <div class="total">{{ sheetData.trackCount }}首</div>
-            </div>
-        </div>
-        <div class="flex_box_center_column play_btn">
-            <i class="iconfont icon-Androidgengduo" @click.stop="handleMenu" v-if="showEdit"></i>
-        </div>
-    </div>
-    <PopupMenu v-model:showPopup="show" :hide-edit="hideEdit" @del="del" @edit="edit" />
-</template>
-
 <script setup lang="ts">
 import { Toast } from 'vant'
-import { reqDelSheet } from '@/api/modules/sheet'
 import { ref } from 'vue'
-import PopupMenu from './popupMenu.vue'
 import { useRouter } from 'vue-router'
+import { reqDelSheet } from '@/api/modules/sheet'
+import PopupMenu from './popupMenu.vue'
+
+const props = withDefaults(defineProps<Props>(), {
+  sheetData: () => {
+    return {}
+  },
+  hideEdit: false,
+  showEdit: true,
+})
+const emit = defineEmits<{
+  (e: 'delsuccess'): void
+  (e: 'edit'): void
+}>()
 const router = useRouter()
 const show = ref<boolean>(false)
 interface Props {
-    // eslint-disable-next-line
+  // eslint-disable-next-line
     sheetData: any
-    hideEdit: boolean // 菜单中的编辑
-    showEdit: boolean // 菜单
+  hideEdit: boolean // 菜单中的编辑
+  showEdit: boolean // 菜单
 }
-const props = withDefaults(defineProps<Props>(), {
-    sheetData: () => {
-        return {}
-    },
-    hideEdit: false,
-    showEdit: true
-})
-
-const emit = defineEmits<{
-    (e: 'delsuccess'): void
-    (e: 'edit'): void
-}>()
-
 function goSheetDetail() {
-    router.push({
-        path: '/songSheetDetail',
-        query: { id: props.sheetData.id }
-    })
+  router.push({
+    path: '/songSheetDetail',
+    query: { id: props.sheetData.id },
+  })
 }
 function handleMenu() {
-    show.value = true
+  show.value = true
 }
 
 function del() {
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
+  const loading = Toast.loading({
+    duration: 0,
+    message: '加载中...',
+    overlay: true,
+  })
+  reqDelSheet({ id: props.sheetData.id })
+    .then(() => {
+      emit('delsuccess')
     })
-    reqDelSheet({ id: props.sheetData.id })
-        .then(() => {
-            emit('delsuccess')
-        })
-        .finally(() => {
-            loading.clear()
-        })
+    .finally(() => {
+      loading.clear()
+    })
 }
 
 function edit() {
-    emit('edit')
+  emit('edit')
 }
 </script>
+
+<template>
+  <div class="flex_box" @click="goSheetDetail">
+    <div class="left">
+      <div class="cover">
+        <img :src="sheetData.coverImgUrl" alt="">
+      </div>
+      <div class="info">
+        <div class="title">
+          {{ sheetData.name }}
+        </div>
+        <div class="total">
+          {{ sheetData.trackCount }}首
+        </div>
+      </div>
+    </div>
+    <div class="flex_box_center_column play_btn">
+      <i v-if="showEdit" class="iconfont icon-Androidgengduo" @click.stop="handleMenu" />
+    </div>
+  </div>
+  <PopupMenu v-model:show-popup="show" :hide-edit="hideEdit" @del="del" @edit="edit" />
+</template>
 
 <style scoped lang="less">
 .flex_box {

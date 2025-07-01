@@ -1,72 +1,73 @@
-<template>
-    <div class="wrapper">
-        <div class="newSongItem">
-            <div class="left">
-                <div class="cover">
-                    <img class="cover_img" :src="songData.picUrl + '?param=140y140'" alt="" />
-                    <i class="iconfont icon-24gf-play"></i>
-                </div>
-                <div class="song_info">
-                    <div>
-                        <span class="song_name">{{ songData.name }}</span>
-                        <span class="singer">- {{ singerName }}</span>
-                    </div>
-                    <!--                     <div class="desc">你有很多故事 可我却从未参与其中可我却从未参与其中</div>-->
-                </div>
-            </div>
-            <div class="right flex_box_center_column">
-                <i class="iconfont icon-24gf-play" @click="playThis"></i>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { songData as songDataInterface } from '@/types/public'
+import type { arData } from '@/types/store/player'
 import { computed } from 'vue'
 import { usePlayerStore } from '@/store'
-import type { arData } from '@/types/store/player'
-import type { songData as songDataInterface } from '@/types/public'
 
 interface Props {
-    songData: songDataInterface
+  songData: songDataInterface
 }
+
+const props = withDefaults(defineProps<Props>(), {
+  songData: (): songDataInterface => {
+    return {
+      alg: '',
+      canDislike: false,
+      copywriter: '',
+      id: 0,
+      name: '',
+      picUrl: '',
+      // eslint-disable-next-line
+            song: {},
+      trackNumberUpdateTime: 0,
+      type: 0,
+    }
+  },
+})
 
 const playerStore = usePlayerStore()
 
-const props = withDefaults(defineProps<Props>(), {
-    songData: (): songDataInterface => {
-        return {
-            alg: '',
-            canDislike: false,
-            copywriter: '',
-            id: 0,
-            name: '',
-            picUrl: '',
-            // eslint-disable-next-line
-            song: {},
-            trackNumberUpdateTime: 0,
-            type: 0
-        }
-    }
-})
 const singerName = computed(() => {
-    if (props.songData.song.artists) {
-        return props.songData.song.artists.map((item: arData) => item.name).join('/')
-    }
-    return '-'
+  if (props.songData.song.artists) {
+    return props.songData.song.artists.map((item: arData) => item.name).join('/')
+  }
+  return '-'
 })
 function playThis() {
-    const data = {
-        dt: props.songData.song.duration,
-        url: '',
-        name: props.songData.song.name,
-        id: props.songData.song.id,
-        ar: props.songData.song.artists,
-        al: props.songData.song.album
-    }
-    playerStore.setCurSong(data)
+  const data = {
+    dt: props.songData.song.duration,
+    url: '',
+    name: props.songData.song.name,
+    id: props.songData.song.id,
+    ar: props.songData.song.artists,
+    al: props.songData.song.album,
+  }
+  playerStore.setCurSong(data)
 }
 </script>
+
+<template>
+  <div class="wrapper">
+    <div class="newSongItem">
+      <div class="left">
+        <div class="cover">
+          <img class="cover_img" :src="`${songData.picUrl}?param=140y140`" alt="">
+          <i class="iconfont icon-24gf-play" />
+        </div>
+        <div class="song_info">
+          <div>
+            <span class="song_name">{{ songData.name }}</span>
+            <span class="singer">- {{ singerName }}</span>
+          </div>
+          <!--                     <div class="desc">你有很多故事 可我却从未参与其中可我却从未参与其中</div> -->
+        </div>
+      </div>
+      <div class="right flex_box_center_column">
+        <i class="iconfont icon-24gf-play" @click="playThis" />
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .wrapper {

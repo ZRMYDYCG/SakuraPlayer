@@ -1,67 +1,72 @@
-<template>
-    <van-popup v-model:show="show" style="width: 100%; height: 100vh" closeable @close="close" class="mypop">
-        <div class="content">
-            <div class="bg">
-                <img :src="info.picUrl" alt="" />
-            </div>
-            <div class="mask"></div>
-            <div class="main">
-                <div class="cover_img">
-                    <img :src="info.picUrl" alt="" />
-                </div>
-                <div class="sheetName">{{ info.name }}</div>
-                <div class="tag_wrapper">
-                    <div>标签：</div>
-                    <div class="tags" v-for="(item, index) in info.tags" :key="index">{{ item }}</div>
-                </div>
-
-                <div class="description">
-                    {{ info.description }}
-                </div>
-            </div>
-        </div>
-    </van-popup>
-</template>
-
 <script lang="ts" setup>
 import { computed } from 'vue'
+
 interface Info {
-    tags: Array<string>
-    picUrl: string
-    name: string
-    description: string
+  tags: Array<string>
+  picUrl: string
+  name: string
+  description: string
 }
 interface Props {
-    showPopup: boolean
-    info: Info
+  showPopup: boolean
+  info: Info
 }
 const props = withDefaults(defineProps<Props>(), {
-    showPopup: false,
-    info: () => {
-        return {
-            tags: [],
-            picUrl: '',
-            name: '',
-            description: ''
-        }
+  showPopup: false,
+  info: () => {
+    return {
+      tags: [],
+      picUrl: '',
+      name: '',
+      description: '',
     }
+  },
 })
 const emit = defineEmits<{
-    (e: 'update:show-popup', value: boolean): void
+  (e: 'update:show-popup', value: boolean): void
 }>()
 const show = computed({
-    get() {
-        return props.showPopup
-    },
-    set(val) {
-        emit('update:show-popup', val)
-    }
+  get() {
+    return props.showPopup
+  },
+  set(val) {
+    emit('update:show-popup', val)
+  },
 })
 
 function close() {
-    console.log('关闭')
+  console.log('关闭')
 }
 </script>
+
+<template>
+  <van-popup v-model:show="show" style="width: 100%; height: 100vh" closeable class="mypop" @close="close">
+    <div class="content">
+      <div class="bg">
+        <img :src="info.picUrl" alt="">
+      </div>
+      <div class="mask" />
+      <div class="main">
+        <div class="cover_img">
+          <img :src="info.picUrl" alt="">
+        </div>
+        <div class="sheetName">
+          {{ info.name }}
+        </div>
+        <div class="tag_wrapper">
+          <div>标签：</div>
+          <div v-for="(item, index) in info.tags" :key="index" class="tags">
+            {{ item }}
+          </div>
+        </div>
+
+        <div class="description">
+          {{ info.description }}
+        </div>
+      </div>
+    </div>
+  </van-popup>
+</template>
 
 <style scoped lang="less">
 :deep(.mypop) {

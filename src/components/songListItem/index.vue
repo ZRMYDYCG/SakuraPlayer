@@ -3,61 +3,64 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="song_list_item">
-        <div class="cover" @click="goDetail">
-            <img
-                class="cover_img"
-                :src="songListData.picUrl ? songListData.picUrl : songListData.coverImgUrl + '?param=140y140'"
-                alt=""
-            />
-            <div class="play_count">
-                <i class="iconfont icon-bofang"></i>
-                <div>{{ formatCountNumber(songListData.playCount) }}</div>
-            </div>
-        </div>
-        <div class="song_list_title text_over_two_lines">{{ songListData.name }}</div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import type { songListFace } from '@/types/public'
-import { formatCountNumber } from '@/utils'
 import { useRouter } from 'vue-router'
+import { formatCountNumber } from '@/utils'
+
 const router = useRouter()
 interface Props {
-    songListData: songListFace
+  songListData: songListFace
 }
 
 // eslint-disable-next-line
 const props = withDefaults(defineProps<Props>(), {
-    songListData: () => {
-        return {
-            alg: '',
-            canDislike: false,
-            copywriter: '',
-            highQuality: false,
-            id: 0,
-            name: '',
-            picUrl: '',
-            playCount: 0,
-            trackCount: 0,
-            trackNumberUpdateTime: 0,
-            type: 0,
-            coverImgUrl: ''
-        }
+  songListData: () => {
+    return {
+      alg: '',
+      canDislike: false,
+      copywriter: '',
+      highQuality: false,
+      id: 0,
+      name: '',
+      picUrl: '',
+      playCount: 0,
+      trackCount: 0,
+      trackNumberUpdateTime: 0,
+      type: 0,
+      coverImgUrl: '',
     }
+  },
 })
 
 function goDetail() {
-    router.push({
-        path: '/songSheetDetail',
-        query: { id: props.songListData.id }
-    })
+  router.push({
+    path: '/songSheetDetail',
+    query: { id: props.songListData.id },
+  })
 }
 </script>
+
+<template>
+  <div class="song_list_item">
+    <div class="cover" @click="goDetail">
+      <img
+        class="cover_img"
+        :src="songListData.picUrl ? songListData.picUrl : `${songListData.coverImgUrl}?param=140y140`"
+        alt=""
+      >
+      <div class="play_count">
+        <i class="iconfont icon-bofang" />
+        <div>{{ formatCountNumber(songListData.playCount) }}</div>
+      </div>
+    </div>
+    <div class="song_list_title text_over_two_lines">
+      {{ songListData.name }}
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .song_list_item {

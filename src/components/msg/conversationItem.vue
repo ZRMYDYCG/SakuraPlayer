@@ -1,68 +1,76 @@
-<template>
-    <div class="conversation" @click="toChat">
-        <div class="left">
-            <div class="avatar">
-                <img class="avatarImg" :src="conData.fromUser.avatarUrl" alt="" />
-            </div>
-        </div>
-        <div class="center">
-            <div class="fromUser">{{ conData.fromUser.nickname }}</div>
-            <div class="message text_over_line">{{ msgText }}</div>
-        </div>
-        <div class="right">
-            <div class="time">{{ dateFormat(conData.lastMsgTime, 'MM-dd') }}</div>
-            <van-badge :show-zero="false" :offset="[10, 10]" :content="conData.newMsgCount" />
-        </div>
-    </div>
-</template>
 <script setup lang="ts">
-import { dateFormat } from '@/utils'
 import type { ConversationData } from '@/types/public/msg'
-import { useRouter } from 'vue-router'
 import { computed } from 'vue'
-interface Props {
-    conData: ConversationData
-}
-const router = useRouter()
-const props = withDefaults(defineProps<Props>(), {
-    conData: () => {
-        return {
-            fromUser: {
-                nickname: '',
-                avatarUrl: '',
-                userId: 0,
-                signature: '',
-                gender: 0
-            },
-            lastMsg: '',
-            lastMsgId: 0,
-            lastMsgTime: 0,
-            newMsgCount: 0,
-            toUser: {
-                nickname: '',
-                avatarUrl: '',
-                userId: 0,
-                signature: '',
-                gender: 0
-            }
-        }
-    }
-})
+import { useRouter } from 'vue-router'
+import { dateFormat } from '@/utils'
 
+interface Props {
+  conData: ConversationData
+}
+const props = withDefaults(defineProps<Props>(), {
+  conData: () => {
+    return {
+      fromUser: {
+        nickname: '',
+        avatarUrl: '',
+        userId: 0,
+        signature: '',
+        gender: 0,
+      },
+      lastMsg: '',
+      lastMsgId: 0,
+      lastMsgTime: 0,
+      newMsgCount: 0,
+      toUser: {
+        nickname: '',
+        avatarUrl: '',
+        userId: 0,
+        signature: '',
+        gender: 0,
+      },
+    }
+  },
+})
+const router = useRouter()
 const msgText = computed(() => {
-    console.log(JSON.parse(props.conData.lastMsg))
-    const msgObj = JSON.parse(props.conData.lastMsg)
-    return msgObj.msg
+  console.log(JSON.parse(props.conData.lastMsg))
+  const msgObj = JSON.parse(props.conData.lastMsg)
+  return msgObj.msg
 })
 function toChat() {
-    router.push({
-        path: '/conversation',
-        query: {
-            id: props.conData.fromUser.userId
-        }
-    })
+  router.push({
+    path: '/conversation',
+    query: {
+      id: props.conData.fromUser.userId,
+    },
+  })
 }
 </script>
+
+<template>
+  <div class="conversation" @click="toChat">
+    <div class="left">
+      <div class="avatar">
+        <img class="avatarImg" :src="conData.fromUser.avatarUrl" alt="">
+      </div>
+    </div>
+    <div class="center">
+      <div class="fromUser">
+        {{ conData.fromUser.nickname }}
+      </div>
+      <div class="message text_over_line">
+        {{ msgText }}
+      </div>
+    </div>
+    <div class="right">
+      <div class="time">
+        {{ dateFormat(conData.lastMsgTime, 'MM-dd') }}
+      </div>
+      <van-badge :show-zero="false" :offset="[10, 10]" :content="conData.newMsgCount" />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="less">
 .conversation {
     display: flex;

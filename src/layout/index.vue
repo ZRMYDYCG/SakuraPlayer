@@ -1,43 +1,43 @@
-<template>
-    <div class="layout">
-        <van-swipe-cell @open="open" @close="close" ref="swiperCell" stop-propagation>
-            <template #left>
-                <side-menu />
-            </template>
-            <router-view v-slot="{ Component }">
-                <keep-alive>
-                    <component :is="Component" />
-                </keep-alive>
-            </router-view>
-            <tab-bar />
-            <van-overlay :show="show" />
-        </van-swipe-cell>
-    </div>
-</template>
-
 <script lang="ts" setup>
+import type { SwipeCellInstance } from 'vant'
 import { ref } from 'vue'
 import $bus from '@/utils/eventBus'
-import TabBar from './components/tab-bar.vue'
 import SideMenu from './components/side-menu.vue'
-import type { SwipeCellInstance } from 'vant'
+import TabBar from './components/tab-bar.vue'
 
 const show = ref<boolean>(false)
 const swiperCell = ref<SwipeCellInstance>()
 function open(): void {
-    show.value = true
+  show.value = true
 }
 function close(): void {
-    show.value = false
+  show.value = false
 }
 
 // 打开菜单
 $bus.on('open_menu', (): void => {
-    setTimeout(() => {
-        swiperCell.value?.open('left')
-    })
+  setTimeout(() => {
+    swiperCell.value?.open('left')
+  })
 })
 </script>
+
+<template>
+  <div class="layout">
+    <van-swipe-cell ref="swiperCell" stop-propagation @open="open" @close="close">
+      <template #left>
+        <SideMenu />
+      </template>
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+      <TabBar />
+      <van-overlay :show="show" />
+    </van-swipe-cell>
+  </div>
+</template>
 
 <style scoped lang="less">
 .layout {

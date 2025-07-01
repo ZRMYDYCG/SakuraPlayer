@@ -3,35 +3,35 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="swiper">
-        <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-            <van-swipe-item v-for="item in imgList" :key="item.bannerId">
-                <img :src="item.pic" :alt="item.typeTitle" class="swiper_img" />
-            </van-swipe-item>
-        </van-swipe>
-    </div>
-</template>
-
 <script lang="ts" setup>
-import { reqDjBanner } from '@/api/modules/dj'
 import { ref } from 'vue'
+import { reqDjBanner } from '@/api/modules/dj'
 
 interface ImgList {
-    typeTitle: string
-    pic: string
-    bannerId: number
+  typeTitle: string
+  pic: string
+  bannerId: number
 }
 const imgList = ref<ImgList[]>([])
 function getBanner() {
-    reqDjBanner().then((res) => {
-        imgList.value = res.data.data
-    })
+  reqDjBanner().then((res) => {
+    imgList.value = res.data.data
+  })
 }
 getBanner()
 </script>
+
+<template>
+  <div class="swiper">
+    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+      <van-swipe-item v-for="item in imgList" :key="item.bannerId">
+        <img :src="item.pic" :alt="item.typeTitle" class="swiper_img">
+      </van-swipe-item>
+    </van-swipe>
+  </div>
+</template>
 
 <style scoped lang="less">
 .swiper {

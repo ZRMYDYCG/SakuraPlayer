@@ -1,24 +1,25 @@
 // 评论
 import type { UserInterface } from '@/types/public/user'
+
 export interface CommentData {
-    user: UserInterface
-    timeStr: string
-    commentId: number
-    content: string
-    likedCount: number
-    liked: boolean
+  user: UserInterface
+  timeStr: string
+  commentId: number
+  content: string
+  likedCount: number
+  liked: boolean
 }
 // 新版评论数据
 export interface CommentDataNew {
-    user: UserInterface
-    content: string
-    timeStr: string
-    likedCount: number
-    liked: boolean
-    beReplied: null | Array<CommentDataNew>
-    replyCount: number
-    commentId: number
-    time: 0
+  user: UserInterface
+  content: string
+  timeStr: string
+  likedCount: number
+  liked: boolean
+  beReplied: null | Array<CommentDataNew>
+  replyCount: number
+  commentId: number
+  time: 0
 }
 /**
  * type
@@ -31,11 +32,11 @@ export interface CommentDataNew {
  * 6: 动态
  */
 export enum CommentType {
-    song = 0,
-    mv = 1,
-    sheet = 2,
-    album = 3,
-    dj = 4,
-    video = 5,
-    event = 6
+  song = 0,
+  mv = 1,
+  sheet = 2,
+  album = 3,
+  dj = 4,
+  video = 5,
+  event = 6,
 }

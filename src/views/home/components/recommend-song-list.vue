@@ -3,28 +3,12 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="recommend">
-        <div class="recommend_top">
-            <div class="recommend_title">推荐歌单</div>
-            <van-button icon="arrow" round size="medium" icon-position="right" @click="goSheets">更多</van-button>
-        </div>
-        <van-skeleton title :row="3" :loading="loading">
-            <div class="scroll_wrapper" ref="scrollRef" @touchmove="scroll">
-                <div class="list">
-                    <SongListItem v-for="item in songsList" :key="item.id" :songListData="item" />
-                </div>
-            </div>
-        </van-skeleton>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { ref, defineExpose } from 'vue'
-import { useRouter } from 'vue-router'
 import type { songListFace } from '@/types/public'
+import { defineExpose, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { reqRecommendList } from '@/api/modules/home'
 import SongListItem from '@/components/songListItem/index.vue'
 
@@ -33,30 +17,50 @@ const songsList = ref<songListFace[]>([])
 const loading = ref<boolean>(false)
 
 function getList() {
-    loading.value = true
-    reqRecommendList({ limit: 10 })
-        .then((res) => {
-            songsList.value = res.data.result
-        })
-        .finally(() => {
-            setTimeout(() => {
-                loading.value = false
-            }, 1000)
-        })
+  loading.value = true
+  reqRecommendList({ limit: 10 })
+    .then((res) => {
+      songsList.value = res.data.result
+    })
+    .finally(() => {
+      setTimeout(() => {
+        loading.value = false
+      }, 1000)
+    })
 }
 function scroll(e: Event): void {
-    e.stopPropagation()
+  e.stopPropagation()
 }
 function goSheets() {
-    router.push('/sheetSquare')
+  router.push('/sheetSquare')
 }
 
 defineExpose({
-    getList
+  getList,
 })
 
 getList()
 </script>
+
+<template>
+  <div class="recommend">
+    <div class="recommend_top">
+      <div class="recommend_title">
+        推荐歌单
+      </div>
+      <van-button icon="arrow" round size="medium" icon-position="right" @click="goSheets">
+        更多
+      </van-button>
+    </div>
+    <van-skeleton title :row="3" :loading="loading">
+      <div ref="scrollRef" class="scroll_wrapper" @touchmove="scroll">
+        <div class="list">
+          <SongListItem v-for="item in songsList" :key="item.id" :song-list-data="item" />
+        </div>
+      </div>
+    </van-skeleton>
+  </div>
+</template>
 
 <style scoped lang="less">
 .recommend {

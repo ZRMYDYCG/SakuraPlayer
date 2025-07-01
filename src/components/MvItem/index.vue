@@ -1,44 +1,49 @@
-<template>
-    <div class="album_item" @click="tapAlbum">
-        <div class="cover">
-            <img :src="mvData.cover + '?param=140y140'" alt="" />
-        </div>
-        <div class="info">
-            <div class="album_name">{{ mvData.name }}</div>
-            <div class="singer">{{ mvData.artistName }}</div>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import type { MvInterface } from '@/types/public/mv'
+import { useRouter } from 'vue-router'
+
 interface Props {
-    mvData: MvInterface
+  mvData: MvInterface
 }
-const router = useRouter()
 const props = withDefaults(defineProps<Props>(), {
-    mvData: () => {
-        return {
-            id: 0,
-            cover: '',
-            name: '',
-            playCount: 0,
-            artistName: '',
-            artistId: 0
-        }
+  mvData: () => {
+    return {
+      id: 0,
+      cover: '',
+      name: '',
+      playCount: 0,
+      artistName: '',
+      artistId: 0,
     }
+  },
 })
+const router = useRouter()
 function tapAlbum() {
-    router.push({
-        path: '/videoDetail',
-        query: {
-            id: props.mvData.id,
-            type: 'MV'
-        }
-    })
+  router.push({
+    path: '/videoDetail',
+    query: {
+      id: props.mvData.id,
+      type: 'MV',
+    },
+  })
 }
 </script>
+
+<template>
+  <div class="album_item" @click="tapAlbum">
+    <div class="cover">
+      <img :src="`${mvData.cover}?param=140y140`" alt="">
+    </div>
+    <div class="info">
+      <div class="album_name">
+        {{ mvData.name }}
+      </div>
+      <div class="singer">
+        {{ mvData.artistName }}
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .album_item {

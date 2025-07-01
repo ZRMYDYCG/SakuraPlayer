@@ -1,63 +1,69 @@
-<template>
-    <div>
-        <div class="mini_player" @click.prevent="tapMiniPlayer">
-            <!-- 歌曲图片 -->
-            <div class="m_cover">
-                <div class="m_cover_bg flex_box_center_column">
-                    <img class="m_cover_img" :src="coverImg" alt="" />
-                </div>
-            </div>
-            <!-- 歌曲名字 -->
-            <div class="m_center">
-                <div class="m_info">
-                    <div class="m_name">{{ currentSong.name }}</div>
-                    <div class="m_singer">- {{ singerName }}</div>
-                </div>
-                <div class="current_text" v-if="currentText">
-                    <van-notice-bar :scrollable="currentText.length > 20" :text="currentText" />
-                </div>
-            </div>
-            <!-- 操作按钮 -->
-            <div class="m_play_menu">
-                <div class="m_menu_icon m_menu_play flex_box_center_column" v-if="!playing" @click.stop="handlePlay">
-                    <i class="iconfont icon-bofang"></i>
-                </div>
-                <div class="m_menu_icon m_menu_stop flex_box_center_column" v-else @click.stop="handlePause">
-                    <i class="iconfont icon-zanting"></i>
-                </div>
-                <div class="m_menu_icon m_menu_list flex_box_center_column" @click.stop="tapPlayList">
-                    <i class="iconfont icon-24gf-playlistMusic2"></i>
-                </div>
-            </div>
-        </div>
-        <PlayListPopup v-model:showPopup="showList" />
-    </div>
-</template>
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
-import { usePlayerStore } from '@/store'
 import { ref } from 'vue'
 import PlayListPopup from '@/components/PlayList/listPopup.vue'
+import { usePlayerStore } from '@/store'
+
 const playerStore = usePlayerStore()
 const showList = ref<boolean>(false)
 function tapPlayList(): void {
-    showList.value = true
+  showList.value = true
 }
 
 function tapMiniPlayer() {
-    playerStore.setPlayerVisible(true)
+  playerStore.setPlayerVisible(true)
 }
 const { currentSong, singerName, coverImg, playing, currentText } = storeToRefs(playerStore)
 
 function handlePlay() {
-    console.log('播放')
-    playerStore.setPlaying(true)
+  console.log('播放')
+  playerStore.setPlaying(true)
 }
 function handlePause() {
-    console.log('暂停')
-    playerStore.setPlaying(false)
+  console.log('暂停')
+  playerStore.setPlaying(false)
 }
 </script>
+
+<template>
+  <div>
+    <div class="mini_player" @click.prevent="tapMiniPlayer">
+      <!-- 歌曲图片 -->
+      <div class="m_cover">
+        <div class="m_cover_bg flex_box_center_column">
+          <img class="m_cover_img" :src="coverImg" alt="">
+        </div>
+      </div>
+      <!-- 歌曲名字 -->
+      <div class="m_center">
+        <div class="m_info">
+          <div class="m_name">
+            {{ currentSong.name }}
+          </div>
+          <div class="m_singer">
+            - {{ singerName }}
+          </div>
+        </div>
+        <div v-if="currentText" class="current_text">
+          <van-notice-bar :scrollable="currentText.length > 20" :text="currentText" />
+        </div>
+      </div>
+      <!-- 操作按钮 -->
+      <div class="m_play_menu">
+        <div v-if="!playing" class="m_menu_icon m_menu_play flex_box_center_column" @click.stop="handlePlay">
+          <i class="iconfont icon-bofang" />
+        </div>
+        <div v-else class="m_menu_icon m_menu_stop flex_box_center_column" @click.stop="handlePause">
+          <i class="iconfont icon-zanting" />
+        </div>
+        <div class="m_menu_icon m_menu_list flex_box_center_column" @click.stop="tapPlayList">
+          <i class="iconfont icon-24gf-playlistMusic2" />
+        </div>
+      </div>
+    </div>
+    <PlayListPopup v-model:show-popup="showList" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .mini_player {

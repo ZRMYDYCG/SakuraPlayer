@@ -1,32 +1,33 @@
-<template>
-    <div class="newAlbum">
-        <div class="title">
-            <div>最新上架</div>
-            <div class="flex_box_center_column">
-                <van-icon name="arrow" />
-            </div>
-        </div>
-        <van-row>
-            <van-col :span="8" v-for="item in list" :key="item.albumId">
-                <AlbumItem :album-data="item" />
-            </van-col>
-        </van-row>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { albumDataInterface } from '@/types/public/album'
 import { ref } from 'vue'
 import { reqAlbumList } from '@/api/modules/album'
-import { albumDataInterface } from '@/types/public/album'
 import AlbumItem from './albumItem.vue'
+
 const list = ref<Array<albumDataInterface>>([])
 function getAlbumList() {
-    reqAlbumList({ limit: 6 }).then((res) => {
-        list.value = res.data.products
-    })
+  reqAlbumList({ limit: 6 }).then((res) => {
+    list.value = res.data.products
+  })
 }
 getAlbumList()
 </script>
+
+<template>
+  <div class="newAlbum">
+    <div class="title">
+      <div>最新上架</div>
+      <div class="flex_box_center_column">
+        <van-icon name="arrow" />
+      </div>
+    </div>
+    <van-row>
+      <van-col v-for="item in list" :key="item.albumId" :span="8">
+        <AlbumItem :album-data="item" />
+      </van-col>
+    </van-row>
+  </div>
+</template>
 
 <style scoped lang="less">
 .newAlbum {

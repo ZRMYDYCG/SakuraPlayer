@@ -3,32 +3,15 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
 <!-- 推荐新歌 -->
-<template>
-    <div class="newSong" @touchmove="(e) => e.stopPropagation()">
-        <div class="top">
-            <div class="recommend_title">新歌推荐</div>
-            <van-button icon="play" round size="medium" @click="playAll">播放</van-button>
-        </div>
-
-        <van-skeleton title :row="10" :loading="loading">
-            <van-swipe :show-indicators="false">
-                <van-swipe-item v-for="(item, index) in list" :key="index">
-                    <new-song-item :song-data="data" v-for="data in item" :key="data.id" />
-                </van-swipe-item>
-            </van-swipe>
-        </van-skeleton>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { ref, defineExpose, toRaw } from 'vue'
-import { usePlayerStore } from '@/store'
+import type { songData } from '@/types/public'
+import { defineExpose, ref, toRaw } from 'vue'
 import { reqRecommendNewSongs } from '@/api/modules/home'
+import { usePlayerStore } from '@/store'
 import NewSongItem from './new-song-item.vue'
-import { songData } from '@/types/public'
 
 const list = ref<Array<Array<songData>>>([])
 const songList = ref<Array<songData>>([])
@@ -36,51 +19,72 @@ const playerStore = usePlayerStore()
 const loading = ref<boolean>(false)
 
 function getList() {
-    loading.value = true
-    reqRecommendNewSongs({ limit: 12 })
-        .then((res) => {
-            const { data } = res
-            // eslint-disable-next-line
+  loading.value = true
+  reqRecommendNewSongs({ limit: 12 })
+    .then((res) => {
+      const { data } = res
+      // eslint-disable-next-line
             const tempList: Array<any> = []
-            const len = data.result.length
-            songList.value = data.result
-            for (let i = 0; i < len; i++) {
-                const l = Math.floor(i / 2)
-                if (!tempList[l]) {
-                    tempList[l] = []
-                }
-                tempList[l].push(data.result[i])
-            }
-            list.value = tempList
-        })
-        .finally(() => {
-            setTimeout(() => {
-                loading.value = false
-            }, 1000)
-        })
+      const len = data.result.length
+      songList.value = data.result
+      for (let i = 0; i < len; i++) {
+        const l = Math.floor(i / 2)
+        if (!tempList[l]) {
+          tempList[l] = []
+        }
+        tempList[l].push(data.result[i])
+      }
+      list.value = tempList
+    })
+    .finally(() => {
+      setTimeout(() => {
+        loading.value = false
+      }, 1000)
+    })
 }
 
 function playAll() {
-    const list = toRaw(songList.value)
-    const newlist = list.map((item: songData) => {
-        return {
-            dt: item.song.duration,
-            url: '',
-            name: item.song.name,
-            id: item.song.id,
-            ar: item.song.artists,
-            al: item.song.album
-        }
-    })
-    playerStore.resetList(newlist)
+  const list = toRaw(songList.value)
+  const newlist = list.map((item: songData) => {
+    return {
+      dt: item.song.duration,
+      url: '',
+      name: item.song.name,
+      id: item.song.id,
+      ar: item.song.artists,
+      al: item.song.album,
+    }
+  })
+  playerStore.resetList(newlist)
 }
 
 getList()
 
 defineExpose({
-    getList
+  getList,
 })
 </script>
+
+<template>
+  <div class="newSong" @touchmove="(e) => e.stopPropagation()">
+    <div class="top">
+      <div class="recommend_title">
+        新歌推荐
+      </div>
+      <van-button icon="play" round size="medium" @click="playAll">
+        播放
+      </van-button>
+    </div>
+
+    <van-skeleton title :row="10" :loading="loading">
+      <van-swipe :show-indicators="false">
+        <van-swipe-item v-for="(item, index) in list" :key="index">
+          <NewSongItem v-for="data in item" :key="data.id" :song-data="data" />
+        </van-swipe-item>
+      </van-swipe>
+    </van-skeleton>
+  </div>
+</template>
 
 <style scoped lang="less">
 .newSong {

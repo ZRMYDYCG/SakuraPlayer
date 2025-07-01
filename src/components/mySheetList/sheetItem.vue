@@ -1,37 +1,41 @@
-<template>
-    <div class="flex_box" @click="selectThis">
-        <div class="left">
-            <div class="cover">
-                <img :src="sheetData.coverImgUrl" alt="" />
-            </div>
-            <div class="">
-                <div class="title">{{ sheetData.name }}</div>
-                <div class="total">{{ sheetData.trackCount }}首</div>
-            </div>
-        </div>
-        <div class="flex_box_center_column play_btn"></div>
-    </div>
-</template>
-
 <script setup lang="ts">
 interface Props {
-    // eslint-disable-next-line
+  // eslint-disable-next-line
     sheetData: any
 }
 withDefaults(defineProps<Props>(), {
-    sheetData: () => {
-        return {}
-    }
+  sheetData: () => {
+    return {}
+  },
 })
 
 const emit = defineEmits<{
-    (e: 'select'): void
+  (e: 'select'): void
 }>()
 
 function selectThis() {
-    emit('select')
+  emit('select')
 }
 </script>
+
+<template>
+  <div class="flex_box" @click="selectThis">
+    <div class="left">
+      <div class="cover">
+        <img :src="sheetData.coverImgUrl" alt="">
+      </div>
+      <div class="">
+        <div class="title">
+          {{ sheetData.name }}
+        </div>
+        <div class="total">
+          {{ sheetData.trackCount }}首
+        </div>
+      </div>
+    </div>
+    <div class="flex_box_center_column play_btn" />
+  </div>
+</template>
 
 <style scoped lang="less">
 .flex_box {

@@ -3,79 +3,80 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <MiniPlayOut>
-        <div class="create_sheet">
-            <van-nav-bar
-                title="编辑描述"
-                left-arrow
-                fixed
-                placeholder
-                @click-left="onClickLeft"
-                right-text="保存"
-                @click-right="handleSave"
-            />
-            <van-form input-align="right">
-                <van-cell-group>
-                    <van-field
-                        label="描述"
-                        :autosize="{ maxHeight: 600, minHeight: 300 }"
-                        v-model="desc"
-                        type="textarea"
-                        placeholder="请输入歌单描述"
-                        maxlength="2000"
-                        show-word-limit
-                        :row="10"
-                    ></van-field>
-                </van-cell-group>
-            </van-form>
-        </div>
-    </MiniPlayOut>
-</template>
-
 <script setup lang="ts">
 import { Toast } from 'vant'
-import { onClickLeft } from '@/utils/back'
-import { useRoute, useRouter } from 'vue-router'
 import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { reqUpdateSheetDesc } from '@/api/modules/sheet'
 import { reqSheetDetail } from '@/api/modules/song'
+import { onClickLeft } from '@/utils/back'
+
 const desc = ref<string>('')
 const route = useRoute()
 const { id } = route.query
 const router = useRouter()
 function handleSave() {
-    if (!desc.value) {
-        Toast.fail('请输入歌单描述')
-        return
-    }
-    const params = {
-        id: Number(id),
-        desc: desc.value
-    }
-    const loading = Toast.loading({
-        duration: 0,
-        message: '加载中...',
-        overlay: true
+  if (!desc.value) {
+    Toast.fail('请输入歌单描述')
+    return
+  }
+  const params = {
+    id: Number(id),
+    desc: desc.value,
+  }
+  const loading = Toast.loading({
+    duration: 0,
+    message: '加载中...',
+    overlay: true,
+  })
+  reqUpdateSheetDesc(params)
+    .then(() => {
+      router.back()
     })
-    reqUpdateSheetDesc(params)
-        .then(() => {
-            router.back()
-        })
-        .finally(() => {
-            loading.clear()
-        })
+    .finally(() => {
+      loading.clear()
+    })
 }
 //  获取描述
 function getDetail() {
-    reqSheetDetail({ id: Number(id), timestamp: Date.now() }).then((res) => {
-        desc.value = res.data.playlist.description
-    })
+  reqSheetDetail({ id: Number(id), timestamp: Date.now() }).then((res) => {
+    desc.value = res.data.playlist.description
+  })
 }
 getDetail()
 </script>
+
+<template>
+  <MiniPlayOut>
+    <div class="create_sheet">
+      <van-nav-bar
+        title="编辑描述"
+        left-arrow
+        fixed
+        placeholder
+        right-text="保存"
+        @click-left="onClickLeft"
+        @click-right="handleSave"
+      />
+      <van-form input-align="right">
+        <van-cell-group>
+          <van-field
+            v-model="desc"
+            label="描述"
+            :autosize="{ maxHeight: 600, minHeight: 300 }"
+            type="textarea"
+            placeholder="请输入歌单描述"
+            maxlength="2000"
+            show-word-limit
+            :row="10"
+          />
+        </van-cell-group>
+      </van-form>
+    </div>
+  </MiniPlayOut>
+</template>
 
 <style scoped lang="less">
 .create_sheet {

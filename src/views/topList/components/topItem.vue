@@ -1,41 +1,44 @@
-<template>
-    <div class="top_item" @click="topDetail">
-        <div class="topname">{{ topData.name }}</div>
-        <div class="coverImg">
-            <img :src="topData.coverImgUrl" alt="" />
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+
+const props = withDefaults(defineProps<Props>(), {
+  topData: () => {
+    return {
+      name: '',
+      id: 0,
+      coverImgUrl: '',
+    }
+  },
+})
 const router = useRouter()
 interface TopInterface {
-    name: string
-    id: number
-    coverImgUrl: string
+  name: string
+  id: number
+  coverImgUrl: string
 }
 interface Props {
-    topData: TopInterface
+  topData: TopInterface
 }
-const props = withDefaults(defineProps<Props>(), {
-    topData: () => {
-        return {
-            name: '',
-            id: 0,
-            coverImgUrl: ''
-        }
-    }
-})
 function topDetail() {
-    router.push({
-        path: '/songSheetDetail',
-        query: {
-            id: props.topData.id
-        }
-    })
+  router.push({
+    path: '/songSheetDetail',
+    query: {
+      id: props.topData.id,
+    },
+  })
 }
 </script>
+
+<template>
+  <div class="top_item" @click="topDetail">
+    <div class="topname">
+      {{ topData.name }}
+    </div>
+    <div class="coverImg">
+      <img :src="topData.coverImgUrl" alt="">
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .top_item {

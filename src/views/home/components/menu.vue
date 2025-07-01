@@ -1,75 +1,79 @@
-<template>
-    <div class="menu_wrapper" @touchmove="scroll">
-        <div class="menu_list" ref="menuListRef">
-            <div class="menu_item" v-for="(item, index) in menuList" :key="index" @click="goPath(item.path)">
-                <div class="icon_wrapper flex_box_center_column"><i class="iconfont" :class="item.icon"></i></div>
-                <div class="menu_name">{{ item.name }}</div>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
-import { formatSheet } from '@/utils/song'
-import { reqPersonalFm } from '@/api/modules/user'
+import type { songInterface } from '@/types/public'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { reqPersonalFm } from '@/api/modules/user'
 import { usePlayerStore } from '@/store'
-import type { songInterface } from '@/types/public'
+import { formatSheet } from '@/utils/song'
 
 const router = useRouter()
 const playerStore = usePlayerStore()
 const menuList = ref([
-    {
-        name: '每日推荐',
-        icon: 'icon-rili',
-        path: '/daysRecommend'
-    },
-    {
-        name: '私人FM',
-        icon: 'icon-shouyinji',
-        path: 'personalFm'
-    },
-    {
-        name: '歌单',
-        icon: 'icon-24gf-playlistMusic2',
-        path: '/sheetSquare'
-    },
-    {
-        name: '排行榜',
-        icon: 'icon-paihangbang',
-        path: '/topList'
-    },
-    {
-        name: '歌手',
-        icon: 'icon-zhiboshenqing',
-        path: '/singer'
-    },
-    {
-        name: '数字专辑',
-        icon: 'icon-zhuanji',
-        path: '/album'
-    }
+  {
+    name: '每日推荐',
+    icon: 'icon-rili',
+    path: '/daysRecommend',
+  },
+  {
+    name: '私人FM',
+    icon: 'icon-shouyinji',
+    path: 'personalFm',
+  },
+  {
+    name: '歌单',
+    icon: 'icon-24gf-playlistMusic2',
+    path: '/sheetSquare',
+  },
+  {
+    name: '排行榜',
+    icon: 'icon-paihangbang',
+    path: '/topList',
+  },
+  {
+    name: '歌手',
+    icon: 'icon-zhiboshenqing',
+    path: '/singer',
+  },
+  {
+    name: '数字专辑',
+    icon: 'icon-zhuanji',
+    path: '/album',
+  },
 ])
 function scroll(e: Event): void {
-    e.stopPropagation()
+  e.stopPropagation()
 }
 function goPath(path: string): void {
-    if (path === 'personalFm') {
-        reqPersonalFm().then((res) => {
-            const data = res.data.data.map((item: songInterface) => {
-                return formatSheet(item)
-            })
-            playerStore.resetList(data)
-        })
-        playerStore.setPlayerVisible(true)
-        return
-    }
-    router.push({
-        path
+  if (path === 'personalFm') {
+    reqPersonalFm().then((res) => {
+      const data = res.data.data.map((item: songInterface) => {
+        return formatSheet(item)
+      })
+      playerStore.resetList(data)
     })
+    playerStore.setPlayerVisible(true)
+    return
+  }
+  router.push({
+    path,
+  })
 }
 </script>
+
+<template>
+  <div class="menu_wrapper" @touchmove="scroll">
+    <div ref="menuListRef" class="menu_list">
+      <div v-for="(item, index) in menuList" :key="index" class="menu_item" @click="goPath(item.path)">
+        <div class="icon_wrapper flex_box_center_column">
+          <i class="iconfont" :class="item.icon" />
+        </div>
+        <div class="menu_name">
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .menu_wrapper {

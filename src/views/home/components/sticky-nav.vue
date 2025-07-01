@@ -1,47 +1,49 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import $bus from '@/utils/eventBus'
 import { useRouter } from 'vue-router'
 import { reqSearchDefault } from '@/api/modules/search'
+import $bus from '@/utils/eventBus'
 
 const router = useRouter()
 const showKeyword = ref<string>('')
 
 function goSearch(): void {
-    router.push({
-        path: '/search'
-    })
+  router.push({
+    path: '/search',
+  })
 }
 
 function openMenu(): void {
-    $bus.emit('open_menu')
+  $bus.emit('open_menu')
 }
 
 function getDefaultWord(): void {
-    reqSearchDefault().then((res) => {
-        showKeyword.value = res.data.data.showKeyword
-    })
+  reqSearchDefault().then((res) => {
+    showKeyword.value = res.data.data.showKeyword
+  })
 }
 getDefaultWord()
 </script>
 
 <template>
-    <van-sticky>
-        <div class="nav">
-            <div class="flex_box_center_column" @click="openMenu">
-                <i class="iconfont icon-caidan"></i>
-            </div>
-            <div class="search_wrapper" @click.stop="goSearch">
-                <div class="flex_box_center_column">
-                    <i class="iconfont icon-sousuo"></i>
-                </div>
-                <div class="search_text flex_box_center_column">{{ showKeyword }}</div>
-            </div>
-            <div class="flex_box_center_column">
-                <i class="iconfont icon-yuyin"></i>
-            </div>
+  <van-sticky>
+    <div class="nav">
+      <div class="flex_box_center_column" @click="openMenu">
+        <i class="iconfont icon-caidan" />
+      </div>
+      <div class="search_wrapper" @click.stop="goSearch">
+        <div class="flex_box_center_column">
+          <i class="iconfont icon-sousuo" />
         </div>
-    </van-sticky>
+        <div class="search_text flex_box_center_column">
+          {{ showKeyword }}
+        </div>
+      </div>
+      <div class="flex_box_center_column">
+        <i class="iconfont icon-yuyin" />
+      </div>
+    </div>
+  </van-sticky>
 </template>
 
 <style lang="less" scoped>

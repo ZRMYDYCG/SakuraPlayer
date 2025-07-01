@@ -3,24 +3,25 @@
  * @Date: 2024-10
  * @LastEditors: ZRMYDYCG
  * @LastEditTime: 2024-10
- * @Description: 
+ * @Description:
 -->
-<template>
-    <div class="min-play-out" :class="{ padding_out: currentSong.id }">
-        <slot></slot>
-        <div class="mini_player" :class="{ hide_player: !currentSong.id }">
-            <MiniPlayer />
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { storeToRefs } from 'pinia'
-import { usePlayerStore } from '@/store'
 import MiniPlayer from '@/components/MiniPlayer/index.vue'
+import { usePlayerStore } from '@/store'
+
 const playerStore = usePlayerStore()
 const { currentSong } = storeToRefs(playerStore)
 </script>
+
+<template>
+  <div class="min-play-out" :class="{ padding_out: currentSong.id }">
+    <slot />
+    <div class="mini_player" :class="{ hide_player: !currentSong.id }">
+      <MiniPlayer />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .min-play-out {

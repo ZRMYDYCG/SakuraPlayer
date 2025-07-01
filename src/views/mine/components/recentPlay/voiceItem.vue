@@ -1,59 +1,64 @@
-<template>
-    <div class="voiceItem">
-        <div class="left">
-            <div class="cover">
-                <img :src="videoData.pubDJProgramData.coverUrl" alt="" />
-            </div>
-        </div>
-        <div class="center">
-            <div class="name">{{ videoData.pubDJProgramData.name }}</div>
-            <div class="info">
-                <div class="info_item">
-                    <i class="iconfont icon-24gf-play"></i>
-                    {{ formatCountNumber(videoData.pubDJProgramData.adjustedPlayCount) }}
-                </div>
-                <div class="info_item">
-                    <i class="iconfont icon-shijian"></i>
-                    {{ formatMusicTime(videoData.pubDJProgramData.duration) }}
-                </div>
-            </div>
-        </div>
-        <div class="right flex_box_center_column">
-            <i class="iconfont icon-Androidgengduo" @click="tapMenu"></i>
-        </div>
-    </div>
-
-    <van-popup v-model:show="show" position="bottom" round>
-        <div class="content">
-            <van-cell-group>
-                <van-cell title="播放" is-link @click="handlePlay">
-                    <template #right-icon>
-                        <van-icon name="play-circle-o" />
-                    </template>
-                </van-cell>
-            </van-cell-group>
-        </div>
-    </van-popup>
-</template>
 <script setup lang="ts">
-import { formatCountNumber, formatMusicTime } from '@/utils'
 import { ref, toRaw } from 'vue'
 import { usePlayerStore } from '@/store'
-import { formatSheet } from '@/utils/song'
 import { MusicType } from '@/types/store/player'
-const playerStore = usePlayerStore()
+import { formatCountNumber, formatMusicTime } from '@/utils'
+import { formatSheet } from '@/utils/song'
+
 const props = defineProps(['videoData'])
+const playerStore = usePlayerStore()
 const show = ref<boolean>(false)
 
 function tapMenu() {
-    show.value = true
+  show.value = true
 }
 function handlePlay() {
-    show.value = false
-    const data = formatSheet(toRaw(props.videoData.pubDJProgramData.mainSong), MusicType.dj)
-    playerStore.setCurSong(data, true)
+  show.value = false
+  const data = formatSheet(toRaw(props.videoData.pubDJProgramData.mainSong), MusicType.dj)
+  playerStore.setCurSong(data, true)
 }
 </script>
+
+<template>
+  <div class="voiceItem">
+    <div class="left">
+      <div class="cover">
+        <img :src="videoData.pubDJProgramData.coverUrl" alt="">
+      </div>
+    </div>
+    <div class="center">
+      <div class="name">
+        {{ videoData.pubDJProgramData.name }}
+      </div>
+      <div class="info">
+        <div class="info_item">
+          <i class="iconfont icon-24gf-play" />
+          {{ formatCountNumber(videoData.pubDJProgramData.adjustedPlayCount) }}
+        </div>
+        <div class="info_item">
+          <i class="iconfont icon-shijian" />
+          {{ formatMusicTime(videoData.pubDJProgramData.duration) }}
+        </div>
+      </div>
+    </div>
+    <div class="right flex_box_center_column">
+      <i class="iconfont icon-Androidgengduo" @click="tapMenu" />
+    </div>
+  </div>
+
+  <van-popup v-model:show="show" position="bottom" round>
+    <div class="content">
+      <van-cell-group>
+        <van-cell title="播放" is-link @click="handlePlay">
+          <template #right-icon>
+            <van-icon name="play-circle-o" />
+          </template>
+        </van-cell>
+      </van-cell-group>
+    </div>
+  </van-popup>
+</template>
+
 <style scoped lang="less">
 .voiceItem {
     display: flex;

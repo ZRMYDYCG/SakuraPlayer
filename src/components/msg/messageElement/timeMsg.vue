@@ -1,21 +1,25 @@
 <!-- 时间消息 -->
-<template>
-    <div class="text_msg">{{ msgText }}</div>
-</template>
 <script setup lang="ts">
 import { computed } from 'vue'
 import { dateFormat } from '@/utils'
 
 interface Props {
-    msg: string
+  msg: string
 }
 const props = withDefaults(defineProps<Props>(), {
-    msg: '{}'
+  msg: '{}',
 })
 const msgText = computed(() => {
-    return dateFormat(JSON.parse(props.msg).msg, 'yyyy-MM-dd hh:mm:ss')
+  return dateFormat(JSON.parse(props.msg).msg, 'yyyy-MM-dd hh:mm:ss')
 })
 </script>
+
+<template>
+  <div class="text_msg">
+    {{ msgText }}
+  </div>
+</template>
+
 <style scoped lang="less">
 .text_msg {
     color: var(--my-text-color-gray);

@@ -1,75 +1,76 @@
-<template>
-    <div class="digitAlbum">
-        <div class="top">
-            <div class="title">
-                <div>数字专辑</div>
-                <div class="flex_box_center_column">
-                    <van-icon name="arrow" />
-                </div>
-            </div>
-            <div class="menu">
-                <div
-                    class="menu_item"
-                    @click="tapMenu(item.type)"
-                    :class="{ menu_item_active: item.type == type }"
-                    v-for="item in menuList"
-                    :key="item.type"
-                >
-                    {{ item.name }}
-                </div>
-            </div>
-        </div>
-        <van-row>
-            <van-col :span="8" v-for="item in list" :key="item.albumId">
-                <AlbumItem :album-data="item" />
-            </van-col>
-        </van-row>
-
-        <swiper
-            :slides-per-view="1.2"
-            :space-between="20"
-            navigation
-            :pagination="{ clickable: true }"
-            :scrollbar="{ draggable: true }"
-        >
-            <swiper-slide v-for="(item, index) in list" :key="index">
-                <!-- <new-song-item :song-data="data" v-for="data in item" :key="data.id" /> -->
-                <!-- oinadsfdasf -->
-            </swiper-slide>
-        </swiper>
-    </div>
-</template>
-
 <script setup lang="ts">
+import type { albumDataInterface } from '@/types/public/album'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import { ref } from 'vue'
 import { reqDigitAlbum } from '@/api/modules/album'
-import { albumDataInterface } from '@/types/public/album'
-import { Swiper, SwiperSlide } from 'swiper/vue'
 // import 'swiper/swiper.min.css'
 import AlbumItem from './albumItem.vue'
+
 const menuList = ref([
-    { name: '日榜', type: 'daily' },
-    { name: '周榜', type: 'week' },
-    { name: '总榜', type: 'total' }
+  { name: '日榜', type: 'daily' },
+  { name: '周榜', type: 'week' },
+  { name: '总榜', type: 'total' },
 ])
 const type = ref<string>('daily')
 const list = ref<Array<albumDataInterface>>([])
 function tapMenu(typeStr: string): void {
-    type.value = typeStr
-    getDigitAlbum()
+  type.value = typeStr
+  getDigitAlbum()
 }
 
 function getDigitAlbum() {
-    const data = {
-        limit: 6,
-        type: type.value
-    }
-    reqDigitAlbum(data).then((res) => {
-        list.value = res.data.products.filter((item: albumDataInterface, index: number): boolean => index < 6)
-    })
+  const data = {
+    limit: 6,
+    type: type.value,
+  }
+  reqDigitAlbum(data).then((res) => {
+    list.value = res.data.products.filter((item: albumDataInterface, index: number): boolean => index < 6)
+  })
 }
 getDigitAlbum()
 </script>
+
+<template>
+  <div class="digitAlbum">
+    <div class="top">
+      <div class="title">
+        <div>数字专辑</div>
+        <div class="flex_box_center_column">
+          <van-icon name="arrow" />
+        </div>
+      </div>
+      <div class="menu">
+        <div
+          v-for="item in menuList"
+          :key="item.type"
+          class="menu_item"
+          :class="{ menu_item_active: item.type == type }"
+          @click="tapMenu(item.type)"
+        >
+          {{ item.name }}
+        </div>
+      </div>
+    </div>
+    <van-row>
+      <van-col v-for="item in list" :key="item.albumId" :span="8">
+        <AlbumItem :album-data="item" />
+      </van-col>
+    </van-row>
+
+    <Swiper
+      :slides-per-view="1.2"
+      :space-between="20"
+      navigation
+      :pagination="{ clickable: true }"
+      :scrollbar="{ draggable: true }"
+    >
+      <SwiperSlide v-for="(item, index) in list" :key="index">
+        <!-- <new-song-item :song-data="data" v-for="data in item" :key="data.id" /> -->
+        <!-- oinadsfdasf -->
+      </SwiperSlide>
+    </Swiper>
+  </div>
+</template>
 
 <style scoped lang="less">
 .digitAlbum {

@@ -1,34 +1,11 @@
-<template>
-    <div class="box_white_container flex_box" @click="goLikeList">
-        <div class="left">
-            <div class="cover">
-                <img :src="imgUrl" alt="" />
-                <div class="mask flex_box_center_column">
-                    <i class="iconfont icon-xihuan"></i>
-                </div>
-            </div>
-            <div class="">
-                <div class="title">我喜欢的音乐</div>
-                <div class="total">{{ total }}首</div>
-            </div>
-        </div>
-        <div class="flex_box_center_column play_btn">
-            <van-button round size="small" @click.stop="playBeckoning">
-                <i class="iconfont icon-huaban"></i>
-                心动模式
-            </van-button>
-        </div>
-    </div>
-</template>
-
 <script setup lang="ts">
-import { useUserStore, usePlayerStore } from '@/store'
-import { reqLikeList } from '@/api/modules/user'
+import type { SongData } from '@/types/store/player'
 import { storeToRefs } from 'pinia'
-import { reqSongDetail, reqPlayModeList } from '@/api/modules/song'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { SongData } from '@/types/store/player'
+import { reqPlayModeList, reqSongDetail } from '@/api/modules/song'
+import { reqLikeList } from '@/api/modules/user'
+import { usePlayerStore, useUserStore } from '@/store'
 
 const router = useRouter()
 const playerStore = usePlayerStore()
@@ -42,40 +19,67 @@ let pid = 0 // 歌单id 心动模式播放需要
 let ids: Array<number> = []
 
 function getLikeList() {
-    reqLikeList({ uid: userInfo.value.userId, timestamp: Date.now() }).then((res) => {
-        total.value = res.data.ids.length
-        ids = res.data.ids
-        pid = res.data.checkPoint
-        getSongDetail(ids.join(','))
-    })
+  reqLikeList({ uid: userInfo.value.userId, timestamp: Date.now() }).then((res) => {
+    total.value = res.data.ids.length
+    ids = res.data.ids
+    pid = res.data.checkPoint
+    getSongDetail(ids.join(','))
+  })
 }
 function getSongDetail(ids: string) {
-    reqSongDetail({ ids }).then((res) => {
-        list = res.data.songs
-        if (list.length) {
-            imgUrl.value = list[0].al.picUrl
-        }
-    })
+  reqSongDetail({ ids }).then((res) => {
+    list = res.data.songs
+    if (list.length) {
+      imgUrl.value = list[0].al.picUrl
+    }
+  })
 }
 function playBeckoning() {
-    reqPlayModeList({ id: ids[0], pid: pid }).then((res) => {
-        interface Beck {
-            id: number
-            songInfo: SongData
-        }
-        const playList = res.data.data
-            .map((item: Beck) => {
-                return item.songInfo
-            })
-            .filter((item: SongData) => item && item.id)
-        playerStore.resetList(playList)
-    })
+  reqPlayModeList({ id: ids[0], pid }).then((res) => {
+    interface Beck {
+      id: number
+      songInfo: SongData
+    }
+    const playList = res.data.data
+      .map((item: Beck) => {
+        return item.songInfo
+      })
+      .filter((item: SongData) => item && item.id)
+    playerStore.resetList(playList)
+  })
 }
 function goLikeList() {
-    router.push('/likeList')
+  router.push('/likeList')
 }
 getLikeList()
 </script>
+
+<template>
+  <div class="box_white_container flex_box" @click="goLikeList">
+    <div class="left">
+      <div class="cover">
+        <img :src="imgUrl" alt="">
+        <div class="mask flex_box_center_column">
+          <i class="iconfont icon-xihuan" />
+        </div>
+      </div>
+      <div class="">
+        <div class="title">
+          我喜欢的音乐
+        </div>
+        <div class="total">
+          {{ total }}首
+        </div>
+      </div>
+    </div>
+    <div class="flex_box_center_column play_btn">
+      <van-button round size="small" @click.stop="playBeckoning">
+        <i class="iconfont icon-huaban" />
+        心动模式
+      </van-button>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .flex_box {

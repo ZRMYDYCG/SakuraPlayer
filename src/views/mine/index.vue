@@ -1,80 +1,23 @@
-<template>
-    <div class="mine" @scroll="scroll" ref="mine">
-        <van-sticky>
-            <div class="nav" :style="navStyle">
-                <div class="flex_box_center_column" @click="openMenu">
-                    <i class="iconfont icon-caidan"></i>
-                </div>
-                <div class="search_wrapper">个人中心</div>
-                <div class="flex_box_center_column" @click="toSearch">
-                    <i class="iconfont icon-sousuo"></i>
-                </div>
-            </div>
-        </van-sticky>
-        <div class="main_content">
-            <template v-if="isLogin">
-                <div class="box_white_container user_info">
-                    <div class="user_img">
-                        <img :src="userInfo.avatarUrl" alt="" />
-                    </div>
-                    <div class="user_name">{{ userInfo.nickname }}</div>
-                    <div class="other_info">
-                        <div class="other_info_item" @click="toFans">
-                            <span>{{ profile.follows }}</span>
-                            关注
-                        </div>
-                        <div class="other_info_item" @click="toFans">
-                            <span>{{ profile.followeds }}</span>
-                            粉丝
-                        </div>
-                        <div class="other_info_item">Lv.{{ level }}</div>
-                    </div>
-                </div>
-
-                <div class="box_white_container application_box">
-                    <van-row>
-                        <van-col span="6" v-for="item in appList" :key="item.icon" @click="tapApp(item.path)">
-                            <div class="icon">
-                                <i class="iconfont" :class="item.icon"></i>
-                            </div>
-                            <div class="app_name">{{ item.name }}</div>
-                        </van-col>
-                    </van-row>
-                </div>
-                <LikeList />
-                <Sheet />
-            </template>
-            <template v-else>
-                <div class="unlogin">
-                    <router-link to="/login">
-                        <van-button block round>登录</van-button>
-                    </router-link>
-                </div>
-            </template>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
-import router from '@/router'
 import { storeToRefs } from 'pinia'
-import $bus from '@/utils/eventBus'
-import { Mode } from '@/store/system'
-import Sheet from './components/sheet.vue'
-import { ref, reactive, computed } from 'vue'
-import LikeList from './components/likeList.vue'
+import { computed, reactive, ref } from 'vue'
 import { reqUserDetail } from '@/api/modules/user'
-import { useUserStore, useSystemStore } from '@/store'
+import router from '@/router'
+import { useSystemStore, useUserStore } from '@/store'
+import { Mode } from '@/store/system'
+import $bus from '@/utils/eventBus'
+import LikeList from './components/likeList.vue'
+import Sheet from './components/sheet.vue'
 
 const userStore = useUserStore()
 const systemStore = useSystemStore()
 
 const profile = reactive({
-    follows: 0,
-    followeds: 0
+  follows: 0,
+  followeds: 0,
 })
 const navStyle = reactive({
-    background: 'transparent'
+  background: 'transparent',
 })
 const level = ref<number>(0)
 const { mode } = storeToRefs(systemStore)
@@ -82,74 +25,145 @@ const mine = ref<HTMLDivElement | null>(null)
 const { isLogin, userInfo } = storeToRefs(userStore)
 
 const appList = computed(() => {
-    return [
-        { name: '最近播放', icon: 'icon-bofang1', path: '/recentPlay' },
-        { name: '云盘', icon: 'icon-rili', path: '/cloudDisk' },
-        { name: '我的好友', icon: 'icon-guanzhu', path: `/fansFollows?id=${userInfo.value.userId}` },
-        { name: '收藏和赞', icon: 'icon-paihangbang' },
-        { name: '我的播客', icon: 'icon-zhiboziyuan' },
-        { name: '推歌精选', icon: 'icon-zhiboshenqing' },
-        { name: '本地下载', icon: 'icon-shouyinji' },
-        { name: '已购', icon: 'icon-zhongchengdujiaoyi' },
-        { name: '音乐罐子', icon: 'icon-zhiboshenqing' }
-    ]
+  return [
+    { name: '最近播放', icon: 'icon-bofang1', path: '/recentPlay' },
+    { name: '云盘', icon: 'icon-rili', path: '/cloudDisk' },
+    { name: '我的好友', icon: 'icon-guanzhu', path: `/fansFollows?id=${userInfo.value.userId}` },
+    { name: '收藏和赞', icon: 'icon-paihangbang' },
+    { name: '我的播客', icon: 'icon-zhiboziyuan' },
+    { name: '推歌精选', icon: 'icon-zhiboshenqing' },
+    { name: '本地下载', icon: 'icon-shouyinji' },
+    { name: '已购', icon: 'icon-zhongchengdujiaoyi' },
+    { name: '音乐罐子', icon: 'icon-zhiboshenqing' },
+  ]
 })
 
 function openMenu(): void {
-    $bus.emit('open_menu')
+  $bus.emit('open_menu')
 }
 
 function Init() {
-    if (isLogin.value) {
-        getUserDetail()
-    }
+  if (isLogin.value) {
+    getUserDetail()
+  }
 }
 
 function getUserDetail() {
-    reqUserDetail({ uid: userInfo.value.userId }).then((res) => {
-        profile.follows = res.data.profile.follows
-        profile.followeds = res.data.profile.followeds
-        level.value = res.data.level
-    })
+  reqUserDetail({ uid: userInfo.value.userId }).then((res) => {
+    profile.follows = res.data.profile.follows
+    profile.followeds = res.data.profile.followeds
+    level.value = res.data.level
+  })
 }
 
 function scroll() {
-    const top = mine.value?.scrollTop || 0
-    if (top > 50) {
-        navStyle.background = 'var(--my-back-color-white)'
-    } else if (top == 0) {
-        navStyle.background = 'transparent'
-    } else {
-        if (mode.value == Mode.light) {
-            navStyle.background = `rgba(255,255,255, ${(top * 2) / 100})`
-        } else {
-            navStyle.background = `rgba(0,0,0, ${(top * 2) / 100})`
-        }
+  const top = mine.value?.scrollTop || 0
+  if (top > 50) {
+    navStyle.background = 'var(--my-back-color-white)'
+  }
+  else if (top == 0) {
+    navStyle.background = 'transparent'
+  }
+  else {
+    if (mode.value == Mode.light) {
+      navStyle.background = `rgba(255,255,255, ${(top * 2) / 100})`
     }
+    else {
+      navStyle.background = `rgba(0,0,0, ${(top * 2) / 100})`
+    }
+  }
 }
 
 function tapApp(path: string | undefined) {
-    if (!path) return
-    router.push(path)
+  if (!path)
+    return
+  router.push(path)
 }
 
 function toSearch() {
-    router.push({
-        path: '/search'
-    })
+  router.push({
+    path: '/search',
+  })
 }
 
 function toFans() {
-    router.push({
-        path: '/fansFollows',
-        query: {
-            id: userInfo.value.userId
-        }
-    })
+  router.push({
+    path: '/fansFollows',
+    query: {
+      id: userInfo.value.userId,
+    },
+  })
 }
 
 Init()
 </script>
+
+<template>
+  <div ref="mine" class="mine" @scroll="scroll">
+    <van-sticky>
+      <div class="nav" :style="navStyle">
+        <div class="flex_box_center_column" @click="openMenu">
+          <i class="iconfont icon-caidan" />
+        </div>
+        <div class="search_wrapper">
+          个人中心
+        </div>
+        <div class="flex_box_center_column" @click="toSearch">
+          <i class="iconfont icon-sousuo" />
+        </div>
+      </div>
+    </van-sticky>
+    <div class="main_content">
+      <template v-if="isLogin">
+        <div class="box_white_container user_info">
+          <div class="user_img">
+            <img :src="userInfo.avatarUrl" alt="">
+          </div>
+          <div class="user_name">
+            {{ userInfo.nickname }}
+          </div>
+          <div class="other_info">
+            <div class="other_info_item" @click="toFans">
+              <span>{{ profile.follows }}</span>
+              关注
+            </div>
+            <div class="other_info_item" @click="toFans">
+              <span>{{ profile.followeds }}</span>
+              粉丝
+            </div>
+            <div class="other_info_item">
+              Lv.{{ level }}
+            </div>
+          </div>
+        </div>
+
+        <div class="box_white_container application_box">
+          <van-row>
+            <van-col v-for="item in appList" :key="item.icon" span="6" @click="tapApp(item.path)">
+              <div class="icon">
+                <i class="iconfont" :class="item.icon" />
+              </div>
+              <div class="app_name">
+                {{ item.name }}
+              </div>
+            </van-col>
+          </van-row>
+        </div>
+        <LikeList />
+        <Sheet />
+      </template>
+      <template v-else>
+        <div class="unlogin">
+          <router-link to="/login">
+            <van-button block round>
+              登录
+            </van-button>
+          </router-link>
+        </div>
+      </template>
+    </div>
+  </div>
+</template>
 
 <style scoped lang="less">
 .mine {

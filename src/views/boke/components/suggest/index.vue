@@ -1,14 +1,14 @@
-<template>
-    <div class="suggest">
-        <Banner />
-        <Recommend />
-    </div>
-</template>
-
 <script setup lang="ts">
 import Banner from './banner.vue'
 import Recommend from './recommend.vue'
 </script>
+
+<template>
+  <div class="suggest">
+    <Banner />
+    <Recommend />
+  </div>
+</template>
 
 <style scoped lang="less">
 .suggest {

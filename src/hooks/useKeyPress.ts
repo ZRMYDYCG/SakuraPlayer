@@ -7,17 +7,17 @@
  */
 import { ref } from 'vue'
 
-export const useKeyPress = (targetKey: string) => {
-    const keyPressed = ref(false)
-    window.addEventListener('keydown', (event) => {
-        if (event.key === targetKey) {
-            keyPressed.value = true
-        }
-    })
-    window.addEventListener('keyup', (event) => {
-        if (event.key === targetKey) {
-            keyPressed.value = false
-        }
-    })
-    return keyPressed
+export function useKeyPress(targetKey: string) {
+  const keyPressed = ref(false)
+  window.addEventListener('keydown', (event) => {
+    if (event.key === targetKey) {
+      keyPressed.value = true
+    }
+  })
+  window.addEventListener('keyup', (event) => {
+    if (event.key === targetKey) {
+      keyPressed.value = false
+    }
+  })
+  return keyPressed
 }
