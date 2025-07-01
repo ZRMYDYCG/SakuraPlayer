@@ -5,7 +5,7 @@ import { getToken } from '@/utils/auth'
 import type { InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 
 const service = axios.create({
-    baseURL: '/api',
+    baseURL: 'https://sakura-player-api.vercel.app',
     timeout: 60 * 1000,
     withCredentials: true
 })
