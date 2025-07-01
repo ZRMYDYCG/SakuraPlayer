@@ -10,5 +10,6 @@ export default antfu({
     'src/assets/**',
     'index.html',
     'server/**',
+    'src/components/BigPlayer',
   ],
 })
