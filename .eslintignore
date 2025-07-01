@@ -1,0 +1,8 @@
+.gitignore
+.husky/*
+cli/pnpm-lock.yaml
+pnpm-lock.yaml
+public/*
+src/assets/*
+index.html
+server/*
