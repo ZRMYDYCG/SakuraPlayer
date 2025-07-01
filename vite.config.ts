@@ -27,13 +27,6 @@ export default defineConfig({
         hmr: true, // 热更新
         host: '0.0.0.0', // 支持真机调试
         port: 3030,
-        // proxy: {
-        //     '/api': {
-        //         target: 'https://sakura-player-api.vercel.app', // 代理地址
-        //         changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
-        //         rewrite: (path) => path.replace(/^\/api/, '') // 重写路径
-        //     }
-        // }
     },
     build: {
         outDir: 'dist', // 输出目录
