@@ -77,7 +77,6 @@ declare module 'vue' {
     VanTabbar: typeof import('vant/es')['Tabbar']
     VanTabbarItem: typeof import('vant/es')['TabbarItem']
     VanTabs: typeof import('vant/es')['Tabs']
-    VanUploader: typeof import('vant/es')['Uploader']
     VerifyCode: typeof import('./src/components/VerifyCode/index.vue')['default']
   }
 }

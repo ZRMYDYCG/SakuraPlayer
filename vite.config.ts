@@ -33,7 +33,7 @@ export default defineConfig({
     server: {
         open: true, // 启动时自动打开浏览器
         hmr: true, // 热更新
-        host: '192.168.151.45', // 支持真机调试
+        host: '0.0.0.0', // 支持真机调试
         port: 3030,
         proxy: {
             '/api': {
