@@ -94,7 +94,7 @@ import {
     reqSubSinger,
     reqSingHotSongs,
     reqSingerAlbum
-} from '@/api/singer'
+} from '@/api/modules/singer'
 import { Toast } from 'vant'
 import { formatCountNumber } from '@/utils'
 import SongItem from '@/components/songItem/index.vue'

@@ -45,7 +45,7 @@ import { ref } from 'vue'
 import { reqDigitAlbum } from '@/api/modules/album'
 import { albumDataInterface } from '@/types/public/album'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import 'swiper/swiper.min.css'
+// import 'swiper/swiper.min.css'
 import AlbumItem from './albumItem.vue'
 const menuList = ref([
     { name: '日榜', type: 'daily' },

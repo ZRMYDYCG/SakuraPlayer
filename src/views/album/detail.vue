@@ -75,7 +75,7 @@ import { SongData } from '@/types/store/player'
 import { useRoute } from 'vue-router'
 import { ref, reactive, nextTick, toRaw } from 'vue'
 import { formatCountNumber } from '@/utils'
-import { reqAlbum } from '@/api/album'
+import { reqAlbum } from '@/api/modules/album'
 const route = useRoute()
 const details = reactive({
     id: 0,

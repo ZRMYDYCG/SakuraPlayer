@@ -47,7 +47,7 @@
 <script setup lang="ts">
 import { ref, defineExpose } from 'vue'
 import { emojiMap, emojiName, emojiUrl } from '@/utils/emojiMap'
-import { reqSendText } from '@/api/msg'
+import { reqSendText } from '@/api/modules/msg'
 import { MsgData } from '@/types/public/msg'
 
 interface Props {
